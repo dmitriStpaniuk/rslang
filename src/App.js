@@ -1,8 +1,11 @@
+import { Headers } from "./components/Headers.tsx";
+import { Main } from "./components/Main.tsx";
 
 function App() {
   return (
-    <div className="App">
-
+    <div>
+      <Headers />
+      <Main />
     </div>
   );
 }
