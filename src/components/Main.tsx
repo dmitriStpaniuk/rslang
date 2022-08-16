@@ -7,7 +7,7 @@ export const Main = () => {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        height='90vh'
+        height='92vh'
       >
         <Grid item>
           <CardMedia

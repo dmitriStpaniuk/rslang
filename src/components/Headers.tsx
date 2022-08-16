@@ -1,7 +1,12 @@
 import { AppBar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material'
-import React from 'react'
 import MenuIcon from '@mui/icons-material/Menu';
+import { Registration } from './Registration';
+import { useState } from 'react';
+
+
+
 export const Headers = () => {
+  const [isCartOpen, setCartOpen] = useState(false)
   return (
     <Box>
       <AppBar position='static'>
@@ -18,9 +23,10 @@ export const Headers = () => {
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
             Word Learn Web
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={() => setCartOpen(true)}>Login</Button>
         </Toolbar>
       </AppBar>
+      <Registration cartOpen={isCartOpen} closeCart={() => setCartOpen(false)} />
     </Box>
   )
 }
