@@ -1,12 +1,10 @@
 import { AppBar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
-import { Registration } from './Registration';
-import { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 
 
 
 export const Headers = () => {
-  const [isCartOpen, setCartOpen] = useState(false)
   return (
     <Box>
       <AppBar position='static'>
@@ -23,10 +21,13 @@ export const Headers = () => {
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
             Word Learn Web
           </Typography>
-          <Button color="inherit" onClick={() => setCartOpen(true)}>Login</Button>
+          <Button color="inherit">
+            <RouterLink style={{ textDecoration: 'none', color:'inherit' }} to={`login`}>
+              Login
+            </RouterLink>
+          </Button>
         </Toolbar>
       </AppBar>
-      <Registration cartOpen={isCartOpen} closeCart={() => setCartOpen(false)} />
     </Box>
   )
 }
