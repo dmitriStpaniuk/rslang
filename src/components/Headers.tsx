@@ -1,7 +1,20 @@
 import { AppBar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material'
-import React from 'react'
 import MenuIcon from '@mui/icons-material/Menu';
+import { Link as RouterLink } from 'react-router-dom';
+import { useUser } from './UserProvider';
+import { axiosApiInstance, __baseUrl__ } from './constant';
+
+const userId = localStorage.getItem('idUser')
+
 export const Headers = () => {
+  const [user, setUser] = useUser()
+  const getUserName = async () => {
+    if (userId) await axiosApiInstance.get(__baseUrl__ + 'users/' + JSON.parse(userId))
+      .then(res => {
+        setUser(res.data)
+      })
+  }
+  if (!user) getUserName()
   return (
     <Box>
       <AppBar position='static'>
@@ -18,7 +31,16 @@ export const Headers = () => {
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
             Word Learn Web
           </Typography>
-          <Button color="inherit">Login</Button>
+          {user
+            ? <Button color="inherit" component={RouterLink} to='/profile'>
+              {user.name}
+            </Button>
+            : <Button color="inherit">
+              <RouterLink style={{ textDecoration: 'none', color: 'inherit' }} to={`login`}>
+                Login
+              </RouterLink>
+            </Button>
+          }
         </Toolbar>
       </AppBar>
     </Box>
