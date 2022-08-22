@@ -90,7 +90,7 @@ export const Registration = () => {
             <Typography component="h1" variant="h5">
               Registration
             </Typography>
-            <Box component="form" onSubmit={handleReg} sx={{ mt: 2 }}>
+            <Box component="form" onSubmit={handleReg} sx={{ mt: 2, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <TextField
                 type='text'
                 margin="normal"
@@ -113,7 +113,7 @@ export const Registration = () => {
                 autoComplete="email"
                 autoFocus
               />
-              <Typography sx={{ color: 'red', mt:1 }} >{error}</Typography>
+              <Typography sx={{ color: 'red', mt: 1 }} >{error}</Typography>
               <TextField
                 margin="normal"
                 required
@@ -124,6 +124,7 @@ export const Registration = () => {
                 id="password"
                 autoComplete="current-password"
               />
+
               <Button
                 type="submit"
                 fullWidth
@@ -139,6 +140,7 @@ export const Registration = () => {
                   </Link>
                 </Grid>
               </Grid>
+
             </Box>
           </Box>
         </Grid >
