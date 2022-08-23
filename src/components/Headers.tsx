@@ -9,7 +9,7 @@ const userId = localStorage.getItem('idUser')
 export const Headers = () => {
   const [user, setUser] = useUser()
   const getUserName = async () => {
-    if (userId) await axiosApiInstance.get(__baseUrl__ + 'users/' + JSON.parse(userId))
+    if (userId) await axiosApiInstance.get('users/' + JSON.parse(userId))
       .then(res => {
         setUser(res.data)
       })

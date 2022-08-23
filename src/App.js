@@ -1,14 +1,13 @@
 import { Headers } from "./components/Headers.tsx";
-// import { Main } from "./components/Main.tsx";
-import { Sprint } from "./components/sprint/Sprint";
+import { Main } from "./components/Main.tsx";
 
-// const UserProvider = () => {}
+
+
 function App() {
   return (
     <div>
       <Headers />
-      {/* <Main /> */}
-      <Sprint />
+      <Main />
     </div>
   );
 }

@@ -1,14 +1,15 @@
 import { ArrowBack } from "@mui/icons-material";
 import { Button, Grid, IconButton, Typography } from "@mui/material";
-import { SetHandleStartGame } from "./SprintStart";
-import { NewWord } from "./Sprint";
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { __baseUrl__ } from "../constant";
 import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
 import sprintImg from './../assets/img/sprint.png';
-import { useState } from "react";
-import { CountdownCircleTimer } from 'react-countdown-circle-timer'
-export type ResponseData = {
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
+import { SprintModal } from "./SprintModal";
+import { getArrayWords, newArrayWords, randomPage, Timer } from "./sprint";
+type ResponseData = {
     id?: string,
     group?: number,
     page?: number,
@@ -24,57 +25,37 @@ export type ResponseData = {
     textMeaningTranslate?: string,
     wordTranslate: string,
 }
-
-const Timer = () => (
-    <CountdownCircleTimer
-        isPlaying
-        duration={60}
-        colors={['#058c92c', '#dbb1239', '#1976d2', '#e14e30f0']}
-        colorsTime={[60, 40, 20, 0]}
-        size={50}
-        strokeWidth={5}
-    >
-        {({ remainingTime }) => remainingTime}
-    </CountdownCircleTimer>
-)
-
-
-
-
-
-
-export const SprintGame = ({ setHandleStartGame, word, audio, image, audioMeaning, wordTranslate, newWord }: SetHandleStartGame & NewWord & ResponseData ) => {
+export const SprintGame = () => {
+    const [index, setIndex] = useState<number>(0)
     const [prompt, setPromt] = useState(false)
+    const [words, setWords] = useState<ResponseData[]>([])
+    const [modal, setModal] = useState(false)
+    let navigate = useNavigate();
+    const location = useLocation();
+    const group = location.pathname.split('/').at(-1)
+    useEffect(() => { getArrayWords( group).then(a => setWords(a.data)) }, [])
 
-    setTimeout(() => {
-        // setHandleStartGame(true)
-    }, 60000);
-
-    let wordAudio = new Audio(`${__baseUrl__ + audio}`);
-    let meaningAudio = new Audio(`${__baseUrl__ + audioMeaning}`);
-    
-
-
-
-    const handleClick = () => {
-        setHandleStartGame(true)
+    const newWord = () => {
+     index < 19  ? setIndex(() => index + 1): newArrayWords(group).then(a => setWords(a.data))
+        setPromt(false)
     }
+    setTimeout(() => { setModal(true) }, 60000);
+    const wordAudio = words.length ? new Audio(__baseUrl__ + `${words[index].audio}`) : null;
+    const meaningAudio = words.length ? new Audio(`${__baseUrl__ + words[index].audioMeaning}`) : null;
     const hendlePromt = () => {
         setPromt(true)
     }
-    const removeHendlePromt = () => {
-        setPromt(false)
-    }
-    // removeHendlePromt()
     return (
         <Grid container sx={{
             padding: '1%'
         }}>
+            {modal ? <SprintModal /> : false}
             <Grid container sx={{
                 justifyContent: 'space-between'
             }}>
                 <Grid item>
                     <ArrowBack
+                        onClick={() => navigate(-1)}
                         sx={{
                             cursor: 'pointer',
                             width: '3rem',
@@ -83,10 +64,10 @@ export const SprintGame = ({ setHandleStartGame, word, audio, image, audioMeanin
                                 color: "#e14e30f0"
                             }
                         }}
-                        onClick={handleClick} />
+                    />
                 </Grid>
                 <Grid item sx={{
-                    // margin: 'auto'
+                    alignSelf: 'center'
                 }}>
                     counter
                 </Grid>
@@ -118,7 +99,7 @@ export const SprintGame = ({ setHandleStartGame, word, audio, image, audioMeanin
                         >
                             {prompt
                                 ? <Grid item sx={{
-                                    backgroundImage: `url(${__baseUrl__}${image})`,
+                                    backgroundImage: `url(${__baseUrl__}${words[index].image})`,
                                     backgroundRepeat: 'no-repeat',
                                     backgroundPosition: 'center',
                                     height: '28vw',
@@ -146,13 +127,13 @@ export const SprintGame = ({ setHandleStartGame, word, audio, image, audioMeanin
                 <Grid item
                     xs={false}
                     sm={5}
-                    md={6}
+                    md={5}
                     sx={{
                         backgroundImage: `url(${sprintImg})`,
                         backgroundRepeat: 'no-repeat',
                         backgroundSize: '80%',
                         backgroundPosition: 'center',
-                        height: '28vw',
+                        height: 'calc(50% + 19vw)',
                         margin: 'auto 0',
                     }}
                 >
@@ -172,15 +153,15 @@ export const SprintGame = ({ setHandleStartGame, word, audio, image, audioMeanin
 
                 }}>
                     <IconButton color="secondary" aria-label="add an alarm"
-                    onClick={() => {wordAudio.play()}}>
+                        onClick={() => { wordAudio?.play() }}>
                         <PlayCircleOutlineIcon sx={{
                             color: '#e14e30f0',
                             width: 'calc(1.5rem + 1.5vw)',
                             height: 'calc(1.5rem + 1.5vw)'
-                        }} 
+                        }}
                         />
                     </IconButton>
-                    <Typography 
+                    <Typography
                         component={'p'}
                         sx={{
                             fontFamily: 'cursive',
@@ -188,14 +169,16 @@ export const SprintGame = ({ setHandleStartGame, word, audio, image, audioMeanin
                             textTransform: 'uppercase',
                             minWidth: '55%',
                             textAlign: 'center'
-                        }}>{word}</Typography>
+                        }}>
+                        {words[index]?.word}
+                    </Typography>
                     <IconButton color="secondary" aria-label="add an alarm"
-                    onClick={() => {meaningAudio.play()}}>
+                        onClick={() => { meaningAudio?.play() }}>
                         <VolumeMuteIcon sx={{
                             color: '#e14e30f0',
                             width: 'calc(1.5rem + 1.5vw)',
                             height: 'calc(1.5rem + 1.5vw)'
-                        }} 
+                        }}
                         />
                     </IconButton>
                 </Grid>
@@ -203,10 +186,12 @@ export const SprintGame = ({ setHandleStartGame, word, audio, image, audioMeanin
                     component={'p'}
                     sx={{
                         margin: '0 auto 2%',
-                        fontSize:'calc(1rem + 0.5vw)',
+                        fontSize: 'calc(1rem + 0.5vw)',
                         fontFamily: 'cursive',
                         textTransform: 'uppercase',
-                    }}>{wordTranslate}</Typography>
+                    }}>
+                    {words[index]?.wordTranslate}
+                </Typography>
                 <Grid container sx={{
                     justifyContent: 'center',
                     gap: '1rem'
@@ -219,7 +204,8 @@ export const SprintGame = ({ setHandleStartGame, word, audio, image, audioMeanin
                             '&:hover': {
                                 bgcolor: "red"
                             }
-                        }}>Неверно</Button>
+                        }}>Неверно
+                    </Button>
                     <Button variant="contained"
                         onClick={() => newWord()}
                         sx={{
@@ -228,9 +214,14 @@ export const SprintGame = ({ setHandleStartGame, word, audio, image, audioMeanin
                             '&:hover': {
                                 bgcolor: "#056c94c4"
                             }
-                        }}>Верно</Button>
+                        }}>Верно
+                    </Button>
                 </Grid>
             </Grid>
         </Grid>
     )
 }
+function x() {
+    throw new Error("Function not implemented.");
+}
+

@@ -25,8 +25,35 @@ export const mainState = [
     src: ''
   },
 ]
+export const difficulty =[
+  {
+    level:'1',
+    title:'A1 Elementary'
+  },
+  {
+    level:'2',
+    title:'A2 Pre-Intermediate'
+  },
+  {
+    level:'3',
+    title:'B1 Intermediate'
+  },
+  {
+    level:'4',
+    title:'B2 Upper-intermediate'
+  },
+  {
+    level:'5',
+    title:'C1 Advanced'
+  },
+  {
+    level:'6',
+    title:'C2 Proficiecy'
+  },
+  
+]
 const token = localStorage.getItem('tokenUser');
-export const axiosApiInstance = axios.create();
+export const axiosApiInstance = axios.create({baseURL: __baseUrl__});
 axiosApiInstance.interceptors.request.use(
   async config => {
     if (token) {
