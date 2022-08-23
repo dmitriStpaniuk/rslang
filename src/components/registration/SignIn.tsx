@@ -1,11 +1,10 @@
 import { Lock } from "@mui/icons-material"
-import { Avatar, Button, CssBaseline, Grid, IconButton, Link, Paper, TextField, Typography } from "@mui/material"
+import { Avatar, Button, Grid, Link, TextField, Typography } from "@mui/material"
 import { Link as RouterLink, useNavigate } from 'react-router-dom'
 import { Box } from "@mui/system"
 import axios from "axios"
 import { __baseUrl__ } from "../constant"
 import login from '../assets/img/login.png'
-import CloseIcon from '@mui/icons-material/Close';
 import { useUser } from "../UserProvider"
 
 type SignUser = {
@@ -44,8 +43,7 @@ export const SignIn = () => {
   };
   
   return (
-    <Grid container component="main" sx={{ height: '90vh' }}>
-      <CssBaseline />
+    <Grid container  component="main" sx={{ height: '100%' }}>
       <Grid
         item
         xs={false}
@@ -59,15 +57,8 @@ export const SignIn = () => {
           backgroundPosition: 'center',
         }}
       />
-      <Grid item xs={12} sm={8} md={7} component={Paper} elevation={6} square sx={{ position: "relative" }}>
-        <IconButton size='large' sx={{
-          color: '#1976d2',
-          position: "absolute",
-          top: '0',
-          right: '0'
-        }} onClick={() => navigate('/')}>
-          <CloseIcon />
-        </IconButton>
+      <Grid item xs={12} sm={8} md={7}>
+
         <Box
           sx={{
             position: "relative",
@@ -84,7 +75,7 @@ export const SignIn = () => {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <TextField
               type='email'
               margin="normal"

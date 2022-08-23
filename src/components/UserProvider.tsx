@@ -1,6 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 
-
 type UserProviderProps = {
   children: ReactNode
 }
