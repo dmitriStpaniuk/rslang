@@ -13,7 +13,7 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import { Main } from './Main';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-
+import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 
 
 const userId = localStorage.getItem('idUser')
@@ -91,7 +91,7 @@ export const Headers = () => {
   const [user, setUser] = useUser()
   const [open, setOpen] = useState(false);
   let navigate = useNavigate();
-  const icon = [<HomeIcon />, <SportsEsportsIcon />, <MenuBookIcon />, <AnalyticsIcon />]
+  const icon = [<HomeIcon />, <SportsEsportsIcon />, <MenuBookIcon />, <TextSnippetIcon />, <AnalyticsIcon />]
   const getUserName = async () => {
     if (userId) await axiosApiInstance.get(__baseUrl__ + 'users/' + JSON.parse(userId))
       .then(res => {
@@ -105,12 +105,11 @@ export const Headers = () => {
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-  
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const handleClick = (e:React.MouseEvent<HTMLLIElement, MouseEvent>)=>{
-    console.log(e)
+  const handleClick = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
     navigate('/')
   }
   return (
@@ -152,8 +151,8 @@ export const Headers = () => {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Домой', 'Игры', 'Учебник', 'Статистика'].map((text, index) => (
-            <ListItem onClick={(e)=>handleClick(e)} key={text} disablePadding sx={{ display: 'block' }}>
+          {['Домой', 'Игры', 'Учебник', 'Сложные слова', 'Статистика'].map((text, index) => (
+            <ListItem onClick={(e) => handleClick(e)} key={index} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
                   minHeight: 48,

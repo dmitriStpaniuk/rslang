@@ -43,7 +43,7 @@ export const SignIn = () => {
   };
   
   return (
-    <Grid container  component="main" sx={{ height: '100%' }}>
+    <Grid container  component="main" sx={{ height: '100%', maxWidth:'1900px' }}>
       <Grid
         item
         xs={false}
