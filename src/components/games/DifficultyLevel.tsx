@@ -4,11 +4,10 @@ import FormControlLabel, {
   FormControlLabelProps,
 } from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
-import { Button, FormControl, FormLabel, Grid, IconButton, Paper } from '@mui/material';
+import { Button, FormControl, FormLabel, Grid } from '@mui/material';
 import { difficulty } from '../constant';
 import { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import CloseIcon from '@mui/icons-material/Close';
+import { Link, useLocation } from 'react-router-dom';
 
 interface StyledFormControlLabelProps extends FormControlLabelProps {
   checked: boolean;
@@ -37,7 +36,7 @@ function MyFormControlLabel(props: FormControlLabelProps) {
 export default function DifficultyLevel() {
   const location = useLocation()
   const [value, setValue] = useState('');
-  const [helperText, setHelperText] = useState('Choose wisely');
+  const [, setHelperText] = useState('Choose wisely');
   const [difficultyId, setDifficultyId] = useState('1')
 
 
@@ -48,22 +47,15 @@ export default function DifficultyLevel() {
   };
 
   const gameLink = `/game/${location.pathname.split('/').at(-1)}/${difficultyId}`
-  let navigate = useNavigate();
+
   return (
-    <Grid container component={Paper} direction='column' alignItems='center' sx={{
+    <Grid container direction='column' alignItems='center' sx={{
       width: '100%',
-      position: "relative"
+      position: "relative",
+      maxWidth:'1900px',
     }}>
-      <IconButton size='large' sx={{
-        color: '#1976d2',
-        position: "absolute",
-        top: '0',
-        right: '0'
-      }} onClick={() => navigate(-1)}>
-        <CloseIcon />
-      </IconButton>
       <FormControl sx={{ m: 3 }} variant="filled">
-        <Grid item sx={{ mt: 5, textAlign: 'center' }} >
+        <Grid item sx={{ mt: 3, textAlign: 'center' }} >
           <FormLabel id="demo-error-radios">Выберите уровень сложности для продолжения</FormLabel>
         </Grid>
         <RadioGroup
@@ -72,10 +64,10 @@ export default function DifficultyLevel() {
           value={value}
           onChange={handleRadioChange}
         >
-          <Grid container spacing={0} sx={{ mt: 5, width: '100%', ml: 0, justifyContent: 'space-evenly' }} >
+          <Grid container sx={{ mt: 5, width: '100%', ml: 0, justifyContent: 'space-evenly' }} >
             {difficulty.map((el) =>
-              <Grid component={Paper} container key={el.title} xs={12} sm={5} md={4} sx={{ border: `1px solid ${el.colorTitle1}`, borderRadius: '4px', m: 1 ,
-              alignContent: 'flex-start'}} >
+              <Grid item key={el.title} xs={12} sm={5} md={3}
+                sx={{ border: `1px solid ${el.colorTitle1}`, borderRadius: '4px', alignContent: 'flex-start', m:1}} >
                 <MyFormControlLabel title={el.title} value={el.level} label={el.title} control={<Radio />}
                   sx={{
                     width: '100%',
@@ -83,23 +75,22 @@ export default function DifficultyLevel() {
                     m: 0,
                     borderRadius: '4px'
                   }} />
-                <Grid item sx={{ background: el.colorTitle1 , color:'white', p:1, width:'100%'}}>
+                <Grid item sx={{ background: el.colorTitle1, color: 'white', p: 1, width: '100%' }}>
                   {el.titleDiscription1}
                 </Grid>
-                <Grid item sx={{ p:1}}>
+                <Grid item sx={{ p: 1 , fontSize:12}}>
                   {el.discription1}
                 </Grid>
-                <Grid item sx={{ background: el.colorTitle2 , color:'white', p:1,width: '100%'}}>
+                <Grid item sx={{ background: el.colorTitle2, color: 'white', p: 1, width: '100%' }}>
                   {el.titleDiscription2}
                 </Grid>
-                <Grid item sx={{ p:1}}>
+                <Grid item sx={{ p: 1, fontSize:12 }}>
                   {el.discription2}
                 </Grid>
               </Grid>
             )}
           </Grid>
         </RadioGroup>
-        {/* <FormHelperText sx={{ mt: 3, textAlign: 'center' }}>{helperText}</FormHelperText> */}
         <Grid item sx={{ mt: 3, textAlign: 'center' }} >
           <Link to={gameLink}>
             <Button sx={{ display: 'inline-block', textDecoration: 'none', borderRadius: '50%', height: '4.5rem' }} type="submit" variant="contained">

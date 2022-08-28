@@ -37,13 +37,17 @@ export const SignIn = () => {
     const response = await signUser({
       email: data.get('email'),
       password: data.get('password'),
-    }) 
-    setUser({userId: response.userId, name: response.name})
+    })
+    setUser({
+      id: response.userId,
+      name: response.name,
+      email:  data.get('email') as string
+    })
     navigate(-1)
   };
   
   return (
-    <Grid container  component="main" sx={{ height: '100%' }}>
+    <Grid container  component="main" sx={{ height: '100%', maxWidth:'1900px' }}>
       <Grid
         item
         xs={false}
