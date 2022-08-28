@@ -18,8 +18,8 @@ const Placeholder = () =>
 
   >
     {mainState.map((card, index) =>
-      <Grid item xs={12} sm={12} md={4}>
-        <CardMain key={index} img={card.img} title={card.title} discription={card.discription} src={card.src} />
+      <Grid key={index} item xs={12} sm={12} md={4}>
+        <CardMain img={card.img} title={card.title} discription={card.discription} src={card.src} />
       </Grid>)}
 
     <Grid item xs={false} md={9} display={{ xs: "none", sm: "block" }}>
@@ -32,7 +32,8 @@ const Placeholder = () =>
   </Grid>
 export const Main = () => {
   return (
-    <Box sx={{
+    <Box 
+    sx={{
       mt: 8,
       display: 'flex',
       width: '100%',

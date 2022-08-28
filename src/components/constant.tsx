@@ -5,6 +5,8 @@ import sprint from "./assets/img/sprint.png"
 // export const __baseUrl__ = 'https://react-learnwords-project.herokuapp.com/'
 
 export const __baseUrl__ = 'http://localhost:3001/';
+export const userId = localStorage.getItem('idUser')
+
 
 export const mainState = [
   {
@@ -108,7 +110,7 @@ axiosApiInstance.interceptors.request.use(
       config.headers = {
         'Authorization': `Bearer ${keys}`,
         'Accept': 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/json'
       }
     }
     return config;
