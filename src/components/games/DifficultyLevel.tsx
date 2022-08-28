@@ -66,8 +66,8 @@ export default function DifficultyLevel() {
         >
           <Grid container sx={{ mt: 5, width: '100%', ml: 0, justifyContent: 'space-evenly' }} >
             {difficulty.map((el) =>
-              <Grid item key={el.title} xs={12} sm={5} md={3}
-                sx={{ border: `1px solid ${el.colorTitle1}`, borderRadius: '4px', alignContent: 'flex-start', m:1}} >
+              <Grid component={Paper} container key={el.title} xs={12} sm={5} md={4} sx={{ border: `1px solid ${el.colorTitle1}`, borderRadius: '4px', m: 1 ,
+              alignContent: 'flex-start'}} >
                 <MyFormControlLabel title={el.title} value={el.level} label={el.title} control={<Radio />}
                   sx={{
                     width: '100%',

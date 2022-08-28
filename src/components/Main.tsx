@@ -1,12 +1,14 @@
-import { Box, CardMedia, Grid } from '@mui/material'
-import { Route, Routes } from 'react-router-dom'
-import mainImg from './assets/img/digital-education-main-banner-img.png'
-import { CardMain } from './cards/CardMain'
-import { mainState } from './constant'
-import DifficultyLevel from './games/DifficultyLevel'
-import { ProfileUser } from './profile/ProfileUser'
-import { Registration } from './registration/Registration'
-import { SignIn } from './registration/SignIn'
+import { Box, CardMedia, Grid } from "@mui/material";
+import { Route, Routes } from "react-router-dom";
+import mainImg from "./assets/img/digital-education-main-banner-img.png";
+import { CardMain } from "./cards/CardMain";
+import { mainState } from "./constant";
+import DifficultyLevel from "./games/DifficultyLevel";
+import { ProfileUser } from "./profile/ProfileUser";
+import { Registration } from "./registration/Registration";
+import { SignIn } from "./registration/SignIn";
+import { SprintGame } from "./games/sprint/SprintGame";
+import { AudioChallehgeGame } from "./games/audio-challenge/AudioChallengeGame";
 import { Textbook } from './textbook/Textbook'
 
 const Placeholder = () =>
@@ -18,16 +20,12 @@ const Placeholder = () =>
 
   >
     {mainState.map((card, index) =>
-      <Grid key={index} item xs={12} sm={12} md={4}>
-        <CardMain img={card.img} title={card.title} discription={card.discription} src={card.src} />
+      <Grid item xs={12} sm={12} md={4}>
+        <CardMain key={index*1.2} img={card.img} title={card.title} discription={card.discription} src={card.src} />
       </Grid>)}
 
     <Grid item xs={false} md={9} display={{ xs: "none", sm: "block" }}>
-      <CardMedia
-        component='img'
-        image={mainImg}
-        alt='main-img'
-      />
+      <CardMedia component="img" image={mainImg} alt="main-img" />
     </Grid>
   </Grid>
 export const Main = () => {
@@ -47,6 +45,8 @@ export const Main = () => {
         <Route path='profile' element={<ProfileUser />} />
         <Route path='difficulty/:id' element={<DifficultyLevel />} />
         <Route path='game/library/:id' element={<Textbook />} />
+        <Route path="game/sprint/:id" element={<SprintGame />} />
+        <Route path="game/audio/:id" element={<AudioChallehgeGame />} />
       </Routes>
     </Box>
   )
