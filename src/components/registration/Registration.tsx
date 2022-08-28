@@ -48,7 +48,7 @@ export const Registration = () => {
   const theme = createTheme();
   return (
     <ThemeProvider theme={theme}>
-      <Grid  container component="main" sx={{ height: '90vh' }}>
+      <Grid  container component="main" sx={{ height: 'calc(100vh-16px)', maxWidth:'1900px' }}>
         <CssBaseline />
         <Grid
           item

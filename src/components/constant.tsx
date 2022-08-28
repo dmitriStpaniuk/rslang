@@ -5,6 +5,9 @@ import sprint from "./assets/img/sprint.png"
 // export const __baseUrl__ = 'https://react-learnwords-project.herokuapp.com/'
 
 export const __baseUrl__ = 'http://localhost:3001/';
+export const userId = localStorage.getItem('idUser')
+
+
 export const mainState = [
   {
     title: 'Library',
@@ -25,6 +28,16 @@ export const mainState = [
     src: ''
   },
 ]
+export type Difficulty = {
+  level: string,
+  title: string,
+  titleDiscription1: string,
+  discription1: string,
+  colorTitle1: string,
+  titleDiscription2: string,
+  discription2: string,
+  colorTitle2:string 
+}
 export const difficulty = [
   {
     level: '1',
@@ -97,7 +110,7 @@ axiosApiInstance.interceptors.request.use(
       config.headers = {
         'Authorization': `Bearer ${keys}`,
         'Accept': 'application/json',
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/json'
       }
     }
     return config;
