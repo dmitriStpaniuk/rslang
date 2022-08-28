@@ -18,7 +18,7 @@ import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 
 const userId = localStorage.getItem('idUser')
 
-const drawerWidth = 240;
+const drawerWidth = 320;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -93,7 +93,7 @@ export const Headers = () => {
   let navigate = useNavigate();
   const icon = [<HomeIcon />, <SportsEsportsIcon />, <MenuBookIcon />, <AnalyticsIcon />]
   const getUserName = async () => {
-    if (userId) await axiosApiInstance.get('users/' + JSON.parse(userId))
+    if (userId) await axiosApiInstance.get(__baseUrl__ + 'users/' + JSON.parse(userId))
       .then(res => {
         setUser(res.data)
       })

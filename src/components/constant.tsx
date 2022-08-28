@@ -25,7 +25,6 @@ export const mainState = [
     src: ''
   },
 ]
-
 export const difficulty = [
   {
     level: '1',
@@ -87,9 +86,10 @@ export const difficulty = [
     discription2: '',
     colorTitle2: ''
   },
+
 ]
 const token = localStorage.getItem('tokenUser');
-export const axiosApiInstance = axios.create({baseURL: __baseUrl__});
+export const axiosApiInstance = axios.create();
 axiosApiInstance.interceptors.request.use(
   async config => {
     if (token) {

@@ -3,7 +3,9 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import React from 'react';
 import { useNavigate } from "react-router-dom";
-
+type PropsCounter = {
+  counter: number
+}
 const style = {
   position: 'absolute' as 'absolute',
   top: '50%',
@@ -16,12 +18,13 @@ const style = {
   p: 4,
 };
 
-export const SprintModal = () => {
+export const SprintModal = (count: PropsCounter) => {
   const [open, setOpen] = React.useState(true);
-  let navigate = useNavigate(); 
-  const handleClose = () => {setOpen(false)
-    navigate(-1)}
-    
+  let navigate = useNavigate();
+  const handleClose = () => {
+    setOpen(false)
+    navigate(-1)
+  }
   return (
     <div>
       <Modal
@@ -31,8 +34,8 @@ export const SprintModal = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
+          <Typography id="modal-modal-title" variant="h6" component="h2" textTransform= 'uppercase'>
+            <span>your score is {count.counter} points</span>
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.

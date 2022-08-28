@@ -44,8 +44,7 @@ export const SignIn = () => {
   
   return (
     <Grid container  component="main" sx={{ height: '100%' }}>
-      <Grid
-        item
+      <Grid item
         xs={false}
         sm={4}
         md={5}
@@ -58,7 +57,6 @@ export const SignIn = () => {
         }}
       />
       <Grid item xs={12} sm={8} md={7}>
-
         <Box
           sx={{
             position: "relative",
