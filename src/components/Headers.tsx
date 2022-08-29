@@ -65,7 +65,7 @@ export const Headers = () => {
   const data = [
     { name: "Home", icon: <HomeIcon />, path: '/' },
     { name: 'Textbook', icon: <MenuBookIcon />, path: '/difficulty/library', isPrivate: false },
-    { name: "Dictionary", icon: <TextSnippetIcon />, path: '/difficulty/library', isPrivate: true },
+    { name: "Dictionary", icon: <TextSnippetIcon />, path: '/dictionary', isPrivate: true },
     { name: "Games", icon: <SportsEsportsIcon />, path: '/game', isPrivate: false },
     { name: "Statistics", icon: <AnalyticsIcon />, path: '/statistic', isPrivate: false },
   ];
@@ -95,15 +95,32 @@ export const Headers = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+          <Typography variant='h6' component='div' sx={{
+            flexGrow: 1,
+            fontSize: {
+              lg: '1.5rem',
+              md: '1rem',
+              sm: '1rem',
+              xs: 10
+            }
+          }}>
             Word Learn Web
           </Typography>
           {user
-            ? <Button color="inherit" component={RouterLink} to='/profile'>
+            ? <Button sx={{
+              fontSize: {
+                lg: '1rem',
+                md: '1rem',
+                sm: '1rem',
+                xs: 10
+              }
+            }} color="inherit" component={RouterLink} to='/profile'>
               {user.name}
             </Button>
             : <Button color="inherit">
-              <RouterLink style={{ textDecoration: 'none', color: 'inherit' }} to={`login`}>
+              <RouterLink style={{
+                textDecoration: 'none', color: 'inherit'
+              }} to={`login`}>
                 Login
               </RouterLink>
             </Button>
