@@ -1,13 +1,14 @@
-import { Box, CardMedia, Grid } from '@mui/material'
-import { Route, Routes } from 'react-router-dom'
-import mainImg from './assets/img/digital-education-main-banner-img.png'
-import { CardMain } from './cards/CardMain'
-import { mainState } from './constant'
-import { Dictionary } from './dictionary/Dictionary'
-import DifficultyLevel from './games/DifficultyLevel'
-import { ProfileUser } from './profile/ProfileUser'
-import { Registration } from './registration/Registration'
-import { SignIn } from './registration/SignIn'
+import { Box, CardMedia, Grid } from "@mui/material";
+import { Route, Routes } from "react-router-dom";
+import mainImg from "./assets/img/digital-education-main-banner-img.png";
+import { CardMain } from "./cards/CardMain";
+import { mainState } from "./constant";
+import DifficultyLevel from "./games/DifficultyLevel";
+import { ProfileUser } from "./profile/ProfileUser";
+import { Registration } from "./registration/Registration";
+import { SignIn } from "./registration/SignIn";
+import { SprintGame } from "./games/sprint/SprintGame";
+import { AudioChallehgeGame } from "./games/audio-challenge/AudioChallengeGame";
 import { Textbook } from './textbook/Textbook'
 
 const Placeholder = () =>
@@ -42,9 +43,10 @@ export const Main = () => {
         <Route path='login' element={<SignIn />} />
         <Route path='register' element={<Registration />} />
         <Route path='profile' element={<ProfileUser />} />
-        <Route path='dictionary' element={<Dictionary />} />
         <Route path='difficulty/:id' element={<DifficultyLevel />} />
-        <Route path='game/library/level/:id' element={<Textbook />} />
+        <Route path='game/library/:id' element={<Textbook />} />
+        <Route path="game/sprint/:id" element={<SprintGame />} />
+        <Route path="game/audio/:id" element={<AudioChallehgeGame />} />
       </Routes>
     </Box>
   )
