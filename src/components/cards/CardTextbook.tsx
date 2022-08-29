@@ -5,7 +5,8 @@ import VolumeDownIcon from "@mui/icons-material/VolumeDown";
 import StopIcon from "@mui/icons-material/Stop";
 import { Word } from "../textbook/Textbook";
 import { useEffect, useRef, useState } from "react";
-import { alfaBackground } from "../textbook/alfaBackground";
+import { WordsLearnedCounter } from "../textbook/WordsLearnedCounter";
+
 
 type DescriptionProps = {
   card: string;
@@ -16,6 +17,7 @@ type Card = {
   lewelDiff?: string
   isDifficult?: boolean
   handleAddDifficult?: (cardId: string) => void
+  handleDeleteDifficult?: (cardId: string) => void
 }
 
 const useSound = (traks: string[]) => {
@@ -94,7 +96,7 @@ const Description2 = ({ card }: DescriptionProps) => {
   );
 };
 
-export const CardTextbook = ({ card, lewelDiff, isDifficult, handleAddDifficult }: Card) => {
+export const CardTextbook = ({ card, isDifficult, handleAddDifficult, handleDeleteDifficult }: Card) => {
   const [currentPlaylist, setCurrentPlaylist] = useState<string[]>([]);
   const [isPlaying, pause, path] = useSound(currentPlaylist);
 
@@ -126,7 +128,7 @@ export const CardTextbook = ({ card, lewelDiff, isDifficult, handleAddDifficult 
           xs: '100%'
         },
       }}>
-        {handleAddDifficult ? <AddLearnWord cardId={card.id} handleAddDifficult={handleAddDifficult} /> : null}
+        {(handleAddDifficult && handleDeleteDifficult) ? <AddLearnWord cardId={card.id} handleAddDifficult={handleAddDifficult} handleDeleteDifficult={handleDeleteDifficult} /> : null}
         <CardMedia
           component="img"
           sx={{
@@ -160,54 +162,78 @@ export const CardTextbook = ({ card, lewelDiff, isDifficult, handleAddDifficult 
           }
         }}
       >
-        <Grid position="absolute" top={0} right={0}>
-          {!isPlayingCheck([
-            __baseUrl__ + card.audio,
-            __baseUrl__ + card.audioExample,
-            __baseUrl__ + card.audioMeaning,
-          ]) ? (
-            <IconButton
-              onClick={() => {
-                pause();
-                setCurrentPlaylist([
-                  __baseUrl__ + card.audio,
-                  __baseUrl__ + card.audioExample,
-                  __baseUrl__ + card.audioMeaning,
-                ]);
-              }}
-            >
-              <VolumeDownIcon color="warning" />
-            </IconButton>
-          ) : (
-            <IconButton
-              onClick={() => {
-                if (pause) {
-                  pause();
-                }
-              }}
-            >
-              <StopIcon color="warning" />
-            </IconButton>
-          )}
-        </Grid>
+
         <Grid display="flex" flexDirection="column" sx={{
           pb: {
             sm: 1,
             xs: 1
           }
         }}>
-          <Typography
-            color="orange"
-            sx={{ borderLeft: "2px solid orange", pl: 1 }}
-          >
-            {card.word.toUpperCase()} - {card.transcription}
-          </Typography>
-          <Typography
-            color="orange"
-            sx={{ borderLeft: "2px solid orange", pl: 1 }}
-          >
-            {card.wordTranslate.toUpperCase()}
-          </Typography>
+          <Grid display="flex"
+            sx={{
+              justifyContent: {
+                md: 'space-between',
+                sm: 'space-between'
+              },
+              flexDirection: {
+                md: 'row',
+                sm: 'column-reverse',
+                xs: 'column-reverse'
+              },
+              alignContent: 'flex-start',
+            }}>
+            
+            <Grid>
+              <Typography
+                color="orange"
+                sx={{ borderLeft: "2px solid orange", pl: 1 }}
+              >
+                {card.word.toUpperCase()} - {card.transcription}
+              </Typography>
+              <Typography
+                color="orange"
+                sx={{ borderLeft: "2px solid orange", pl: 1 }}
+              >
+                {card.wordTranslate.toUpperCase()}
+              </Typography>
+            </Grid>
+            <Grid>
+              <Grid display='flex' sx={{
+                justifyContent: 'flex-start'
+              }} >
+                <WordsLearnedCounter />
+                {!isPlayingCheck([
+                  __baseUrl__ + card.audio,
+                  __baseUrl__ + card.audioExample,
+                  __baseUrl__ + card.audioMeaning,
+                ]) ? (
+                  <IconButton
+                    onClick={() => {
+                      pause();
+                      setCurrentPlaylist([
+                        __baseUrl__ + card.audio,
+                        __baseUrl__ + card.audioExample,
+                        __baseUrl__ + card.audioMeaning,
+                      ]);
+                    }}
+                  >
+                    <VolumeDownIcon color="warning" />
+                  </IconButton>
+                ) : (
+                  <IconButton
+                    onClick={() => {
+                      if (pause) {
+                        pause();
+                      }
+                    }}
+                  >
+                    <StopIcon color="warning" />
+                  </IconButton>
+                )}
+              </Grid>
+            </Grid>
+
+          </Grid>
         </Grid>
         <Grid sx={{
           lineHeight: 1,

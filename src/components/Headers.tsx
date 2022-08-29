@@ -1,8 +1,7 @@
-import { AppBar, Button, Drawer, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, makeStyles, Toolbar, Typography } from '@mui/material'
+import { AppBar, Button, Drawer, IconButton, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link, Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link, Link as RouterLink } from 'react-router-dom';
 import { useUser } from './UserProvider';
-import { axiosApiInstance, userId, __baseUrl__ } from './constant';
 import { useState } from 'react';
 import HomeIcon from '@mui/icons-material/Home';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
@@ -11,9 +10,6 @@ import { Main } from './Main';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import withAuth from './WithAuth';
-
-
-// const userId = localStorage.getItem('idUser')
 
 type NavMenuItemProps = {
   path: string;
