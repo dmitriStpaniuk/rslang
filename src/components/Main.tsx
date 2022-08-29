@@ -19,16 +19,12 @@ const Placeholder = () =>
 
   >
     {mainState.map((card, index) =>
-      <Grid key={index} item xs={12} sm={12} md={4}>
-        <CardMain img={card.img} title={card.title} discription={card.discription} src={card.src} />
+      <Grid item xs={12} sm={12} md={4}>
+        <CardMain key={index*1.2} img={card.img} title={card.title} discription={card.discription} src={card.src} />
       </Grid>)}
 
     <Grid item xs={false} md={9} display={{ xs: "none", sm: "block" }}>
-      <CardMedia
-        component='img'
-        image={mainImg}
-        alt='main-img'
-      />
+      <CardMedia component="img" image={mainImg} alt="main-img" />
     </Grid>
   </Grid>
 export const Main = () => {
