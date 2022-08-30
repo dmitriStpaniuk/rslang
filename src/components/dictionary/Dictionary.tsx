@@ -33,7 +33,7 @@ export const Dictionary = () => {
   }, [user])
 
   useEffect(() => {
-    Promise.all(wordsId.map((i) => getWordsFromUserId(i.wordId))).then(setWordsFromUserId)
+    Promise.all(wordsId.map((i) => getWordsFromUserId(i.wordId))).then(e=>e.reverse()).then(setWordsFromUserId)
   }, [wordsId])
   return (
     <Grid

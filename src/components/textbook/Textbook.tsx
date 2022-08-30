@@ -8,6 +8,7 @@ import { CardTextbook } from "../cards/CardTextbook";
 import { alfaBackground } from "./alfaBackground";
 import { User, useUser } from "../UserProvider";
 import { getUserWords, WordUser } from "../dictionary/Dictionary";
+import { SaidMenuDifficultLevel } from "./SaidMenuDifficultLevel";
 
 export type Word = {
   audio: string;
@@ -79,7 +80,7 @@ export const Textbook = () => {
       responseNonAotorization(+lewelDiff - 1, +page).then((e) =>
         setCards(e.data)
       );
-  }, [page]);
+  }, [page, lewelDiff]);
 
   useEffect(() => {
     if (difficultWords) {
@@ -116,6 +117,7 @@ export const Textbook = () => {
       sx={{ background: alfaBackground(0.3, lewelDiff) }
       }
     >
+      
       <Grid
         container
         alignItems="center"
@@ -123,6 +125,7 @@ export const Textbook = () => {
         flexWrap="nowrap"
         sx={{ maxWidth: "1900px" }}
       >
+        <SaidMenuDifficultLevel/>
         <Grid item fontSize={30} sx={{
           p: 4, textAlign: 'center', fontSize: {
             lg: '2rem',

@@ -55,7 +55,7 @@ export const Main = () => {
         <Route path="profile" element={<ProfileUser />} />
         <Route path="dictionary" element={<Dictionary />} />
         <Route path="difficulty/:id" element={<DifficultyLevel />} />
-        <Route path="game/library/level/:id" element={<Textbook />} />
+        <Route path="library/level/:id" element={<Textbook />} />
       </Routes>
     </Box>
   );
