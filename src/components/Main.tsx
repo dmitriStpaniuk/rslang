@@ -9,6 +9,8 @@ import { ProfileUser } from './profile/ProfileUser';
 import { Registration } from './registration/Registration';
 import { SignIn } from './registration/SignIn';
 import { Textbook } from './textbook/Textbook';
+import { SprintGame } from './games/sprint/SprintGame';
+import { AudioChallehgeGame } from "./games/audio-challenge/AudioChallengeGame";
 
 const Placeholder = () => (
   <Grid
@@ -56,6 +58,8 @@ export const Main = () => {
         <Route path="dictionary" element={<Dictionary />} />
         <Route path="difficulty/:id" element={<DifficultyLevel />} />
         <Route path="library/level/:id" element={<Textbook />} />
+        <Route path="sprint/level/:id" element={<SprintGame />} />
+        <Route path="audio/level/:id" element={<AudioChallehgeGame />} />
       </Routes>
     </Box>
   );
