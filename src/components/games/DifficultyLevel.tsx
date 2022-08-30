@@ -46,7 +46,7 @@ export default function DifficultyLevel() {
     setDifficultyId(event.target.value)
   };
 
-  const gameLink = `/game/${location.pathname.split('/').at(-1)}/${difficultyId}`
+  const gameLink = `/${location.pathname.split('/').at(-1)}/level/${difficultyId}`
 
   return (
     <Grid container direction='column' alignItems='center' sx={{

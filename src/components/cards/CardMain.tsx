@@ -17,7 +17,6 @@ type CardMainProps = {
   src: string
 }
 export const CardMain = ({ img, title, discription, src }: CardMainProps) => {
-
   return (
     <Card sx={{ backgroundColor: '#f6f6f6' }}>
       <CardHeader
