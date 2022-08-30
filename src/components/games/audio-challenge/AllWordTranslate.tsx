@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { Button, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { ResponseData } from "../sprint/SprintGame";
+import { ResponseData } from '../sprint/SprintGame';
+import useSound from 'use-sound';
 
-import useSound from "use-sound";
 type PropsWordTranslate = {
   words: ResponseData[];
   winnerWord: ResponseData | null;

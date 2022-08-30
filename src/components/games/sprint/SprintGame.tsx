@@ -11,7 +11,7 @@ import { SprintModal } from "./SprintModal";
 import { getArrayWords, randomTranslate, Timer } from "./Sprint";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-import useSound from "use-sound";
+import useSound from 'use-sound';
 import goodSound from "./../../assets/sounds/good.mp3";
 import badSound from "./../../assets/sounds/bad.mp3";
 import Box from "@mui/material/Box";
@@ -114,7 +114,7 @@ export const SprintGame = () => {
 
   setTimeout(() => {
     setModal(true);
-  }, 6000);
+  }, 60000);
   const wordAudio = words.length
     ? new Audio(__baseUrl__ + `${words[index].audio}`)
     : null;

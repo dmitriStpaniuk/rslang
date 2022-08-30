@@ -1,6 +1,6 @@
 import axios from "axios"
-import { CountdownCircleTimer } from "react-countdown-circle-timer"
 import { axiosApiInstance, __baseUrl__ } from "../../constant"
+import { CountdownCircleTimer } from "react-countdown-circle-timer"
 import { ResponseData } from "./SprintGame"
 
 export const getArrayWords = async (group: string | undefined) => {

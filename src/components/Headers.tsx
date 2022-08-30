@@ -1,8 +1,7 @@
-import { AppBar, Button, Drawer, IconButton, ListItem, ListItemButton, ListItemIcon, ListItemText, makeStyles, Toolbar, Typography } from '@mui/material'
+import { AppBar, Button, Drawer, IconButton, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link, Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link, Link as RouterLink } from 'react-router-dom';
 import { useUser } from './UserProvider';
-import { axiosApiInstance, userId, __baseUrl__ } from './constant';
 import { useState } from 'react';
 import HomeIcon from '@mui/icons-material/Home';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
@@ -11,9 +10,6 @@ import { Main } from './Main';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import withAuth from './WithAuth';
-
-
-// const userId = localStorage.getItem('idUser')
 
 type NavMenuItemProps = {
   path: string;
@@ -35,7 +31,7 @@ export const Headers = () => {
   const data = [
     { name: "Home", icon: <HomeIcon />, path: '/' },
     { name: 'Textbook', icon: <MenuBookIcon />, path: '/difficulty/library', isPrivate: false },
-    { name: "Dictionary", icon: <TextSnippetIcon />, path: '/difficulty/library', isPrivate: true },
+    { name: "Dictionary", icon: <TextSnippetIcon />, path: '/dictionary', isPrivate: true },
     { name: "Games", icon: <SportsEsportsIcon />, path: '/game', isPrivate: false },
     { name: "Statistics", icon: <AnalyticsIcon />, path: '/statistic', isPrivate: false },
   ];
@@ -65,15 +61,32 @@ export const Headers = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+          <Typography variant='h6' component='div' sx={{
+            flexGrow: 1,
+            fontSize: {
+              lg: '1.5rem',
+              md: '1rem',
+              sm: '1rem',
+              xs: 10
+            }
+          }}>
             Word Learn Web
           </Typography>
           {user
-            ? <Button color="inherit" component={RouterLink} to='/profile'>
+            ? <Button sx={{
+              fontSize: {
+                lg: '1rem',
+                md: '1rem',
+                sm: '1rem',
+                xs: 10
+              }
+            }} color="inherit" component={RouterLink} to='/profile'>
               {user.name}
             </Button>
             : <Button color="inherit">
-              <RouterLink style={{ textDecoration: 'none', color: 'inherit' }} to={`login`}>
+              <RouterLink style={{
+                textDecoration: 'none', color: 'inherit'
+              }} to={`login`}>
                 Login
               </RouterLink>
             </Button>

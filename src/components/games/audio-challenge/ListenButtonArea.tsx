@@ -1,7 +1,7 @@
 import { Grid, IconButton, Typography } from "@mui/material";
 import { __baseUrl__ } from "../../constant";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-import { ResponseData } from "../sprint/SprintGame";
+import { ResponseData } from '../sprint/SprintGame';
 type PropsListenArea = {
     words: ResponseData[];
     indexWinnerWord:number;

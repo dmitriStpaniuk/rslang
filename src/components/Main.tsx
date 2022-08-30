@@ -1,53 +1,66 @@
 import { Box, CardMedia, Grid } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import mainImg from "./assets/img/digital-education-main-banner-img.png";
-import { CardMain } from "./cards/CardMain";
+import { CardMain } from './cards/CardMain';
 import { mainState } from "./constant";
+import { Dictionary } from "./dictionary/Dictionary";
 import DifficultyLevel from "./games/DifficultyLevel";
-import { ProfileUser } from "./profile/ProfileUser";
-import { Registration } from "./registration/Registration";
-import { SignIn } from "./registration/SignIn";
-import { SprintGame } from "./games/sprint/SprintGame";
+import { ProfileUser } from './profile/ProfileUser';
+import { Registration } from './registration/Registration';
+import { SignIn } from './registration/SignIn';
+import { Textbook } from './textbook/Textbook';
+import { SprintGame } from './games/sprint/SprintGame';
 import { AudioChallehgeGame } from "./games/audio-challenge/AudioChallengeGame";
-import { Textbook } from './textbook/Textbook'
 
-const Placeholder = () =>
-  <Grid sx={{ p: 2, mt: 10 }} container maxWidth={'1900px'} spacing={1}
+const Placeholder = () => (
+  <Grid
+    sx={{ p: 2, mt: 10 }}
+    container
+    maxWidth={"1900px"}
+    spacing={1}
     direction="column"
     alignItems=" flex-start"
     justifyContent="center"
-    flexDirection='row'
-
+    flexDirection="row"
   >
-    {mainState.map((card, index) =>
-      <Grid item xs={12} sm={12} md={4}>
-        <CardMain key={index*1.2} img={card.img} title={card.title} discription={card.discription} src={card.src} />
-      </Grid>)}
+    {mainState.map((card, index) => (
+      <Grid key={index} item xs={12} sm={12} md={4}>
+        <CardMain
+          img={card.img}
+          title={card.title}
+          discription={card.discription}
+          src={card.src}
+        />
+      </Grid>
+    ))}
 
     <Grid item xs={false} md={9} display={{ xs: "none", sm: "block" }}>
       <CardMedia component="img" image={mainImg} alt="main-img" />
     </Grid>
   </Grid>
+);
 export const Main = () => {
   return (
-    <Box 
-    sx={{
-      mt: 8,
-      display: 'flex',
-      width: '100%',
-      minHeight: 'calc(100vh - 64px)',
-      justifyContent: 'center'
-    }}>
-      <Routes >
-        <Route path='/' element={<Placeholder />} />
-        <Route path='login' element={<SignIn />} />
-        <Route path='register' element={<Registration />} />
-        <Route path='profile' element={<ProfileUser />} />
-        <Route path='difficulty/:id' element={<DifficultyLevel />} />
-        <Route path='game/library/:id' element={<Textbook />} />
-        <Route path="game/sprint/:id" element={<SprintGame />} />
-        <Route path="game/audio/:id" element={<AudioChallehgeGame />} />
+    <Box
+      sx={{
+        mt: 8,
+        display: "flex",
+        width: "100%",
+        minHeight: "calc(100vh - 64px)",
+        justifyContent: "center",
+      }}
+    >
+      <Routes>
+        <Route path="/" element={<Placeholder />} />
+        <Route path="login" element={<SignIn />} />
+        <Route path="register" element={<Registration />} />
+        <Route path="profile" element={<ProfileUser />} />
+        <Route path="dictionary" element={<Dictionary />} />
+        <Route path="difficulty/:id" element={<DifficultyLevel />} />
+        <Route path="library/level/:id" element={<Textbook />} />
+        <Route path="sprint/level/:id" element={<SprintGame />} />
+        <Route path="audio/level/:id" element={<AudioChallehgeGame />} />
       </Routes>
     </Box>
-  )
-}
+  );
+};
