@@ -1,9 +1,9 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Button, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { ResponseData } from "../sprint/SprintGame";
 
 import useSound from "use-sound";
-import { ThemeContext } from "@emotion/react";
 type PropsWordTranslate = {
   words: ResponseData[];
   winnerWord: ResponseData | null;
@@ -12,24 +12,11 @@ type PropsWordTranslate = {
   isHandleSound: string[];
 };
 
-export const correctAnswerWords: (ResponseData | null)[] = [];
-export const unCorrectAnswerWords: (ResponseData | null)[] = [];
+export const correctAnswerWordsInAudioChell: (ResponseData | null)[] = [];
+export const unCorrectAnswerWordInAudioChells: (ResponseData | null)[] = [];
 
-export const useAnswerWords = React.createContext(correctAnswerWords);
-export const useUnAnswerWords = React.createContext(unCorrectAnswerWords);
-
-function AnswerWords() {
-  return (
-    <ThemeContext.Provider value={correctAnswerWords}>
-    </ThemeContext.Provider>
-  );
-}
-function UnAnswerWords() {
-  return (
-    <ThemeContext.Provider value={unCorrectAnswerWords}>
-    </ThemeContext.Provider>
-  );
-}
+export const useAnswerWordsInAudioChell = React.createContext(correctAnswerWordsInAudioChell);
+export const useUnAnswerWordsInAudioChell = React.createContext(unCorrectAnswerWordInAudioChells);
 
 export const AllWordTranslate = ({
   words,
@@ -40,28 +27,35 @@ export const AllWordTranslate = ({
 }:
 PropsWordTranslate) => {
   const [isDisableButton, setIsDisableButton] = useState(false);
+  const [isActivButton, setIsActivButtun] = useState(true);
   const [playBad] = useSound(isHandleSound[0]);
   const [playGood] = useSound(isHandleSound[1]);
   
   useEffect(() => {
     setIsDisableButton(false);
   }, [words]);
+  useEffect(() => {
+    setIsActivButtun(true);
+  }, [words]);
+ 
   
-  const carrectAnswer = (winnerWord: ResponseData | null) => {
-    correctAnswerWords.push(winnerWord);
-    playGood();
+    const carrectAnswer = (winnerWord: ResponseData | null) => {
+      correctAnswerWordsInAudioChell.push(winnerWord);
+    playGood()
+
   };
   const unCarrectAnswer = (winnerWord: ResponseData | null) => {
-    unCorrectAnswerWords.push(winnerWord)
+    unCorrectAnswerWordInAudioChells.push(winnerWord)
     playBad();
   };
-  const handleChange = (eventButton: ChildNode | null) => {
+  const handleChange = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setIsWinnerImage(true);
     setButtonOpt(true);
-    eventButton?.textContent?.slice(1).trim() === winnerWord?.wordTranslate
+    event.currentTarget.firstChild?.textContent?.slice(1).trim() === winnerWord?.wordTranslate
       ? carrectAnswer(winnerWord)
       : unCarrectAnswer(winnerWord);
-    setIsDisableButton(true);
+      setIsDisableButton(true);
+      setIsActivButtun(false);
   };
   return (
     <Grid display="flex" gap={2} flexWrap="wrap" justifyContent="center">
@@ -74,7 +68,7 @@ PropsWordTranslate) => {
               fontSize: "calc(0.6rem + .7vw)",
               textTransform: "uppercase",
             }}
-            onClick={(e) => handleChange(e.currentTarget.firstChild)}
+            onClick={(event) => isActivButton? handleChange(event): '' }
           >
             <>{index + 1 + " " + word.wordTranslate}</>
           </Button>
