@@ -8,7 +8,7 @@ export const AboutUs = () => {
   <Grid
     justifyContent="center"
     container
-    sx={{ background: alfaBackground(0, '2') }
+    sx={{ background: alfaBackground(0.2, '2') }
     }
   >
     <Grid
@@ -19,7 +19,7 @@ export const AboutUs = () => {
       sx={{ width: 700 }}
     >
       {cardsAbout.map((item, index) => (
-      <Card sx={{ display: 'flex' }} key={index}>
+      <Card sx={{ display: 'flex', mb: 3, flexWrap: { sm: 'nowrap', xs: 'wrap' }  }} key={index}>
         <CardMedia
           component="img"
           height="200"
