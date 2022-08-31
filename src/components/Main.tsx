@@ -11,6 +11,7 @@ import { SignIn } from './registration/SignIn';
 import { Textbook } from './textbook/Textbook';
 import { SprintGame } from './games/sprint/SprintGame';
 import { AudioChallehgeGame } from "./games/audio-challenge/AudioChallengeGame";
+import { AboutUs } from "./AboutUs.tsx/AboutUs";
 
 const Placeholder = () => (
   <Grid
@@ -56,6 +57,7 @@ export const Main = () => {
         <Route path="register" element={<Registration />} />
         <Route path="profile" element={<ProfileUser />} />
         <Route path="dictionary" element={<Dictionary />} />
+        <Route path="about-us" element={<AboutUs />} />
         <Route path="difficulty/:id" element={<DifficultyLevel />} />
         <Route path="library/level/:id" element={<Textbook />} />
         <Route path="sprint/level/:id" element={<SprintGame />} />
