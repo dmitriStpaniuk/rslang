@@ -1,24 +1,29 @@
 import { CardMedia, Grid, IconButton, Typography } from "@mui/material";
 import { __baseUrl__ } from "../constant";
-import { AddLearnWord } from "../textbook/AddLearnWord";
+import {
+  AddDifficultButton,
+  DeleteDifficultButton,
+} from "../textbook/AddLearnWord";
 import VolumeDownIcon from "@mui/icons-material/VolumeDown";
 import StopIcon from "@mui/icons-material/Stop";
 import { Word } from "../textbook/Textbook";
 import { useEffect, useRef, useState } from "react";
 import { WordsLearnedCounter } from "../textbook/WordsLearnedCounter";
-
+import { LearnedWordButton } from "../textbook/LearnedWordButton";
 
 type DescriptionProps = {
   card: string;
 };
 
 type Card = {
-  card: Word
-  lewelDiff?: string
-  isDifficult?: boolean
-  handleAddDifficult?: (cardId: string) => void
-  handleDeleteDifficult?: (cardId: string) => void
-}
+  card: Word;
+  lewelDiff?: string;
+  isDifficult?: boolean;
+  isLearned?: boolean;
+  handleAddDifficult?: (cardId: string) => void;
+  handleDeleteDifficult: (cardId: string) => void;
+  handleLearnWord?: (cardId: string) => void;
+};
 
 const useSound = (traks: string[]) => {
   const [currentTrack, setCurrentTrack] = useState<HTMLAudioElement | null>(
@@ -96,14 +101,21 @@ const Description2 = ({ card }: DescriptionProps) => {
   );
 };
 
-export const CardTextbook = ({ card, isDifficult, handleAddDifficult, handleDeleteDifficult }: Card) => {
+export const CardTextbook = ({
+  card,
+  isDifficult,
+  isLearned,
+  handleAddDifficult,
+  handleDeleteDifficult,
+  handleLearnWord,
+}: Card) => {
   const [currentPlaylist, setCurrentPlaylist] = useState<string[]>([]);
   const [isPlaying, pause, path] = useSound(currentPlaylist);
-
+  const hideDeleteButton = isDifficult ? true : false;
   const isPlayingCheck = (cardPlaylist: string[]) => {
     return cardPlaylist.includes(path) && isPlaying;
   };
-  const background = isDifficult ? 'orange' : 'white'
+  const background = isLearned ? "green" : isDifficult ? "orange" : "white";
   return (
     <Grid
       container
@@ -121,14 +133,45 @@ export const CardTextbook = ({ card, isDifficult, handleAddDifficult, handleDele
         background: background,
       }}
     >
-      <Grid position="relative" sx={{
-        width: {
-          md: '35%',
-          sm: '100%',
-          xs: '100%'
-        },
-      }}>
-        {(handleAddDifficult && handleDeleteDifficult) ? <AddLearnWord cardId={card.id} handleAddDifficult={handleAddDifficult} handleDeleteDifficult={handleDeleteDifficult} /> : null}
+      <Grid
+        position="relative"
+        sx={{
+          width: {
+            md: "35%",
+            sm: "100%",
+            xs: "100%",
+          },
+        }}
+      >
+        <Grid
+          container
+          position={"absolute"}
+          bottom="5px"
+          flexWrap="nowrap"
+          justifyContent="center"
+          gap={1}
+        >
+          {handleAddDifficult ? (
+            <AddDifficultButton
+              cardId={card.id}
+              handleAddDifficult={handleAddDifficult}
+              hideDeleteButton={hideDeleteButton}
+            />
+          ) : null}
+          {
+            <DeleteDifficultButton
+              cardId={card.id}
+              handleDeleteDifficult={handleDeleteDifficult}
+              hideDeleteButton={hideDeleteButton}
+            />
+          }
+        </Grid>
+        {handleLearnWord ? (
+          <LearnedWordButton
+            cardId={card.id}
+            handleLearnWord={handleLearnWord}
+          />
+        ) : null}
         <CardMedia
           component="img"
           sx={{
@@ -145,44 +188,48 @@ export const CardTextbook = ({ card, isDifficult, handleAddDifficult, handleDele
         justifyContent="space-between"
         position="relative"
         sx={{
-          fontWeight: '200',
+          fontWeight: "200",
           p: 2,
           color: "white",
           border: "1px solid white",
           borderRadius: "10px",
           width: {
-            md: '65%',
-            sm: '100%',
-            xs: '100%'
+            md: "65%",
+            sm: "100%",
+            xs: "100%",
           },
           background: "#1976D2",
           lineHeight: {
             sm: 1.1,
-            xs: 1.1
-          }
+            xs: 1.1,
+          },
         }}
       >
-
-        <Grid display="flex" flexDirection="column" sx={{
-          pb: {
-            sm: 1,
-            xs: 1
-          }
-        }}>
-          <Grid display="flex"
+        <Grid
+          display="flex"
+          flexDirection="column"
+          sx={{
+            pb: {
+              sm: 1,
+              xs: 1,
+            },
+          }}
+        >
+          <Grid
+            display="flex"
             sx={{
               justifyContent: {
-                md: 'space-between',
-                sm: 'space-between'
+                md: "space-between",
+                sm: "space-between",
               },
               flexDirection: {
-                md: 'row',
-                sm: 'column-reverse',
-                xs: 'column-reverse'
+                md: "row",
+                sm: "column-reverse",
+                xs: "column-reverse",
               },
-              alignContent: 'flex-start',
-            }}>
-            
+              alignContent: "flex-start",
+            }}
+          >
             <Grid>
               <Typography
                 color="orange"
@@ -198,9 +245,12 @@ export const CardTextbook = ({ card, isDifficult, handleAddDifficult, handleDele
               </Typography>
             </Grid>
             <Grid>
-              <Grid display='flex' sx={{
-                justifyContent: 'flex-start'
-              }} >
+              <Grid
+                display="flex"
+                sx={{
+                  justifyContent: "flex-start",
+                }}
+              >
                 <WordsLearnedCounter />
                 {!isPlayingCheck([
                   __baseUrl__ + card.audio,
@@ -232,58 +282,66 @@ export const CardTextbook = ({ card, isDifficult, handleAddDifficult, handleDele
                 )}
               </Grid>
             </Grid>
-
           </Grid>
         </Grid>
-        <Grid sx={{
-          lineHeight: 1,
-          fontSize: {
-            lg: '1rem',
-            // md: 20,
-            // sm: '0.9rem',
-            xs: 14
-          }
-        }}>
-          <Description1 card={card.textExample} />
-          <Typography color="whitesmoke" sx={{
-            fontWeight: '200',
-            pt: 1,
-            pb: 2,
+        <Grid
+          sx={{
             lineHeight: 1,
             fontSize: {
-              lg: '1rem',
+              lg: "1rem",
               // md: 20,
-              sm: '0.9rem',
-              xs: 13
-            }
-          }}>
+              // sm: '0.9rem',
+              xs: 14,
+            },
+          }}
+        >
+          <Description1 card={card.textExample} />
+          <Typography
+            color="whitesmoke"
+            sx={{
+              fontWeight: "200",
+              pt: 1,
+              pb: 2,
+              lineHeight: 1,
+              fontSize: {
+                lg: "1rem",
+                // md: 20,
+                sm: "0.9rem",
+                xs: 13,
+              },
+            }}
+          >
             {card.textExampleTranslate}
           </Typography>
         </Grid>
-        <Grid sx={{
-          fontSize: {
-            lg: '1rem',
-            // md: 20,
-            // sm: 18,
-            xs: 14
-          }
-        }}>
-          <Description2 card={card.textMeaning} />
-          <Typography sx={{
-            fontWeight: '200',
-            pt: 1,
-            lineHeight: 1,
+        <Grid
+          sx={{
             fontSize: {
-              lg: '1rem',
+              lg: "1rem",
               // md: 20,
               // sm: 18,
-              xs: 13
-            }
-          }}>
+              xs: 14,
+            },
+          }}
+        >
+          <Description2 card={card.textMeaning} />
+          <Typography
+            sx={{
+              fontWeight: "200",
+              pt: 1,
+              lineHeight: 1,
+              fontSize: {
+                lg: "1rem",
+                // md: 20,
+                // sm: 18,
+                xs: 13,
+              },
+            }}
+          >
             {card.textMeaningTranslate}
           </Typography>
         </Grid>
       </Grid>
     </Grid>
-  )
-}
+  );
+};

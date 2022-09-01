@@ -4,36 +4,54 @@ import { CardTextbook } from "../cards/CardTextbook"
 import { axiosApiInstance, __baseUrl__ } from "../constant"
 import { alfaBackground } from "../textbook/alfaBackground"
 import { Word } from "../textbook/Textbook"
-import { useUser } from "../UserProvider"
+import { User, useUser } from "../UserProvider"
 
 export type WordUser = {
   difficulty: string
   id: string
-  optional: { isDifficult: boolean }
+  optional: { isDifficult?: boolean, isLearned?: boolean }
   wordId: string
 }
 export const getUserWords = async (userId: string) => {
-    return await axiosApiInstance.get(`${__baseUrl__}users/${userId}/words `)
+  const response =  await axiosApiInstance.get<WordUser[]>(`${__baseUrl__}users/${userId}/words `)
+  return response.data
 }
 
 const getWordsFromUserId = async (id: string) => {
-    const result =  await axiosApiInstance.get<Word>(`${__baseUrl__}words/${id}`)
-    return result.data
+  const result = await axiosApiInstance.get<Word>(`${__baseUrl__}words/${id}`)
+  return result.data
 }
+
+const deleteWordFromHard = async (
+  userId: User["id"],
+  wordId: string
+) => {
+  const result = await axiosApiInstance.delete(
+    `${__baseUrl__}users/${userId}/words/${wordId}`
+  );
+  return result.data;
+};
 
 export const Dictionary = () => {
   const [user] = useUser()
   const [wordsId, setWordsId] = useState<WordUser[]>([])
   const [wordsFromUserId, setWordsFromUserId] = useState<Word[]>([])
-  
+
+  const handleDeleteDifficult = async (cardId: string) => {
+    if (user) {
+      await deleteWordFromHard(user.id, cardId)
+      setWordsId((wordsId) => wordsId?.filter(card => card.wordId !== cardId))
+    }
+  }
+
   useEffect(() => {
     if (user) {
-      getUserWords(user.id).then((e) => { if (e) setWordsId(e.data) })
+      getUserWords(user.id).then(setWordsId)
     }
   }, [user])
 
   useEffect(() => {
-    Promise.all(wordsId.map((i) => getWordsFromUserId(i.wordId))).then(e=>e.reverse()).then(setWordsFromUserId)
+    Promise.all(wordsId.map((i) => getWordsFromUserId(i.wordId))).then(e => e.reverse()).then(setWordsFromUserId)
   }, [wordsId])
   return (
     <Grid
@@ -61,7 +79,7 @@ export const Dictionary = () => {
         </Grid>
         <Grid container gap={1} justifyContent="center">
           {wordsFromUserId.map((card) => (
-            <CardTextbook key={card.id} card={card} isDifficult={true}/>
+            <CardTextbook key={card.id} card={card} isDifficult={true} handleDeleteDifficult={handleDeleteDifficult}/>
           ))}
         </Grid>
         <Grid item md={10} justifyContent="center" sx={{ pb: 2 }}>
