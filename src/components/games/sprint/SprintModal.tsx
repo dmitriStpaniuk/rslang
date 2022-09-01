@@ -5,14 +5,14 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { ResponseData } from "./SprintGame";
 import { Divider, Grid, IconButton } from "@mui/material";
-import { axiosApiInstance, __baseUrl__ } from "../../constant";
+import {  __baseUrl__ } from "../../constant";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-import { useUser } from "../../UserProvider";
+import { Statistics } from "../statistics";
 
-type PropsSprintModal = {
-  correctAnswerWordsInSprint: (ResponseData | null)[];
-  unCorrectAnswerWordsInSptint: (ResponseData | null)[];
-  count: number;
+export type PropsModal = {
+  correctAnswerWords: ResponseData[];
+  unCorrectAnswerWords: ResponseData[];
+  count?: number;
   longSeries: number[];
 };
 const style = {
@@ -29,37 +29,20 @@ const style = {
 
 export const SprintModal = ({
   count,
-  correctAnswerWordsInSprint,
-  unCorrectAnswerWordsInSptint,
+  correctAnswerWords,
+  unCorrectAnswerWords,
   longSeries,
-}: PropsSprintModal) => {
-  const [user, setUser] = useUser();
-
-
-  
-  const getStatisticsSprint = async () => {
-    await axiosApiInstance.put(__baseUrl__ + `users/${user?.id}/statistics`);
-  };
-
-
-  const longestSeriesInGame = longSeries.sort((a, b) => b - a)[0];
-  const statisticsSprintUnAutoriz = {
-    learnedWords: 0,
-    optional: {
- 
-    },
-  };
-
-
-
-
-
+}: PropsModal) => {
   const [open, setOpen] = React.useState(true);
+
+  const longestSeriesInGame = longSeries.sort((a, b) => b-a)[0]
   let navigate = useNavigate();
   const handleClose = () => {
     setOpen(false);
     navigate(-1);
   };
+
+  Statistics( correctAnswerWords, unCorrectAnswerWords, longestSeriesInGame, 'sprint' )
   return (
     <div>
       <Modal
@@ -92,11 +75,11 @@ export const SprintModal = ({
             sx={{ background: "#058c92c4", borderRadius: "25%", p: "4px 6px" }}
           >
             <Typography component={"span"} fontSize={"1.3rem"}>
-              {correctAnswerWordsInSprint.length}
+              {correctAnswerWords.length}
             </Typography>
           </Grid>
           <Grid height={"40%"} overflow="auto">
-            {correctAnswerWordsInSprint.map((word) => (
+            {correctAnswerWords.map((word) => (
               <Box key={word?.id}>
                 <IconButton
                   aria-label="add an alarm"
@@ -138,11 +121,11 @@ export const SprintModal = ({
             sx={{ background: "#ed0000b0", borderRadius: "25%", p: "4px 6px" }}
           >
             <Typography component={"span"} fontSize={"1.3rem"}>
-              {unCorrectAnswerWordsInSptint.length}
+              {unCorrectAnswerWords.length}
             </Typography>
           </Grid>
           <Grid height={"40%"} overflow="auto">
-            {unCorrectAnswerWordsInSptint.map((word) => (
+            {unCorrectAnswerWords.map((word) => (
               <Box key={word?.id}>
                 <IconButton
                   aria-label="add an alarm"

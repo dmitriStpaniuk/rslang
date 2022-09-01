@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Grid } from "@mui/material";
 import background from "./../../assets/img/white-abstract-background.png";
 import { ArrowBack } from "@mui/icons-material";
@@ -8,7 +9,7 @@ import { ResponseData } from '../sprint/SprintGame';
 import { getArrayWords } from '../sprint/Sprint';
 import { __baseUrl__ } from "../../constant";
 import { AudioChallengeModal } from "./AudioChallengeModal";
-import { AllWordTranslate } from "./AllWordTranslate";
+import { AllWordsTranslate } from "./AllWordsTranslate";
 import goodSound from './../../assets/sounds/good.mp3';
 import badSound from './../../assets/sounds/bad.mp3';
 import { SoundButtons } from "./SuondButtons";
@@ -17,10 +18,11 @@ import { ButtonOpt, ButtonOptArrow } from "./ButtonOpt";
 
 export const shuffle = <T,>(array: T[]) => {
   return array
-    .map((value) => ({ value, sort: Math.random() }))
-    .sort((a, b) => a.sort - b.sort)
-    .map(({ value }) => value);
+  .map((value) => ({ value, sort: Math.random() }))
+  .sort((a, b) => a.sort - b.sort)
+  .map(({ value }) => value);
 };
+const longSeries: number[] = [];
 
 export const AudioChallehgeGame = () => {
   const [words, setWords] = useState<ResponseData[]>([]);
@@ -31,6 +33,12 @@ export const AudioChallehgeGame = () => {
   const [buttonOpt, setButtonOpt] = useState(false);
   const [wordsForGame, setWordsForGame] = useState<ResponseData[]>([]);
   const [isHandleSound, setIsHandleSound] = useState([badSound, goodSound]);
+
+  const [correctAnswerWordsInAudio, setCorrectAnswerWordsInAudio] = useState<ResponseData[]>([])
+  const [unCorrectAnswerWordsInAudio, setUnCorrectAnswerWordsInAudio] = useState<ResponseData[]>([])
+  const [series, setSeries] = useState(0);
+
+
   useEffect(() => {
     if (winnerWord) {
       const wordsWithoutWinner = words.filter(
@@ -71,7 +79,11 @@ export const AudioChallehgeGame = () => {
       sx={{ background: `url(${background})`, backgroundSize: "cover" }}
     >
       {isModalCondition ? (
-        <AudioChallengeModal/>
+        <AudioChallengeModal 
+          correctAnswerWords={correctAnswerWordsInAudio}
+          unCorrectAnswerWords={unCorrectAnswerWordsInAudio} 
+          longSeries={longSeries}
+          />
       ) : (
         false
       )}
@@ -139,13 +151,19 @@ export const AudioChallehgeGame = () => {
             alignItems={"center"}
             p=".3rem"
           >
-            <AllWordTranslate
+            <AllWordsTranslate
               words={wordsForGame}
               setIsWinnerImage={setIsWinnerImage}
               setButtonOpt={setButtonOpt}
               winnerWord={winnerWord}
               isHandleSound={isHandleSound}
-              // answerWord={answerWord}
+              correctAnswerWords={correctAnswerWordsInAudio}
+              unCorrectAnswerWords={unCorrectAnswerWordsInAudio}
+              setCorrectAnswerWords={setCorrectAnswerWordsInAudio}
+              setUnCorrectAnswerWords={setUnCorrectAnswerWordsInAudio}
+              series={series}
+              setSeries={setSeries}
+              longSeries={longSeries}
             />
           </Grid>
           {buttonOpt ? (

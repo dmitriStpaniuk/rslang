@@ -4,11 +4,11 @@ import Modal from "@mui/material/Modal";
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-
-import { useAnswerWordsInAudioChell, useUnAnswerWordsInAudioChell } from "./AllWordTranslate";
+// import { useAnswerWordsInAudioChell, useUnAnswerWordsInAudioChell } from "./AllWordsTranslate";
 import { Divider, Grid, IconButton } from "@mui/material";
 import { __baseUrl__ } from "../../constant";
-
+import { PropsModal } from "../sprint/SprintModal";
+import { Statistics } from "../statistics";
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -21,20 +21,17 @@ const style = {
   p: 4,
 };
 
-export const AudioChallengeModal = () => {
-  const correctAnswerWords = useContext(useAnswerWordsInAudioChell);
-  const unCorrectAnswerWords = useContext(useUnAnswerWordsInAudioChell);
+export const AudioChallengeModal = ({correctAnswerWords, unCorrectAnswerWords, longSeries}: PropsModal) => {
   const [open, setOpen] = React.useState(true);
   let navigate = useNavigate();
-  const statistirsSAudioChallenge = {
-    correctAnswerWords: correctAnswerWords.map((word) => word?.id),
-    unCorrectAnswerWords: unCorrectAnswerWords.map((word) => word?.id),
-  }
-  console.log(statistirsSAudioChallenge)
+  const longestSeriesInGame = longSeries.sort((a, b) => b-a)[0]
+
+  Statistics( correctAnswerWords, unCorrectAnswerWords, longestSeriesInGame, 'audio' )
   const handleClose = () => {
     setOpen(false);
     navigate(-1);
   };
+
   return (
     <div >
       <Modal
