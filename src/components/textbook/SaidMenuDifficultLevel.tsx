@@ -46,6 +46,7 @@ export const SaidMenuDifficultLevel = () => {
             key={action.level}
             icon={action.icon}
             onClick={() => handleClose(action.level)}
+            title={false}
           />
         ))}
       </SpeedDial>

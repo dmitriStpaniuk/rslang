@@ -31,7 +31,7 @@ export const Headers = () => {
   const data = [
     { name: "Home", icon: <HomeIcon />, path: '/' },
     { name: 'Textbook', icon: <MenuBookIcon />, path: '/difficulty/library', isPrivate: false },
-    { name: "Dictionary", icon: <TextSnippetIcon />, path: '/dictionary', isPrivate: true },
+    { name: "Hard Word", icon: <TextSnippetIcon />, path: '/dictionary', isPrivate: true },
     { name: "Games", icon: <SportsEsportsIcon />, path: '/game', isPrivate: false },
     { name: "Statistics", icon: <AnalyticsIcon />, path: '/statistic', isPrivate: false },
   ];

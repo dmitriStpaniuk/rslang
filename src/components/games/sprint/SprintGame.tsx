@@ -108,7 +108,6 @@ export const SprintGame = () => {
     playBad();
     setPoints(0);
     longSeries.push(series);
-    // console.log(longSeries)
     setSeries(0)
   };
 
