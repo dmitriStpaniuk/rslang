@@ -20,9 +20,3 @@ code {
   display: flex;
   min-height: 100%;
 }
-
-@media screen and (max-width: 600) {
-  .cardAbout{
-    background-color: brown;
-  }
-}
