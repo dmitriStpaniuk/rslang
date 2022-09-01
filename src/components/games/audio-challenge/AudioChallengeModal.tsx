@@ -30,7 +30,7 @@ export const AudioChallengeModal = () => {
     correctAnswerWords: correctAnswerWords.map((word) => word?.id),
     unCorrectAnswerWords: unCorrectAnswerWords.map((word) => word?.id),
   }
-  console.log(statistirsSAudioChallenge)
+  
   const handleClose = () => {
     setOpen(false);
     navigate(-1);

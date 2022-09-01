@@ -12,6 +12,7 @@ type PropsWordTranslate = {
   isHandleSound: string[];
 };
 
+
 export const correctAnswerWordsInAudioChell: (ResponseData | null)[] = [];
 export const unCorrectAnswerWordInAudioChells: (ResponseData | null)[] = [];
 
@@ -38,6 +39,7 @@ PropsWordTranslate) => {
     setIsActivButtun(true);
   }, [words]);
  
+  
   
     const carrectAnswer = (winnerWord: ResponseData | null) => {
       correctAnswerWordsInAudioChell.push(winnerWord);
