@@ -141,3 +141,192 @@ export const cardsAbout = [
   },
 
 ]
+
+export const arrayCards = [
+  {
+      day: '30.08',
+      learnWords: [
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+      ]
+  },
+  {
+      day: '31.08',
+      learnWords: [
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+      ]
+  },
+  {
+      day: '01.08',
+      learnWords: [
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: false,
+          },
+      ]
+  },
+  {
+      day: '02.08',
+      learnWords: [
+          {
+              learn: false,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+      ]
+  },
+  {
+      day: '03.08',
+      learnWords: [
+          {
+              learn: false,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+      ]
+  },
+  {
+      day: '04.08',
+      learnWords: [
+
+      ]
+  },
+  {
+      day: '05.08',
+      learnWords: [
+          {
+              learn: false,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+      ]
+  },
+  {
+      day: '06.08',
+      learnWords: [
+          {
+              learn: false,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+      ]
+  },
+  {
+      day: '07.08',
+      learnWords: [
+          {
+              learn: false,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+      ]
+  },
+  {
+      day: '08.08',
+      learnWords: [
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+      ]
+  },
+]
