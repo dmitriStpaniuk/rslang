@@ -111,7 +111,8 @@ export const CardTextbook = ({
 }: Card) => {
   const [currentPlaylist, setCurrentPlaylist] = useState<string[]>([]);
   const [isPlaying, pause, path] = useSound(currentPlaylist);
-
+  const hideDeleteButton = isDifficult ? true : false;
+  console.log(hideDeleteButton);
   const isPlayingCheck = (cardPlaylist: string[]) => {
     return cardPlaylist.includes(path) && isPlaying;
   };
@@ -155,14 +156,14 @@ export const CardTextbook = ({
             <AddDifficultButton
               cardId={card.id}
               handleAddDifficult={handleAddDifficult}
-              
+              hideDeleteButton={hideDeleteButton}
             />
           ) : null}
           {
             <DeleteDifficultButton
               cardId={card.id}
               handleDeleteDifficult={handleDeleteDifficult}
-              
+              hideDeleteButton={hideDeleteButton}
             />
           }
         </Grid>
