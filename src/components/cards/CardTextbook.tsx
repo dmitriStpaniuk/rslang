@@ -112,7 +112,6 @@ export const CardTextbook = ({
   const [currentPlaylist, setCurrentPlaylist] = useState<string[]>([]);
   const [isPlaying, pause, path] = useSound(currentPlaylist);
   const hideDeleteButton = isDifficult ? true : false;
-  console.log(hideDeleteButton);
   const isPlayingCheck = (cardPlaylist: string[]) => {
     return cardPlaylist.includes(path) && isPlaying;
   };
