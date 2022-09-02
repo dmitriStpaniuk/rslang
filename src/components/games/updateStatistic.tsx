@@ -1,6 +1,5 @@
 import { axiosApiInstance, __baseUrl__ } from "../constant";
 import { User } from "../UserProvider";
-
 import { ResponseData } from "./sprint/SprintGame";
 
 type StatisticWinnerWord = {
@@ -17,6 +16,7 @@ type WinrateEnty = {
 };
 
 export type Stat = {
+  id?: string;
   learnedWords: number;
   optional: {
     sprint: {
@@ -44,8 +44,7 @@ export const updateStatistic = async (
   unCorrectAnswerWords: ResponseData[],
   longestSeriesInGame: number,
   nameGame: "sprint" | "audio",
-  user: User | null,
-  // statistics: Stat
+  user: User | null
 ) => {
   const dt = new Date();
 
@@ -56,7 +55,6 @@ export const updateStatistic = async (
   const losersId = unCorrectAnswerWords.map((word) => word.id);
 
   const statistics = await getStatistic(user);
-  
 
   const currentWinnerWord = winnersId.map((id) => {
     const statWord = statistics?.optional[nameGame].winnerWords.find(
@@ -67,7 +65,7 @@ export const updateStatistic = async (
       ? { ...statWord, wins: statWord?.wins + 1 }
       : { id: id, wins: 1, date: currentDate };
   });
-  // console.log('currentWinnerWord' + currentWinnerWord)
+
   const newWinnerWords =
     statistics?.optional[nameGame].winnerWords
       .filter((winnerWord) => {
@@ -97,11 +95,13 @@ export const updateStatistic = async (
         incorrect: losersId.length,
         longestSeries: longestSeriesInGame,
       };
+
   const newHistory =
     statistics?.optional.winrateHistory.data
       .filter((entry) => entry.date !== currentDate)
       .concat(newHistoryEntry) || [];
-  const newOptions: Stat = {
+
+  let newOptions: Stat = {
     ...statistics,
     optional: {
       ...statistics?.optional,
@@ -114,7 +114,11 @@ export const updateStatistic = async (
       },
     },
   };
-
-  // console.log('newHistory ' + newHistory);
-  // console.log('newOptions' + newOptions);
+ delete newOptions.id
+ console.log(newOptions)
+  if (newOptions)
+    await axiosApiInstance.put(
+      __baseUrl__ + "users/" + user?.id + "/statistics",
+      newOptions
+    );
 };

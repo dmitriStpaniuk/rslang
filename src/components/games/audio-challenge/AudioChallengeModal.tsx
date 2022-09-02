@@ -1,15 +1,14 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-// import { useAnswerWordsInAudioChell, useUnAnswerWordsInAudioChell } from "./AllWordsTranslate";
 import { Divider, Grid, IconButton } from "@mui/material";
 import { __baseUrl__ } from "../../constant";
 import { PropsModal } from "../sprint/SprintModal";
 import { updateStatistic } from "../updateStatistic";
 import { useUser } from "../../UserProvider";
+import { useState } from "react";
 
 const style = {
   position: "absolute" as "absolute",
@@ -23,28 +22,38 @@ const style = {
   p: 4,
 };
 
-export const AudioChallengeModal = ({correctAnswerWords, unCorrectAnswerWords, longSeries}: PropsModal) => {
-  const [open, setOpen] = React.useState(true);
-  const[user] = useUser()
+export const AudioChallengeModal = ({
+  correctAnswerWords,
+  unCorrectAnswerWords,
+  longSeries,
+}: PropsModal) => {
+  const [open, setOpen] = useState(true);
+  const [user] = useUser();
   let navigate = useNavigate();
-  const longestSeriesInGame = longSeries.sort((a, b) => b-a)[0]
+  const longestSeriesInGame = longSeries.sort((a, b) => b - a)[0];
 
-  updateStatistic( correctAnswerWords, unCorrectAnswerWords, longestSeriesInGame, 'audio', user )
-  
+  updateStatistic(
+    correctAnswerWords,
+    unCorrectAnswerWords,
+    longestSeriesInGame,
+    "audio",
+    user
+  );
+
   const handleClose = () => {
     setOpen(false);
     navigate(-1);
   };
 
   return (
-    <div >
+    <div>
       <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} height={"60%"}  borderRadius= {'10px'}>
+        <Box sx={style} height={"60%"} borderRadius={"10px"}>
           <Typography component={"span"} fontSize={"1.3rem"}>
             I know
           </Typography>
