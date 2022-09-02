@@ -1,13 +1,14 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import React from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ResponseData } from "./SprintGame";
 import { Divider, Grid, IconButton } from "@mui/material";
-import {  __baseUrl__ } from "../../constant";
+import { __baseUrl__ } from "../../constant";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-import { Statistics } from "../statistics";
+import { updateStatistic } from "../updateStatistic";
+import { useUser } from "../../UserProvider";
 
 export type PropsModal = {
   correctAnswerWords: ResponseData[];
@@ -33,16 +34,23 @@ export const SprintModal = ({
   unCorrectAnswerWords,
   longSeries,
 }: PropsModal) => {
-  const [open, setOpen] = React.useState(true);
-
-  const longestSeriesInGame = longSeries.sort((a, b) => b-a)[0]
+  const [open, setOpen] = useState(true);
+  const [user] = useUser();
+  const longestSeriesInGame = longSeries.sort((a, b) => b - a)[0];
   let navigate = useNavigate();
   const handleClose = () => {
     setOpen(false);
     navigate(-1);
   };
 
-  Statistics( correctAnswerWords, unCorrectAnswerWords, longestSeriesInGame, 'sprint' )
+  updateStatistic(
+    correctAnswerWords,
+    unCorrectAnswerWords,
+    longestSeriesInGame,
+    "sprint",
+    user,
+
+  );
   return (
     <div>
       <Modal

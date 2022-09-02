@@ -8,7 +8,9 @@ import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import { Divider, Grid, IconButton } from "@mui/material";
 import { __baseUrl__ } from "../../constant";
 import { PropsModal } from "../sprint/SprintModal";
-import { Statistics } from "../statistics";
+import { updateStatistic } from "../statistics";
+import { useUser } from "../../UserProvider";
+
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -23,10 +25,12 @@ const style = {
 
 export const AudioChallengeModal = ({correctAnswerWords, unCorrectAnswerWords, longSeries}: PropsModal) => {
   const [open, setOpen] = React.useState(true);
+  const[user] = useUser()
   let navigate = useNavigate();
   const longestSeriesInGame = longSeries.sort((a, b) => b-a)[0]
 
-  Statistics( correctAnswerWords, unCorrectAnswerWords, longestSeriesInGame, 'audio' )
+  updateStatistic( correctAnswerWords, unCorrectAnswerWords, longestSeriesInGame, 'audio', user )
+  
   const handleClose = () => {
     setOpen(false);
     navigate(-1);

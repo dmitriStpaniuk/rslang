@@ -30,12 +30,12 @@ export const randomTranslate = (num: number) => {
 
 
 
-const idUser = localStorage.getItem('idUser');
-export const setResultByServer = async (card: ResponseData) => {
-    await axiosApiInstance.put(__baseUrl__ + `users/${idUser}/statistics`, {
-        "learnedWords": 0,
-        "optional": {
-            studied: false
-        }
-    })
-}
+// const idUser = localStorage.getItem('idUser');
+// export const setResultByServer = async (card: ResponseData) => {
+//     await axiosApiInstance.put(__baseUrl__ + `users/${idUser}/statistics`, {
+//         "learnedWords": 0,
+//         "optional": {
+//             studied: false
+//         }
+//     })
+// }
