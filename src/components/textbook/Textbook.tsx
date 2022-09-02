@@ -12,6 +12,7 @@ import { SaidMenuDifficultLevel } from "./SaidMenuDifficultLevel";
 import AgricultureIcon from "@mui/icons-material/Agriculture";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
 import { Link as RouterLink } from "react-router-dom";
+import { AudioChallehgeGame } from "../games/audio-challenge/AudioChallengeGame";
 
 export type Word = {
   audio: string;
@@ -260,7 +261,7 @@ export const Textbook = () => {
           </Stack>
         </Grid>
         <Grid item md={10} justifyContent="center" sx={{ pb: 2, mt: 1 }}>
-          {/* <RouterLink to={`audio/level/${lewelDiff}`}> */}
+          <RouterLink to={`audio/level/${lewelDiff}`}>
             <Button
               // path={`audio/level/${lewelDiff}`}
               sx={{ mr: 1 }}
@@ -269,7 +270,7 @@ export const Textbook = () => {
             >
               Sprint
             </Button>
-          {/* </RouterLink> */}
+          </RouterLink>
           <Button variant="contained" startIcon={<HeadphonesIcon />}>
             Audio challenge
           </Button>
