@@ -41,16 +41,15 @@ export const SprintModal = ({
   const handleClose = () => {
     setOpen(false);
     navigate(-1);
+    updateStatistic(
+      correctAnswerWords,
+      unCorrectAnswerWords,
+      longestSeriesInGame,
+      "sprint",
+      user,
+    );
   };
 
-  updateStatistic(
-    correctAnswerWords,
-    unCorrectAnswerWords,
-    longestSeriesInGame,
-    "sprint",
-    user,
-
-  );
   return (
     <div>
       <Modal
