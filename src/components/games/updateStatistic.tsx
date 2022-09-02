@@ -1,6 +1,5 @@
 import { axiosApiInstance, __baseUrl__ } from "../constant";
 import { User } from "../UserProvider";
-
 import { ResponseData } from "./sprint/SprintGame";
 
 type StatisticWinnerWord = {
@@ -17,6 +16,7 @@ type WinrateEnty = {
 };
 
 export type Stat = {
+  id?: string;
   learnedWords: number;
   optional: {
     sprint: {
@@ -64,12 +64,11 @@ export const updateStatistic = async (
       ? { ...statWord, wins: statWord?.wins + 1 }
       : { id: id, wins: 1, date: currentDate };
   });
-  // console.log('currentWinnerWord' + currentWinnerWord)
+
   const newWinnerWords =
     statistics?.optional[nameGame].winnerWords
       .filter((winnerWord) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        !winnersId.includes(winnerWord.id);
+        return !winnersId.includes(winnerWord.id);
       })
       .concat(currentWinnerWord)
       .filter(({ id }) => !losersId.includes(id)) || [];
@@ -82,7 +81,7 @@ export const updateStatistic = async (
     ? {
         ...existedHistoryEntry,
         correct: existedHistoryEntry.correct + winnersId.length,
-        incorrect: existedHistoryEntry.correct + losersId.length,
+        incorrect: existedHistoryEntry.incorrect + losersId.length,
         longestSeries: Math.max(
           existedHistoryEntry.longestSeries,
           longestSeriesInGame
@@ -94,11 +93,13 @@ export const updateStatistic = async (
         incorrect: losersId.length,
         longestSeries: longestSeriesInGame,
       };
+
   const newHistory =
     statistics?.optional.winrateHistory.data
       .filter((entry) => entry.date !== currentDate)
       .concat(newHistoryEntry) || [];
-  const newOptions: Stat = {
+
+  let newOptions: Stat = {
     ...statistics,
     optional: {
       ...statistics?.optional,
@@ -111,7 +112,11 @@ export const updateStatistic = async (
       },
     },
   };
-
-  // console.log(newHistory);
+  delete newOptions.id;
+  //  console.log(newOptions)
   console.log(newOptions);
+  await axiosApiInstance.put(
+    __baseUrl__ + "users/" + user?.id + "/statistics",
+    newOptions
+  );
 };

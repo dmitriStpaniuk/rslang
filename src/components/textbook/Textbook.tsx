@@ -69,9 +69,9 @@ const addUserWord = async (
     `${__baseUrl__}users/${userId}/words/${cardId}`,
     factory(difficulty)
   );
+
   return result.data;
 };
-
 const responseNonAotorization = async (group: number, page: number) => {
   return await axios.get(__baseUrl__ + `words?page=${page - 1}&group=${group}`);
 };
@@ -85,9 +85,7 @@ export const Textbook = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [difficultWords, setDifficultWords] = useState<WordUser[]>([]);
   const [learnedWords, setLearnedWords] = useState<WordUser[]>([]);
-
   const [user] = useUser();
-
   const location = useLocation();
   const lewelDiff = location.pathname.split("/").at(-1);
   const page = searchParams.get("page") || "1";
@@ -103,7 +101,7 @@ export const Textbook = () => {
         setLearnedWords(learnedWords);
       });
     }
-  }, [user]);
+  }, [user, page, lewelDiff]);
 
   useEffect(() => {
     if (lewelDiff)
@@ -159,6 +157,12 @@ export const Textbook = () => {
     }
   };
 
+  const learnWordsPageBackground: string | undefined = cards.every(
+    (word) => word.isDifficult || word.isLearned
+  )
+    ? alfaBackground(0.3, "7")
+    : alfaBackground(0.3, lewelDiff);
+
   const handleDeleteDifficult = async (cardId: string) => {
     if (user) {
       setDifficultWords((difficultWords) =>
@@ -186,7 +190,7 @@ export const Textbook = () => {
     <Grid
       justifyContent="center"
       container
-      sx={{ background: alfaBackground(0.3, lewelDiff) }}
+      sx={{ background: learnWordsPageBackground }}
     >
       <Grid
         container
@@ -260,19 +264,20 @@ export const Textbook = () => {
           </Stack>
         </Grid>
         <Grid item md={10} justifyContent="center" sx={{ pb: 2, mt: 1 }}>
-          {/* <RouterLink to={`audio/level/${lewelDiff}`}> */}
+          <RouterLink to={`/audio/level/${lewelDiff}`}>
             <Button
-              // path={`audio/level/${lewelDiff}`}
               sx={{ mr: 1 }}
               variant="contained"
               startIcon={<AgricultureIcon />}
             >
               Sprint
             </Button>
-          {/* </RouterLink> */}
-          <Button variant="contained" startIcon={<HeadphonesIcon />}>
-            Audio challenge
-          </Button>
+          </RouterLink>
+          <RouterLink to={`/sprint/level/${lewelDiff}`}>
+            <Button variant="contained" startIcon={<HeadphonesIcon />}>
+              Audio challenge
+            </Button>
+          </RouterLink>
         </Grid>
       </Grid>
     </Grid>
