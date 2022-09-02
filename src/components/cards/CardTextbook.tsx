@@ -115,6 +115,7 @@ export const CardTextbook = ({
   const isPlayingCheck = (cardPlaylist: string[]) => {
     return cardPlaylist.includes(path) && isPlaying;
   };
+  
   const background = isLearned ? "green" : isDifficult ? "orange" : "white";
   return (
     <Grid

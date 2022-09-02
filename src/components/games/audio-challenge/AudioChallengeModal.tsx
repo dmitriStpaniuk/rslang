@@ -32,16 +32,16 @@ export const AudioChallengeModal = ({
   let navigate = useNavigate();
   const longestSeriesInGame = longSeries.sort((a, b) => b - a)[0];
 
-  updateStatistic(
-    correctAnswerWords,
-    unCorrectAnswerWords,
-    longestSeriesInGame,
-    "audio",
-    user
-  );
-
+  
   const handleClose = () => {
     setOpen(false);
+    updateStatistic(
+      correctAnswerWords,
+      unCorrectAnswerWords,
+      longestSeriesInGame,
+      "audio",
+      user
+    );
     navigate(-1);
   };
 
