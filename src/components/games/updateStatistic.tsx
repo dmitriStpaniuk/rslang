@@ -44,8 +44,7 @@ export const updateStatistic = async (
   unCorrectAnswerWords: ResponseData[],
   longestSeriesInGame: number,
   nameGame: "sprint" | "audio",
-  user: User | null,
-  // statistics: Stat
+  user: User | null
 ) => {
   const dt = new Date();
 
@@ -56,13 +55,11 @@ export const updateStatistic = async (
   const losersId = unCorrectAnswerWords.map((word) => word.id);
 
   const statistics = await getStatistic(user);
-  
 
   const currentWinnerWord = winnersId.map((id) => {
     const statWord = statistics?.optional[nameGame].winnerWords.find(
       (winnerWord) => winnerWord.id === id
     );
-
     return statWord
       ? { ...statWord, wins: statWord?.wins + 1 }
       : { id: id, wins: 1, date: currentDate };
@@ -115,6 +112,6 @@ export const updateStatistic = async (
     },
   };
 
-  // console.log('newHistory ' + newHistory);
-  // console.log('newOptions' + newOptions);
+  // console.log(newHistory);
+  console.log(newOptions);
 };

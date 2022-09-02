@@ -33,15 +33,6 @@ export type ResponseData = {
   textMeaningTranslate?: string;
   wordTranslate: string;
 };
-// export const correctAnswerWordsInSprint: ResponseData[] = [];
-// export const unCorrectAnswerWordsInSptint: ResponseData[] = [];
-
-// export const useAnswerWordsInSprint = React.createContext(
-//   correctAnswerWordsInSprint
-// );
-// export const useUnAnswerWordsInSprint = React.createContext(
-//   unCorrectAnswerWordsInSptint
-// );
 
 export const SprintGame = () => {
   const [index, setIndex] = useState<number>(0);
@@ -52,10 +43,10 @@ export const SprintGame = () => {
   const [playBad] = useSound(badSound);
   const [points, setPoints] = useState<number>(0);
   const [series, setSeries] = useState(0);
-  const longSeries: number[] = [];
   const [correctAnswerWordsInSprint, setCorrectAnswerWordsInSprint] = useState<ResponseData[]>([])
   const [unCorrectAnswerWordsInSprint, setUnCorrectAnswerWordsInSprint] = useState<ResponseData[]>([])
-
+  const [longSeries, setLongSeries]=useState<number[]>([])
+  
   useEffect(() => {
     getArrayWords(group).then((a) => setWords(a.data));
   }, []);
@@ -110,7 +101,7 @@ export const SprintGame = () => {
     setUnCorrectAnswerWordsInSprint([...unCorrectAnswerWordsInSprint, words[index]]);
     playBad();
     setPoints(0);
-    longSeries.push(series);
+    setLongSeries([...longSeries, series])
     setSeries(0)
   };
 

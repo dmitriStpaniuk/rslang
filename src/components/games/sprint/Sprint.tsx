@@ -1,7 +1,7 @@
 import axios from "axios"
-import { axiosApiInstance, __baseUrl__ } from "../../constant"
+import { __baseUrl__ } from "../../constant"
 import { CountdownCircleTimer } from "react-countdown-circle-timer"
-import { ResponseData } from "./SprintGame"
+
 
 export const getArrayWords = async (group: string | undefined) => {
     return await axios.get(__baseUrl__ + `words?page=${randomPage()}&group=${group}`)

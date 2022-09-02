@@ -43,6 +43,7 @@ export const SprintModal = ({
     navigate(-1);
   };
 
+
   updateStatistic(
     correctAnswerWords,
     unCorrectAnswerWords,
