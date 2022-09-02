@@ -11,10 +11,11 @@ import { SignIn } from './registration/SignIn';
 import { Textbook } from './textbook/Textbook';
 import { SprintGame } from './games/sprint/SprintGame';
 import { AudioChallehgeGame } from "./games/audio-challenge/AudioChallengeGame";
+import { Footer } from "./Footer";
 
 const Placeholder = () => (
   <Grid
-    sx={{ p: 2, mt: 10 }}
+    sx={{pr: 2, pl: 2, mt: 2 }}
     container
     maxWidth={"1900px"}
     spacing={1}
@@ -37,6 +38,7 @@ const Placeholder = () => (
     <Grid item xs={false} md={9} display={{ xs: "none", sm: "block" }}>
       <CardMedia component="img" image={mainImg} alt="main-img" />
     </Grid>
+    <Footer />
   </Grid>
 );
 export const Main = () => {

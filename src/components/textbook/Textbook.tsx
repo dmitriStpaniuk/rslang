@@ -1,4 +1,4 @@
-import { Grid, Pagination } from "@mui/material";
+import { Button, Grid, Pagination } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
@@ -9,6 +9,9 @@ import { alfaBackground } from "./alfaBackground";
 import { User, useUser } from "../UserProvider";
 import { getUserWords, WordUser } from "../dictionary/Dictionary";
 import { SaidMenuDifficultLevel } from "./SaidMenuDifficultLevel";
+import AgricultureIcon from "@mui/icons-material/Agriculture";
+import HeadphonesIcon from "@mui/icons-material/Headphones";
+import { Link as RouterLink } from "react-router-dom";
 
 export type Word = {
   audio: string;
@@ -89,7 +92,6 @@ export const Textbook = () => {
   const lewelDiff = location.pathname.split("/").at(-1);
   const page = searchParams.get("page") || "1";
 
-
   useEffect(() => {
     if (user) {
       getUserWords(user.id).then((words) => {
@@ -154,7 +156,6 @@ export const Textbook = () => {
       setDifficultWords((difficultWords) =>
         difficultWords?.concat(newDifficultWord)
       );
-
     }
   };
 
@@ -163,7 +164,6 @@ export const Textbook = () => {
       setDifficultWords((difficultWords) =>
         difficultWords?.filter((card) => card.wordId !== cardId)
       );
-
     }
   };
 
@@ -236,7 +236,6 @@ export const Textbook = () => {
                 handleAddDifficult={handleAddDifficult}
                 handleDeleteDifficult={handleDeleteDifficult}
                 handleLearnWord={handleLearnWord}
-              
               />
             );
           })}
@@ -260,9 +259,20 @@ export const Textbook = () => {
             />
           </Stack>
         </Grid>
-        <Grid item md={10} justifyContent="center" sx={{ pb: 2 }}>
-          <Grid item>Аудиовызов</Grid>
-          <Grid item>Спринт</Grid>
+        <Grid item md={10} justifyContent="center" sx={{ pb: 2, mt: 1 }}>
+          {/* <RouterLink to={`audio/level/${lewelDiff}`}> */}
+            <Button
+              // path={`audio/level/${lewelDiff}`}
+              sx={{ mr: 1 }}
+              variant="contained"
+              startIcon={<AgricultureIcon />}
+            >
+              Sprint
+            </Button>
+          {/* </RouterLink> */}
+          <Button variant="contained" startIcon={<HeadphonesIcon />}>
+            Audio challenge
+          </Button>
         </Grid>
       </Grid>
     </Grid>
