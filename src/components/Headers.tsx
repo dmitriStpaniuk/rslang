@@ -39,7 +39,7 @@ export const Headers = () => {
 
   const getList = () => (
     <div style={{ width: 250 }} onClick={() => setOpen(false)}>
-      {data.map((item, index) => (
+      {data.map((item) => (
         <div key={item.name}>
           {item.isPrivate
             ? <PrivateNavMenuItem path={item.path} icon={item.icon} name={item.name} />

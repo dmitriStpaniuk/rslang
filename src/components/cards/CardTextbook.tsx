@@ -193,6 +193,7 @@ export const CardTextbook = ({
           color: "white",
           border: "1px solid white",
           borderRadius: "10px",
+          height:'100%',
           width: {
             md: "65%",
             sm: "100%",
