@@ -8,7 +8,7 @@ import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import { Divider, Grid, IconButton } from "@mui/material";
 import { __baseUrl__ } from "../../constant";
 import { PropsModal } from "../sprint/SprintModal";
-import { updateStatistic } from "../statistics";
+import { updateStatistic } from "../updateStatistic";
 import { useUser } from "../../UserProvider";
 
 const style = {
