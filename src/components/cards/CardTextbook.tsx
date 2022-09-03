@@ -177,6 +177,7 @@ export const CardTextbook = ({
           component="img"
           sx={{
             borderRadius: "10px",
+            height:"100%"
           }}
           image={__baseUrl__ + card.image}
           alt={card.word}
@@ -253,7 +254,7 @@ export const CardTextbook = ({
                   justifyContent: "flex-start",
                 }}
               >
-                <WordsLearnedCounter />
+                <WordsLearnedCounter cardId={card.id} />
                 {!isPlayingCheck([
                   __baseUrl__ + card.audio,
                   __baseUrl__ + card.audioExample,

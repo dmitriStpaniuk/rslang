@@ -31,7 +31,7 @@ export type Stat = {
   };
 };
 
-const getStatistic = async (user: User | null) => {
+export const getStatistic = async (user: User | null) => {
   const response = await axiosApiInstance.get<Stat>(
     __baseUrl__ + `users/${user?.id}/statistics`
   );
@@ -113,8 +113,7 @@ export const updateStatistic = async (
     },
   };
   delete newOptions.id;
-  //  console.log(newOptions)
-  console.log(newOptions);
+
   await axiosApiInstance.put(
     __baseUrl__ + "users/" + user?.id + "/statistics",
     newOptions

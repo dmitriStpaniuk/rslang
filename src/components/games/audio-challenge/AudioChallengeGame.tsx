@@ -75,7 +75,7 @@ export const AudioChallehgeGame = () => {
       container
       justifyContent="center"
       alignItems="center"
-      height={"100%"}
+      height="calc(100vh - 65px)"
       sx={{ background: `url(${background})`, backgroundSize: "cover" }}
     >
       {isModalCondition ? (
