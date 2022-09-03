@@ -92,7 +92,7 @@ PropsWordsTranslate) => {
     </Grid>
   );
 };
-function setCorrectAnswerWordsInAudio(arg0: any[]) {
-  throw new Error("Function not implemented.");
-}
+// function setCorrectAnswerWordsInAudio(arg0: any[]) {
+//   throw new Error("Function not implemented.");
+// }
 

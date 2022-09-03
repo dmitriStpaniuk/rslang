@@ -3,10 +3,10 @@ import { Grid } from "@mui/material";
 import background from "./../../assets/img/white-abstract-background.png";
 import { ArrowBack } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { ResponseData } from "../sprint/SprintGame";
-import { getArrayWords } from "../sprint/Sprint";
+import { getArrayWords, randomPage } from "../sprint/Sprint";
 import { __baseUrl__ } from "../../constant";
 import { AudioChallengeModal } from "./AudioChallengeModal";
 import { AllWordsTranslate } from "./AllWordsTranslate";
@@ -33,7 +33,11 @@ export const AudioChallehgeGame = () => {
   const [buttonOpt, setButtonOpt] = useState(false);
   const [wordsForGame, setWordsForGame] = useState<ResponseData[]>([]);
   const [isHandleSound, setIsHandleSound] = useState([badSound, goodSound]);
-
+  const [searchParams, setSearchParams] = useSearchParams();
+  useEffect(() => {
+    setSearchParams({ page: String(randomPage()) });
+  }, []);
+  const page = searchParams.get('page') || '1'
   const [correctAnswerWordsInAudio, setCorrectAnswerWordsInAudio] = useState<
     ResponseData[]
   >([]);
@@ -54,7 +58,7 @@ export const AudioChallehgeGame = () => {
   }, [winnerWord, words]);
 
   useEffect(() => {
-    getArrayWords(group).then((a) => setWords(a.data));
+    getArrayWords(group, page).then((a) => setWords(a.data));
   }, []);
 
   useEffect(() => {
@@ -71,7 +75,7 @@ export const AudioChallehgeGame = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const group = location.pathname.split("/").at(-1);
+  const group = String(Number(location.pathname.split("/").at(-1)) -1);
 
   return (
     <Grid

@@ -113,8 +113,7 @@ export const updateStatistic = async (
     },
   };
   delete newOptions.id;
-  //  console.log(newOptions)
-  console.log(newOptions);
+  
   await axiosApiInstance.put(
     __baseUrl__ + "users/" + user?.id + "/statistics",
     newOptions
