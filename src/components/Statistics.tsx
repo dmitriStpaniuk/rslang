@@ -1,23 +1,29 @@
 import * as React from "react";
 import sprintImg from "./assets/img/sprint.png";
 import audioImg from "./assets/img/audio.png";
-import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
+import background from "./assets/img/white-abstract-background.png";
+import {  Card, CardContent, Grid, Typography } from "@mui/material";
+import { getStatistic } from "./games/updateStatistic";
+import { useUser } from "./UserProvider";
 
 export const Statistics = () => {
+  const [user] = useUser();
+    const statInfo =  getStatistic(user)
+  console.log(user)
+  const stat =  statInfo.then((value) => value.optional.winrateHistory.data)
+ console.log(stat)
   return (
-    <Box 
-      display={"flex"}
-      justifyContent={"flex-start"}
-      // alignContent={'center'}
+    <Grid container
+      justifyContent="flex-start"
       gap={2}
       flexDirection="column"
       p={5}
-      height={"calc(100hv - 64px)"}
-      width={'100%'}
-      sx={{ background: "rgb(245, 245, 245)" }}
+      height="calc(100vh - 65px)"
+      width='100%'
+      sx={{ background: `url(${background})`, backgroundSize: "cover" }}
     >
       <Grid textAlign={'center'}>
-        <Typography sx={{ fontSize: "2rem" }}>Today</Typography>
+        <Typography variant="h4">Today</Typography>
       </Grid>
       <Grid container gap={2} justifyContent={"center"}>
         <Grid item>
@@ -138,6 +144,6 @@ export const Statistics = () => {
           </Card>
         </Grid>
       </Grid>
-    </Box>
+    </Grid>
   );
 };

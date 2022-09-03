@@ -33,9 +33,7 @@ export type Stat = {
 
 export const getStatistic = async (user: User | null) => {
   const response = await axiosApiInstance.get<Stat>(
-    __baseUrl__ + `users/${user?.id}/statistics`
-  );
-
+    __baseUrl__ + `users/${user?.id}/statistics`)
   return response.data;
 };
 

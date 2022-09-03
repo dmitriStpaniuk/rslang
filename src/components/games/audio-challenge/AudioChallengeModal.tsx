@@ -42,7 +42,7 @@ export const AudioChallengeModal = ({
       "audio",
       user
     );
-    navigate(-1);
+    navigate(-2);
   };
 
   return (

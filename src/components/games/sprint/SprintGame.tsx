@@ -80,8 +80,8 @@ export const SprintGame = () => {
       </Box>
     );
   }
-  let navigate = useNavigate();
-  // console.log(location)
+  const navigate = useNavigate();
+
   const translateWordInCard = words[randomTranslate(index)]?.wordTranslate;
   const comparison = () => {
     return words[index]?.wordTranslate === translateWordInCard;
@@ -124,7 +124,7 @@ export const SprintGame = () => {
 
   setTimeout(() => {
     setModal(true);
-  }, 60000);
+  }, 6000);
   const wordAudio = words.length
     ? new Audio(__baseUrl__ + `${words[index].audio}`)
     : null;

@@ -39,8 +39,8 @@ export const SprintModal = ({
   const longestSeriesInGame = longSeries.sort((a, b) => b - a)[0];
   let navigate = useNavigate();
   const handleClose = () => {
+    navigate(-2);
     setOpen(false);
-    navigate(-1);
     updateStatistic(
       correctAnswerWords,
       unCorrectAnswerWords,
