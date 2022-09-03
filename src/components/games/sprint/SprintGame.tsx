@@ -50,19 +50,20 @@ export const SprintGame = () => {
     useState<ResponseData[]>([]);
   const [longSeries, setLongSeries] = useState<number[]>([]);
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
+  const page = searchParams.get("page");
   useEffect(() => {
-    setSearchParams({ page: String(randomPage()) });
-  }, []);
-  const page = searchParams.get('page') || '1'
-  useEffect(() => {
-    getArrayWords(group, page).then((a) => setWords(a.data));
+    if (!searchParams.get("page")) setSearchParams({ page: String(randomPage()) });
   }, []);
 
-  const newPage = async () => {
-    await getArrayWords(group, page)
-      .then((a) => setWords(a.data))
-      .then(() => setIndex(0));
-  };
+  const group = String(Number(location.pathname.split("/").at(-1)) - 1);
+  useEffect(() => {
+    if (page) {
+      getArrayWords(group, page as string)
+        .then((a) => setWords(a.data))
+        .then(() => setIndex(0));
+    }
+  }, [page, group]);
 
   const biggestPoints = () => {
     let x = 10;
@@ -80,8 +81,7 @@ export const SprintGame = () => {
     );
   }
   let navigate = useNavigate();
-  const location = useLocation();
-  const group = String(Number(location.pathname.split("/").at(-1)) - 1);
+  // console.log(location)
   const translateWordInCard = words[randomTranslate(index)]?.wordTranslate;
   const comparison = () => {
     return words[index]?.wordTranslate === translateWordInCard;
@@ -95,7 +95,11 @@ export const SprintGame = () => {
     newWord();
   };
   const newWord = () => {
-    index < 19 ? setIndex(index + 1) : newPage();
+   if (page) {
+    index < 19
+    ? setIndex((index) => index + 1)
+    : setSearchParams({ page: String(+page === 30 ? 1: +page + 1) });
+   }
   };
   const right = () => {
     setCorrectAnswerWordsInSprint([

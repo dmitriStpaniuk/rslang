@@ -34,10 +34,14 @@ export const AudioChallehgeGame = () => {
   const [wordsForGame, setWordsForGame] = useState<ResponseData[]>([]);
   const [isHandleSound, setIsHandleSound] = useState([badSound, goodSound]);
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const page = searchParams.get("page") || '1';
   useEffect(() => {
-    setSearchParams({ page: String(randomPage()) });
+    if (!searchParams.get("page")) setSearchParams({ page: String(randomPage()) });
   }, []);
-  const page = searchParams.get('page') || '1'
+
   const [correctAnswerWordsInAudio, setCorrectAnswerWordsInAudio] = useState<
     ResponseData[]
   >([]);
@@ -58,6 +62,7 @@ export const AudioChallehgeGame = () => {
   }, [winnerWord, words]);
 
   useEffect(() => {
+    if(page)
     getArrayWords(group, page).then((a) => setWords(a.data));
   }, []);
 
@@ -73,8 +78,8 @@ export const AudioChallehgeGame = () => {
     sound?.play();
   }, [words, indexWinnerWord]);
 
-  const navigate = useNavigate();
-  const location = useLocation();
+ 
+ 
   const group = String(Number(location.pathname.split("/").at(-1)) -1);
 
   return (
