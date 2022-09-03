@@ -1,4 +1,4 @@
-import { Grid, Link, Paper } from "@mui/material";
+import { Grid, Link } from "@mui/material";
 import rsSchool from "./assets/img/rs_school.svg";
 
 const dateTeam = [

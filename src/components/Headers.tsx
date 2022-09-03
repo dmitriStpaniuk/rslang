@@ -11,6 +11,7 @@ import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import withAuth from './WithAuth';
 import { axiosApiInstance, __baseUrl__ } from './constant';
+import { Footer } from './Footer';
 
 type NavMenuItemProps = {
   path: string;
@@ -50,7 +51,7 @@ export const Headers = () => {
   );
 
   return (
-    <div style={{ display: 'flex', width: '100%' }}>
+    <div style={{ display: 'flex', width: '100%',flexDirection: 'column', height:'50vh' }}>
       <AppBar position="fixed">
         <Toolbar>
           <IconButton
@@ -104,6 +105,7 @@ export const Headers = () => {
         {getList()}
       </Drawer>
       <Main />
+        {/* <Footer /> */}
     </div >
   )
 }

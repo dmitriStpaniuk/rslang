@@ -4,7 +4,7 @@ import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import { __baseUrl__ } from "../../constant";
 import VolumeMuteIcon from "@mui/icons-material/VolumeMute";
 import background from "./../../assets/img/white-abstract-background.png";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { SprintModal } from "./SprintModal";
@@ -120,7 +120,7 @@ export const SprintGame = () => {
 
   setTimeout(() => {
     setModal(true);
-  }, 10000);
+  }, 60000);
   const wordAudio = words.length
     ? new Audio(__baseUrl__ + `${words[index].audio}`)
     : null;
@@ -133,7 +133,7 @@ export const SprintGame = () => {
       container
       justifyContent="center"
       alignItems="center"
-      height={"100%"}
+      height={"calc(100vh - 65px)"}
       sx={{ background: `url(${background})` }}
     >
       <Grid

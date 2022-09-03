@@ -8,6 +8,7 @@ import { red } from '@mui/material/colors';
 import { Button } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 
+
 type CardMainProps = {
   img: string,
   title: string,
@@ -36,8 +37,8 @@ export const CardMain = ({ img, title, discription, src }: CardMainProps) => {
         <Typography variant="body2" color="text.secondary">
           {discription}
         </Typography>
-        <RouterLink to={`difficulty/${title.toLowerCase()}`}>
-          <Button> Start </Button>
+        <RouterLink to={`/difficulty/${title.toLowerCase()}`}>
+          <Button size="small" sx={{ display: 'inline-block', textDecoration: 'none', borderRadius: '10%' }} variant="contained"> Start </Button>
         </RouterLink>
       </CardContent>
 

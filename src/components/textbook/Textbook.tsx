@@ -12,6 +12,7 @@ import { SaidMenuDifficultLevel } from "./SaidMenuDifficultLevel";
 import AgricultureIcon from "@mui/icons-material/Agriculture";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
 import { Link as RouterLink } from "react-router-dom";
+import { Footer } from "../Footer";
 
 export type Word = {
   audio: string;
@@ -72,6 +73,7 @@ const addUserWord = async (
 
   return result.data;
 };
+
 const responseNonAotorization = async (group: number, page: number) => {
   return await axios.get(__baseUrl__ + `words?page=${page - 1}&group=${group}`);
 };
@@ -157,14 +159,20 @@ export const Textbook = () => {
     }
   };
 
-  const learnWordsPageBackground: string | undefined = cards.every(
+  const isPageDifficult = cards.every(
     (word) => word.isDifficult || word.isLearned
-  )
+  );
+
+  const learnWordsPageBackground = isPageDifficult
     ? alfaBackground(0.3, "7")
     : alfaBackground(0.3, lewelDiff);
+  const isGameButtonDisabled = isPageDifficult;
 
   const handleDeleteDifficult = async (cardId: string) => {
     if (user) {
+      await axiosApiInstance.delete(
+        __baseUrl__ + `users/${user.id}/words/${cardId}`
+      );
       setDifficultWords((difficultWords) =>
         difficultWords?.filter((card) => card.wordId !== cardId)
       );
@@ -264,21 +272,29 @@ export const Textbook = () => {
           </Stack>
         </Grid>
         <Grid item md={10} justifyContent="center" sx={{ pb: 2, mt: 1 }}>
-          <RouterLink to={`/audio/level/${lewelDiff}`}>
-            <Button
-              sx={{ mr: 1 }}
-              variant="contained"
-              startIcon={<AgricultureIcon />}
-            >
-              Sprint
-            </Button>
-          </RouterLink>
-          <RouterLink to={`/sprint/level/${lewelDiff}`}>
-            <Button variant="contained" startIcon={<HeadphonesIcon />}>
-              Audio challenge
-            </Button>
-          </RouterLink>
+          <Button
+            component={RouterLink}
+            to={`/sprint/level/${lewelDiff}?page=${page || 1}`}
+            disabled={isGameButtonDisabled}
+            sx={{ mr: 1, textDecoration: "none" }}
+            variant="contained"
+            startIcon={<AgricultureIcon />}
+          >
+            Sprint
+          </Button>
+
+          <Button
+            component={RouterLink}
+            to={`/audio/level/${lewelDiff}?page=${page || 1}`}
+            disabled={isGameButtonDisabled}
+            sx={{ textDecoration: "none" }}
+            variant="contained"
+            startIcon={<HeadphonesIcon />}
+          >
+            Audio challenge
+          </Button>
         </Grid>
+        <Footer />
       </Grid>
     </Grid>
   );
