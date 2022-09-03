@@ -5,13 +5,13 @@ import { __baseUrl__ } from "../../constant";
 import VolumeMuteIcon from "@mui/icons-material/VolumeMute";
 import background from "./../../assets/img/white-abstract-background.png";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { SprintModal } from "./SprintModal";
-import { getArrayWords, randomTranslate, Timer } from "./Sprint";
+import { getArrayWords, randomPage, randomTranslate, Timer } from "./Sprint";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-import useSound from 'use-sound';
+import useSound from "use-sound";
 import goodSound from "./../../assets/sounds/good.mp3";
 import badSound from "./../../assets/sounds/bad.mp3";
 import Box from "@mui/material/Box";
@@ -43,19 +43,27 @@ export const SprintGame = () => {
   const [playBad] = useSound(badSound);
   const [points, setPoints] = useState<number>(0);
   const [series, setSeries] = useState(0);
-  const longSeries: number[] = [];
-  const [correctAnswerWordsInSprint, setCorrectAnswerWordsInSprint] = useState<ResponseData[]>([])
-  const [unCorrectAnswerWordsInSprint, setUnCorrectAnswerWordsInSprint] = useState<ResponseData[]>([])
-
+  const [correctAnswerWordsInSprint, setCorrectAnswerWordsInSprint] = useState<
+    ResponseData[]
+  >([]);
+  const [unCorrectAnswerWordsInSprint, setUnCorrectAnswerWordsInSprint] =
+    useState<ResponseData[]>([]);
+  const [longSeries, setLongSeries] = useState<number[]>([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
+  const page = searchParams.get("page");
   useEffect(() => {
-    getArrayWords(group).then((a) => setWords(a.data));
+    if (!searchParams.get("page")) setSearchParams({ page: String(randomPage()) });
   }, []);
 
-  const newPage = async () => {
-    await getArrayWords(group)
-      .then((a) => setWords(a.data))
-      .then(() => setIndex(0));
-  };
+  const group = String(Number(location.pathname.split("/").at(-1)) - 1);
+  useEffect(() => {
+    if (page) {
+      getArrayWords(group, page as string)
+        .then((a) => setWords(a.data))
+        .then(() => setIndex(0));
+    }
+  }, [page, group]);
 
   const biggestPoints = () => {
     let x = 10;
@@ -73,8 +81,7 @@ export const SprintGame = () => {
     );
   }
   let navigate = useNavigate();
-  const location = useLocation();
-  const group = location.pathname.split("/").at(-1);
+  // console.log(location)
   const translateWordInCard = words[randomTranslate(index)]?.wordTranslate;
   const comparison = () => {
     return words[index]?.wordTranslate === translateWordInCard;
@@ -88,21 +95,31 @@ export const SprintGame = () => {
     newWord();
   };
   const newWord = () => {
-    index < 19 ? setIndex(index + 1) : newPage();
+   if (page) {
+    index < 19
+    ? setIndex((index) => index + 1)
+    : setSearchParams({ page: String(+page === 30 ? 1: +page + 1) });
+   }
   };
   const right = () => {
-    setCorrectAnswerWordsInSprint([...correctAnswerWordsInSprint, words[index]])
+    setCorrectAnswerWordsInSprint([
+      ...correctAnswerWordsInSprint,
+      words[index],
+    ]);
     playGood();
     setCounter(counter + biggestPoints());
     setPoints(points + 1);
     setSeries(series + 1);
   };
   const wrong = () => {
-    setUnCorrectAnswerWordsInSprint([...unCorrectAnswerWordsInSprint, words[index]]);
+    setUnCorrectAnswerWordsInSprint([
+      ...unCorrectAnswerWordsInSprint,
+      words[index],
+    ]);
     playBad();
     setPoints(0);
-    longSeries.push(series);
-    setSeries(0)
+    setLongSeries([...longSeries, series]);
+    setSeries(0);
   };
 
   setTimeout(() => {
@@ -135,7 +152,7 @@ export const SprintGame = () => {
             count={counter}
             correctAnswerWords={correctAnswerWordsInSprint}
             unCorrectAnswerWords={unCorrectAnswerWordsInSprint}
-            longSeries = { longSeries }
+            longSeries={longSeries}
           />
         ) : (
           false

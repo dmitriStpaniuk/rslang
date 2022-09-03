@@ -274,7 +274,7 @@ export const Textbook = () => {
         <Grid item md={10} justifyContent="center" sx={{ pb: 2, mt: 1 }}>
           <Button
             component={RouterLink}
-            to={`/sprint/level/${lewelDiff}?page=${page || 1}`}
+            to={`/sprint/level/${lewelDiff}?page=${page}`}
             disabled={isGameButtonDisabled}
             sx={{ mr: 1, textDecoration: "none" }}
             variant="contained"
@@ -285,7 +285,7 @@ export const Textbook = () => {
 
           <Button
             component={RouterLink}
-            to={`/audio/level/${lewelDiff}?page=${page || 1}`}
+            to={`/audio/level/${lewelDiff}?page=${page}`}
             disabled={isGameButtonDisabled}
             sx={{ textDecoration: "none" }}
             variant="contained"

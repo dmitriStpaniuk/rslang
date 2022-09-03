@@ -13,6 +13,7 @@ import { SprintGame } from './games/sprint/SprintGame';
 import { AudioChallehgeGame } from "./games/audio-challenge/AudioChallengeGame";
 import { Footer } from "./Footer";
 import { GamePage } from "./GamePage";
+import { Statistics } from "./Statistics";
 
 const Placeholder = () => (
   <Grid
@@ -63,6 +64,7 @@ export const Main = () => {
         <Route path="library/level/:id" element={<Textbook />} />
         <Route path="sprint/level/:id" element={<SprintGame />} />
         <Route path="audio/level/:id" element={<AudioChallehgeGame />} />
+        <Route path="/statistic" element={<Statistics />} />
         <Route path="game" element={<GamePage />} />
       </Routes>
     </Box>

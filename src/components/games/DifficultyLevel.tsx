@@ -6,9 +6,10 @@ import FormControlLabel, {
 import Radio from '@mui/material/Radio';
 import { Button, FormControl, FormLabel, Grid } from '@mui/material';
 import { difficulty } from '../constant';
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { Footer } from '../Footer';
+import { randomPage } from './sprint/Sprint';
 
 interface StyledFormControlLabelProps extends FormControlLabelProps {
   checked: boolean;
@@ -39,6 +40,7 @@ export default function DifficultyLevel() {
   const [value, setValue] = useState('');
   const [, setHelperText] = useState('Choose wisely');
   const [difficultyId, setDifficultyId] = useState('1')
+
 
 
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
