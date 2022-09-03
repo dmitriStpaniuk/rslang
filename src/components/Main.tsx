@@ -12,6 +12,7 @@ import { Textbook } from './textbook/Textbook';
 import { SprintGame } from './games/sprint/SprintGame';
 import { AudioChallehgeGame } from "./games/audio-challenge/AudioChallengeGame";
 import { Footer } from "./Footer";
+import { GamePage } from "./GamePage";
 
 const Placeholder = () => (
   <Grid
@@ -48,7 +49,7 @@ export const Main = () => {
         mt: 8,
         display: "flex",
         width: "100%",
-        minHeight: "calc(100vh - 64px)",
+        // height: "calc(100vh - 64px)",
         justifyContent: "center",
       }}
     >
@@ -62,6 +63,7 @@ export const Main = () => {
         <Route path="library/level/:id" element={<Textbook />} />
         <Route path="sprint/level/:id" element={<SprintGame />} />
         <Route path="audio/level/:id" element={<AudioChallehgeGame />} />
+        <Route path="game" element={<GamePage />} />
       </Routes>
     </Box>
   );
