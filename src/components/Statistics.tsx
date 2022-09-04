@@ -5,7 +5,6 @@ import { Card, CardContent, Grid, Typography } from "@mui/material";
 import { getStatistic, Stat } from "./games/updateStatistic";
 import { useUser } from "./UserProvider";
 import { useEffect, useState } from "react";
-import { CompressOutlined } from "@mui/icons-material";
 export const Statistics = () => {
   const [user] = useUser();
   const [dataStatistic, setStatInfo] = useState<Stat>();
