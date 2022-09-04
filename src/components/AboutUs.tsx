@@ -1,7 +1,7 @@
 import { Grid, Typography } from "@mui/material";
 import { CardOurTeam, dataTeam } from "./cards/CardOurTeam";
 
-export const AboutAs = () => {
+export const AboutUs = () => {
   return (
     <Grid
       sx={{
