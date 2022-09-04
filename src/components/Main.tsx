@@ -62,7 +62,6 @@ export const Main = () => {
         <Route path="register" element={<Registration />} />
         <Route path="profile" element={<ProfileUser />} />
         <Route path="dictionary" element={<Dictionary />} />
-        <Route path="statistic" element={<Statistic />} />
         <Route path="about-us" element={<AboutUs />} />
         <Route path="difficulty/:id" element={<DifficultyLevel />} />
         <Route path="library/level/:id" element={<Textbook />} />
