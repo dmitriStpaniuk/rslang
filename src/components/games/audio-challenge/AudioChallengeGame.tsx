@@ -38,6 +38,7 @@ export const AudioChallehgeGame = () => {
   const navigate = useNavigate();
 
   const page = searchParams.get("page") || '1';
+  const [series, setSeries] = useState(0);
   useEffect(() => {
     if (!searchParams.get("page")) setSearchParams({ page: String(randomPage()) });
   }, []);
@@ -47,7 +48,6 @@ export const AudioChallehgeGame = () => {
   >([]);
   const [unCorrectAnswerWordsInAudio, setUnCorrectAnswerWordsInAudio] =
     useState<ResponseData[]>([]);
-  const [series, setSeries] = useState(0);
 
   useEffect(() => {
     if (winnerWord) {

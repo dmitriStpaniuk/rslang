@@ -1,18 +1,26 @@
 import { axiosApiInstance, __baseUrl__ } from "../constant";
+import { getUserWords, WordUser } from "../dictionary/Dictionary";
+import {
+  addUserWord,
+  learnedWordFactory,
+  unlearnWordFactory,
+} from "../textbook/Textbook";
 import { User } from "../UserProvider";
 import { ResponseData } from "./sprint/SprintGame";
 
 type StatisticWinnerWord = {
   id: string;
   wins: number;
-  date: string;
 };
 
 type WinrateEnty = {
   date: string;
-  correct: number;
-  incorrect: number;
-  longestSeries: number;
+  audioCorrect: number;
+  audioIncorrect: number;
+  sprintCorrect: number;
+  sprintIncorrect: number;
+  sprintLongestSeries: number;
+  audioLongestSeries: number;
 };
 
 export type Stat = {
@@ -33,7 +41,8 @@ export type Stat = {
 
 export const getStatistic = async (user: User | null) => {
   const response = await axiosApiInstance.get<Stat>(
-    __baseUrl__ + `users/${user?.id}/statistics`)
+    __baseUrl__ + `users/${user?.id}/statistics`
+  );
   return response.data;
 };
 
@@ -42,7 +51,7 @@ export const updateStatistic = async (
   unCorrectAnswerWords: ResponseData[],
   longestSeriesInGame: number,
   nameGame: "sprint" | "audio",
-  user: User | null
+  user: User
 ) => {
   const dt = new Date();
 
@@ -52,6 +61,18 @@ export const updateStatistic = async (
   const winnersId = correctAnswerWords.map((word) => word.id);
   const losersId = unCorrectAnswerWords.map((word) => word.id);
 
+  const losersAudioId =
+    nameGame === "audio" ? unCorrectAnswerWords.map((word) => word.id) : [];
+  const losersSprintId =
+    nameGame === "sprint" ? unCorrectAnswerWords.map((word) => word.id) : [];
+  const winnersAudioId =
+    nameGame === "audio" ? correctAnswerWords.map((word) => word.id) : [];
+  const winnersSprintId =
+    nameGame === "sprint" ? correctAnswerWords.map((word) => word.id) : [];
+
+  const sprintLongestSeries = nameGame === "sprint" ? longestSeriesInGame : 0;
+  const audioLongestSeries = nameGame === "audio" ? longestSeriesInGame : 0;
+
   const statistics = await getStatistic(user);
 
   const currentWinnerWord = winnersId.map((id) => {
@@ -60,8 +81,28 @@ export const updateStatistic = async (
     );
     return statWord
       ? { ...statWord, wins: statWord?.wins + 1 }
-      : { id: id, wins: 1, date: currentDate };
+      : { id: id, wins: 1 };
   });
+
+  const url = document.location.pathname;
+  const lewelDiff = url.split("/").at(-1) as string;
+
+  const arrSprintAudio = statistics?.optional.audio.winnerWords.concat(
+    statistics?.optional.sprint.winnerWords
+  );
+
+  const userWords = await getUserWords(user.id);
+
+  const losersPromises = losersAudioId
+    .concat(losersSprintId)
+    .map((id) => addUserWord(lewelDiff, user.id, id, unlearnWordFactory));
+
+  arrSprintAudio
+    .filter((word) => word.wins === 3)
+    .forEach((objWinId) => {
+      if (user)
+        addUserWord(lewelDiff, user?.id, objWinId.id, learnedWordFactory);
+    });
 
   const newWinnerWords =
     statistics?.optional[nameGame].winnerWords
@@ -75,21 +116,38 @@ export const updateStatistic = async (
     (entry) => entry.date === currentDate
   );
 
+  const learnedWords = userWords.filter(
+    (word) => word.optional.isLearned
+  ).length;
+console.log(userWords)
+
   const newHistoryEntry = existedHistoryEntry
     ? {
         ...existedHistoryEntry,
-        correct: existedHistoryEntry.correct + winnersId.length,
-        incorrect: existedHistoryEntry.incorrect + losersId.length,
-        longestSeries: Math.max(
-          existedHistoryEntry.longestSeries,
-          longestSeriesInGame
+        audioCorrect: existedHistoryEntry.audioCorrect + winnersAudioId.length,
+        audioIncorrect:
+          existedHistoryEntry.audioIncorrect + losersAudioId.length,
+        sprintCorrect:
+          existedHistoryEntry.sprintCorrect + losersSprintId.length,
+        sprintIncorrect:
+          existedHistoryEntry.sprintIncorrect + losersSprintId.length,
+        audioLongestSeries: Math.max(
+          existedHistoryEntry.audioLongestSeries,
+          audioLongestSeries
+        ),
+        sprintLongestSeries: Math.max(
+          existedHistoryEntry.sprintLongestSeries,
+          sprintLongestSeries
         ),
       }
     : {
         date: currentDate,
-        correct: winnersId.length,
-        incorrect: losersId.length,
-        longestSeries: longestSeriesInGame,
+        audioCorrect: winnersAudioId.length,
+        audioIncorrect: losersAudioId.length,
+        sprintCorrect: winnersSprintId.length,
+        sprintIncorrect: losersSprintId.length,
+        sprintLongestSeries: sprintLongestSeries,
+        audioLongestSeries: audioLongestSeries,
       };
 
   const newHistory =
@@ -99,8 +157,11 @@ export const updateStatistic = async (
 
   let newOptions: Stat = {
     ...statistics,
+    learnedWords: learnedWords,
+
     optional: {
       ...statistics?.optional,
+
       [nameGame]: {
         ...statistics?.optional[nameGame],
         winnerWords: newWinnerWords,
@@ -116,4 +177,5 @@ export const updateStatistic = async (
     __baseUrl__ + "users/" + user?.id + "/statistics",
     newOptions
   );
+  await Promise.all(losersPromises);
 };

@@ -53,8 +53,9 @@ PropsWordsTranslate) => {
       if(winnerWord)
       setCorrectAnswerWords([...correctAnswerWords, winnerWord])
       setSeries(series + 1)
+    longSeries.push(series + 1);
+    console.log(longSeries)
     playGood()
-
   };
   const unCarrectAnswer = (winnerWord: ResponseData | null) => {
     if(winnerWord)
@@ -92,7 +93,5 @@ PropsWordsTranslate) => {
     </Grid>
   );
 };
-// function setCorrectAnswerWordsInAudio(arg0: any[]) {
-//   throw new Error("Function not implemented.");
-// }
+
 

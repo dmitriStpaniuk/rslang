@@ -37,17 +37,19 @@ export const SprintModal = ({
   const [open, setOpen] = useState(true);
   const [user] = useUser();
   const longestSeriesInGame = longSeries.sort((a, b) => b - a)[0];
-  let navigate = useNavigate();
-  const handleClose = () => {
-    navigate(-2);
-    setOpen(false);
-    updateStatistic(
-      correctAnswerWords,
-      unCorrectAnswerWords,
-      longestSeriesInGame,
-      "sprint",
-      user,
-    );
+  const navigate = useNavigate();
+  const handleClose = async () => {
+    if (user) {
+      await updateStatistic(
+        correctAnswerWords,
+        unCorrectAnswerWords,
+        longestSeriesInGame,
+        "sprint",
+        user
+        );
+      }
+      setOpen(false);
+      navigate('/difficulty/sprint');
   };
 
   return (

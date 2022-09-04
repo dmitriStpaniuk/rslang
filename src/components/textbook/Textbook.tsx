@@ -55,13 +55,24 @@ export const learnedWordFactory = (difficulty: string) => {
   return obj;
 };
 
-type LearnedWordFactory = typeof learnedWordFactory;
+export type LearnedWordFactory = typeof learnedWordFactory;
 
-const addUserWord = async (
+export const unlearnWordFactory = () => {
+  return {
+    optional: {
+      isLearned: false,
+    },
+  };
+};
+
+export type UnlearnWOrdFactory = typeof unlearnWordFactory
+
+
+export const addUserWord = async (
   difficulty: string,
   userId: User["id"],
   cardId: string,
-  factory: DifficultWordFactory | LearnedWordFactory
+  factory: DifficultWordFactory | LearnedWordFactory | UnlearnWOrdFactory
 ) => {
   const allUserWords = await getUserWords(userId);
   const currentWord = allUserWords.find((word) => word.wordId === cardId);
