@@ -11,6 +11,8 @@ import { Main } from './Main';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import withAuth from './WithAuth';
+import { axiosApiInstance, __baseUrl__ } from './constant';
+import { Footer } from './Footer';
 
 type NavMenuItemProps = {
   path: string;
@@ -32,7 +34,7 @@ export const Headers = () => {
   const data = [
     { name: "Home", icon: <HomeIcon />, path: '/' },
     { name: 'Textbook', icon: <MenuBookIcon />, path: '/difficulty/library', isPrivate: false },
-    { name: "Dictionary", icon: <TextSnippetIcon />, path: '/dictionary', isPrivate: true },
+    { name: "Hard Word", icon: <TextSnippetIcon />, path: '/dictionary', isPrivate: true },
     { name: "Games", icon: <SportsEsportsIcon />, path: '/game', isPrivate: false },
     { name: "Statistics", icon: <AnalyticsIcon />, path: '/statistic', isPrivate: false },
     { name: "About us", icon: <GroupsIcon />, path: '/about-us', isPrivate: false }
@@ -40,7 +42,7 @@ export const Headers = () => {
 
   const getList = () => (
     <div style={{ width: 250 }} onClick={() => setOpen(false)}>
-      {data.map((item, index) => (
+      {data.map((item) => (
         <div key={item.name}>
           {item.isPrivate
             ? <PrivateNavMenuItem path={item.path} icon={item.icon} name={item.name} />
@@ -51,7 +53,7 @@ export const Headers = () => {
   );
 
   return (
-    <div style={{ display: 'flex', width: '100%' }}>
+    <div style={{ display: 'flex', width: '100%',flexDirection: 'column', height:'50vh' }}>
       <AppBar position="fixed">
         <Toolbar>
           <IconButton
@@ -105,6 +107,7 @@ export const Headers = () => {
         {getList()}
       </Drawer>
       <Main />
+        {/* <Footer /> */}
     </div >
   )
 }

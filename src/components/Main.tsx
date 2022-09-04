@@ -11,12 +11,15 @@ import { SignIn } from './registration/SignIn';
 import { Textbook } from './textbook/Textbook';
 import { SprintGame } from './games/sprint/SprintGame';
 import { AudioChallehgeGame } from "./games/audio-challenge/AudioChallengeGame";
+import { Footer } from "./Footer";
+import { GamePage } from "./GamePage";
+import { Statistics } from "./Statistics";
 import { AboutUs } from "./AboutUs.tsx/AboutUs";
-import { Statistic } from "./statistic/Statistic";
+
 
 const Placeholder = () => (
   <Grid
-    sx={{ p: 2, mt: 10 }}
+    sx={{pr: 2, pl: 2, mt: 2 }}
     container
     maxWidth={"1900px"}
     spacing={1}
@@ -39,6 +42,7 @@ const Placeholder = () => (
     <Grid item xs={false} md={9} display={{ xs: "none", sm: "block" }}>
       <CardMedia component="img" image={mainImg} alt="main-img" />
     </Grid>
+    <Footer />
   </Grid>
 );
 export const Main = () => {
@@ -48,7 +52,7 @@ export const Main = () => {
         mt: 8,
         display: "flex",
         width: "100%",
-        minHeight: "calc(100vh - 64px)",
+        // height: "calc(100vh - 64px)",
         justifyContent: "center",
       }}
     >
@@ -58,12 +62,13 @@ export const Main = () => {
         <Route path="register" element={<Registration />} />
         <Route path="profile" element={<ProfileUser />} />
         <Route path="dictionary" element={<Dictionary />} />
-        <Route path="statistic" element={<Statistic />} />
         <Route path="about-us" element={<AboutUs />} />
         <Route path="difficulty/:id" element={<DifficultyLevel />} />
         <Route path="library/level/:id" element={<Textbook />} />
         <Route path="sprint/level/:id" element={<SprintGame />} />
         <Route path="audio/level/:id" element={<AudioChallehgeGame />} />
+        <Route path="/statistic" element={<Statistics />} />
+        <Route path="game" element={<GamePage />} />
       </Routes>
     </Box>
   );

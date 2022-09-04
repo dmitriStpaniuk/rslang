@@ -4,21 +4,21 @@ import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 import { __baseUrl__ } from "../../constant";
 import VolumeMuteIcon from "@mui/icons-material/VolumeMute";
 import background from "./../../assets/img/white-abstract-background.png";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { SprintModal } from "./SprintModal";
-import { getArrayWords, randomTranslate, Timer } from "./Sprint";
+import { getArrayWords, randomPage, randomTranslate, Timer } from "./Sprint";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-import useSound from 'use-sound';
+import useSound from "use-sound";
 import goodSound from "./../../assets/sounds/good.mp3";
 import badSound from "./../../assets/sounds/bad.mp3";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 
 export type ResponseData = {
-  id?: string;
+  id: string;
   group?: number;
   page?: number;
   word: string;
@@ -33,16 +33,6 @@ export type ResponseData = {
   textMeaningTranslate?: string;
   wordTranslate: string;
 };
-export const correctAnswerWordsInSprint: (ResponseData | null)[] = [];
-export const unCorrectAnswerWordsInSptint: (ResponseData | null)[] = [];
-
-export const useAnswerWordsInSprint = React.createContext(
-  correctAnswerWordsInSprint
-);
-export const useUnAnswerWordsInSprint = React.createContext(
-  unCorrectAnswerWordsInSptint
-);
-const longSeries: number[] = [];
 
 export const SprintGame = () => {
   const [index, setIndex] = useState<number>(0);
@@ -53,15 +43,27 @@ export const SprintGame = () => {
   const [playBad] = useSound(badSound);
   const [points, setPoints] = useState<number>(0);
   const [series, setSeries] = useState(0);
+  const [correctAnswerWordsInSprint, setCorrectAnswerWordsInSprint] = useState<
+    ResponseData[]
+  >([]);
+  const [unCorrectAnswerWordsInSprint, setUnCorrectAnswerWordsInSprint] =
+    useState<ResponseData[]>([]);
+  const [longSeries, setLongSeries] = useState<number[]>([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
+  const page = searchParams.get("page");
   useEffect(() => {
-    getArrayWords(group).then((a) => setWords(a.data));
+    if (!searchParams.get("page")) setSearchParams({ page: String(randomPage()) });
   }, []);
 
-  const newPage = async () => {
-    await getArrayWords(group)
-      .then((a) => setWords(a.data))
-      .then(() => setIndex(0));
-  };
+  const group = String(Number(location.pathname.split("/").at(-1)) - 1);
+  useEffect(() => {
+    if (page) {
+      getArrayWords(group, page as string)
+        .then((a) => setWords(a.data))
+        .then(() => setIndex(0));
+    }
+  }, [page, group]);
 
   const biggestPoints = () => {
     let x = 10;
@@ -79,8 +81,7 @@ export const SprintGame = () => {
     );
   }
   let navigate = useNavigate();
-  const location = useLocation();
-  const group = location.pathname.split("/").at(-1);
+  // console.log(location)
   const translateWordInCard = words[randomTranslate(index)]?.wordTranslate;
   const comparison = () => {
     return words[index]?.wordTranslate === translateWordInCard;
@@ -94,22 +95,31 @@ export const SprintGame = () => {
     newWord();
   };
   const newWord = () => {
-    index < 19 ? setIndex(index + 1) : newPage();
+   if (page) {
+    index < 19
+    ? setIndex((index) => index + 1)
+    : setSearchParams({ page: String(+page === 30 ? 1: +page + 1) });
+   }
   };
   const right = () => {
-    correctAnswerWordsInSprint.push(words[index]);
+    setCorrectAnswerWordsInSprint([
+      ...correctAnswerWordsInSprint,
+      words[index],
+    ]);
     playGood();
     setCounter(counter + biggestPoints());
     setPoints(points + 1);
     setSeries(series + 1);
   };
   const wrong = () => {
-    unCorrectAnswerWordsInSptint.push(words[index]);
+    setUnCorrectAnswerWordsInSprint([
+      ...unCorrectAnswerWordsInSprint,
+      words[index],
+    ]);
     playBad();
     setPoints(0);
-    longSeries.push(series);
-    // console.log(longSeries)
-    setSeries(0)
+    setLongSeries([...longSeries, series]);
+    setSeries(0);
   };
 
   setTimeout(() => {
@@ -121,12 +131,13 @@ export const SprintGame = () => {
   const meaningAudio = words.length
     ? new Audio(`${__baseUrl__ + words[index].audioMeaning}`)
     : null;
+
   return (
     <Grid
       container
       justifyContent="center"
       alignItems="center"
-      height={"100%"}
+      height={"calc(100vh - 65px)"}
       sx={{ background: `url(${background})` }}
     >
       <Grid
@@ -139,9 +150,9 @@ export const SprintGame = () => {
         {modal ? (
           <SprintModal
             count={counter}
-            correctAnswerWordsInSprint={correctAnswerWordsInSprint}
-            unCorrectAnswerWordsInSptint={unCorrectAnswerWordsInSptint}
-            longSeries = { longSeries }
+            correctAnswerWords={correctAnswerWordsInSprint}
+            unCorrectAnswerWords={unCorrectAnswerWordsInSprint}
+            longSeries={longSeries}
           />
         ) : (
           false

@@ -6,8 +6,10 @@ import FormControlLabel, {
 import Radio from '@mui/material/Radio';
 import { Button, FormControl, FormLabel, Grid } from '@mui/material';
 import { difficulty } from '../constant';
-import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { Footer } from '../Footer';
+import { randomPage } from './sprint/Sprint';
 
 interface StyledFormControlLabelProps extends FormControlLabelProps {
   checked: boolean;
@@ -40,6 +42,7 @@ export default function DifficultyLevel() {
   const [difficultyId, setDifficultyId] = useState('1')
 
 
+
   const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue((event.target as HTMLInputElement).value);
     setHelperText(' ');
@@ -49,7 +52,7 @@ export default function DifficultyLevel() {
   const gameLink = `/${location.pathname.split('/').at(-1)}/level/${difficultyId}`
 
   return (
-    <Grid container direction='column' alignItems='center' sx={{
+    <Grid position={'relative'} container direction='column' alignItems='center' sx={{
       width: '100%',
       position: "relative",
       maxWidth:'1900px',
@@ -91,7 +94,7 @@ export default function DifficultyLevel() {
             )}
           </Grid>
         </RadioGroup>
-        <Grid item sx={{ mt: 3, textAlign: 'center' }} >
+        <Grid item sx={{ mt: 3, textAlign: 'center',mb:6}} >
           <Link to={gameLink}>
             <Button sx={{ display: 'inline-block', textDecoration: 'none', borderRadius: '50%', height: '4.5rem' }} type="submit" variant="contained">
               Start
@@ -99,6 +102,9 @@ export default function DifficultyLevel() {
           </Link>
         </Grid>
       </FormControl>
+      <Grid position={'absolute'} sx={{width:"100%", bottom:0, background:'f9f9f9'}}>
+        <Footer />
+      </Grid>
     </Grid>
 
   );
