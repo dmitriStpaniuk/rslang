@@ -43,7 +43,7 @@ export const CardOurTeam = ({
         container
         sx={{ border: "1px solid #1976D2", borderRadius: "10px" }}
       >
-        <Grid sx={{p:2, width:'40%'}}>
+        <Grid sx={{p:2, width:'15%'}}>
           <CardMedia
             component="img"
             image={img}
@@ -51,7 +51,7 @@ export const CardOurTeam = ({
             sx={{ borderRadius: "10px" , p:1, objectFit:'contain'}}
           />
         </Grid>
-        <Grid item sx={{p:2, width:'60%'}}>
+        <Grid item sx={{p:2, width:'85%'}}>
           <Typography gutterBottom variant="h5" component="div" sx={{textAlign:'center', fontSize:'2rem'}}>
             {title}
           </Typography>
