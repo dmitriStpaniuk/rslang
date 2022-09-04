@@ -109,6 +109,7 @@ export const SprintGame = () => {
     playGood();
     setCounter(counter + biggestPoints());
     setPoints(points + 1);
+    setLongSeries([...longSeries, series]);
     setSeries(series + 1);
   };
   const wrong = () => {
