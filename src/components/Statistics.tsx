@@ -2,13 +2,71 @@ import * as React from "react";
 import sprintImg from "./assets/img/sprint.png";
 import audioImg from "./assets/img/audio.png";
 import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
+import { arrayCards } from "./constant";
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+  } from 'chart.js';
+import { Line } from 'react-chartjs-2';
 
 export const Statistics = () => {
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+  );
+  
+  const options = {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false,
+          position: 'top' as const,
+        },
+        title: {
+          display: true,
+          text: 'Learned word count',
+        },
+      },
+    };
+  
+  const labels = arrayCards.map((item) => item.day);
+  const arrayLearn = arrayCards.map((item) => item.learnWords)
+  const arrayFilter = arrayLearn.map((e)=>e.filter(item => item.learn === true).length);
+  
+  const data = {
+    labels,
+    datasets: [
+      {
+        data: (arrayFilter),
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+    ],
+  };
+  
+  const styles = {
+      div: {
+          width: "75%",
+      }
+  }
+
   return (
     <Box 
       display={"flex"}
       justifyContent={"flex-start"}
       // alignContent={'center'}
+      alignItems={"center"}
       gap={2}
       flexDirection="column"
       p={5}
@@ -138,6 +196,9 @@ export const Statistics = () => {
           </Card>
         </Grid>
       </Grid>
+      <div style={styles.div}>
+            <Line options={options} data={data} updateMode='resize'/>;
+      </div>
     </Box>
   );
 };
