@@ -15,7 +15,7 @@ import { Footer } from "./Footer";
 import { GamePage } from "./GamePage";
 import { Statistics } from "./Statistics";
 import { AboutUs } from "./AboutUs.tsx/AboutUs";
-import { Statistic } from "./statistic/Statistic";
+
 
 const Placeholder = () => (
   <Grid
