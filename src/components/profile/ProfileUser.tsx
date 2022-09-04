@@ -19,7 +19,7 @@ export const ProfileUser = () => {
         <Button onClick={exitProfile}>sign out</Button>
       </Grid>
       <Grid   item xs={8} md={8}>
-          <Typography>Statistic</Typography>
+          {/* <Typography>Statistic</Typography> */}
       </Grid>
     </Grid>
   )
