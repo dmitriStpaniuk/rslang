@@ -197,7 +197,7 @@ export const Statistics = () => {
         </Grid>
       </Grid>
       <div style={styles.div}>
-            <Line options={options} data={data} updateMode='resize'/>;
+            <Line options={options} data={data} updateMode='resize'/>
       </div>
     </Box>
   );
