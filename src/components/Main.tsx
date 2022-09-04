@@ -14,6 +14,8 @@ import { AudioChallehgeGame } from "./games/audio-challenge/AudioChallengeGame";
 import { Footer } from "./Footer";
 import { GamePage } from "./GamePage";
 import { Statistics } from "./Statistics";
+import { AboutUs } from "./AboutUs.tsx/AboutUs";
+import { Statistic } from "./statistic/Statistic";
 
 const Placeholder = () => (
   <Grid
@@ -60,6 +62,8 @@ export const Main = () => {
         <Route path="register" element={<Registration />} />
         <Route path="profile" element={<ProfileUser />} />
         <Route path="dictionary" element={<Dictionary />} />
+        <Route path="statistic" element={<Statistic />} />
+        <Route path="about-us" element={<AboutUs />} />
         <Route path="difficulty/:id" element={<DifficultyLevel />} />
         <Route path="library/level/:id" element={<Textbook />} />
         <Route path="sprint/level/:id" element={<SprintGame />} />

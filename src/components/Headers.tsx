@@ -6,6 +6,7 @@ import { useState } from 'react';
 import HomeIcon from '@mui/icons-material/Home';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
+import GroupsIcon from '@mui/icons-material/Groups';
 import { Main } from './Main';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
@@ -36,6 +37,7 @@ export const Headers = () => {
     { name: "Hard Word", icon: <TextSnippetIcon />, path: '/dictionary', isPrivate: true },
     { name: "Games", icon: <SportsEsportsIcon />, path: '/game', isPrivate: false },
     { name: "Statistics", icon: <AnalyticsIcon />, path: '/statistic', isPrivate: false },
+    { name: "About us", icon: <GroupsIcon />, path: '/about-us', isPrivate: false }
   ];
 
   const getList = () => (
