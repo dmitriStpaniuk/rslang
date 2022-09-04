@@ -54,7 +54,6 @@ PropsWordsTranslate) => {
       setCorrectAnswerWords([...correctAnswerWords, winnerWord])
       setSeries(series + 1)
     longSeries.push(series + 1);
-    console.log(longSeries)
     playGood()
   };
   const unCarrectAnswer = (winnerWord: ResponseData | null) => {
