@@ -24,6 +24,6 @@ export const randomPage = () => {
 }
 
 export const randomTranslate = (num: number) => {
-    let x = Math.round(Math.random() * 2)
-    return x > 1 ? Math.round(Math.random() * 19) : num
+    let x = Math.round(Math.random() * 4)
+    return x > 2 ? Math.round(Math.random() * 19) : num
 }

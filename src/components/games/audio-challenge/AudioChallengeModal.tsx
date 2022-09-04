@@ -32,17 +32,18 @@ export const AudioChallengeModal = ({
   let navigate = useNavigate();
   const longestSeriesInGame = longSeries.sort((a, b) => b - a)[0];
 
-  
-  const handleClose = () => {
+  const handleClose = async () => {
+    if (user) {
+      await updateStatistic(
+        correctAnswerWords,
+        unCorrectAnswerWords,
+        longestSeriesInGame,
+        "audio",
+        user
+      );
+    }
     setOpen(false);
-    updateStatistic(
-      correctAnswerWords,
-      unCorrectAnswerWords,
-      longestSeriesInGame,
-      "audio",
-      user
-    );
-    navigate(-1);
+    navigate('/difficulty/audio');
   };
 
   return (
