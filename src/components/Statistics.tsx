@@ -5,6 +5,17 @@ import { Card, CardContent, Grid, Typography } from "@mui/material";
 import { getStatistic, Stat } from "./games/updateStatistic";
 import { useUser } from "./UserProvider";
 import { useEffect, useState } from "react";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+
 export const Statistics = () => {
   const [user] = useUser();
   const [dataStatistic, setStatInfo] = useState<Stat>();
@@ -13,6 +24,46 @@ export const Statistics = () => {
     // setStatInfo(data);
     if (user) getStatistic(user).then(setStatInfo);
   }, [user]);
+
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+  );
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Learned word count',
+      },
+    },
+  };
+  const labels= dataStatistic?.optional.winrateHistory.data.map((item) => item.date);
+
+  const data = {
+    labels,
+    datasets: [
+      {
+        data: [5],
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+    ],
+  };
+  
+  const styles = {
+      div: {
+          width: "50%",
+      }
+  }
 
   const pathStat = dataStatistic?.optional.winrateHistory.data[0];
   const accAudio = pathStat?.audioCorrect;
@@ -46,6 +97,7 @@ export const Statistics = () => {
       justifyContent="flex-start"
       gap={2}
       flexDirection="column"
+      alignItems="center"
       p={5}
       height="calc(100vh - 65px)"
       width="100%"
@@ -176,6 +228,9 @@ export const Statistics = () => {
           </Card>
         </Grid>
       </Grid>
+      <div style={styles.div}>
+        <Bar options={options} data={data} updateMode='resize'/>
+      </div>
     </Grid>
   );
 };
