@@ -14,6 +14,7 @@ import { AudioChallehgeGame } from "./games/audio-challenge/AudioChallengeGame";
 import { Footer } from "./Footer";
 import { GamePage } from "./GamePage";
 import { Statistics } from "./Statistics";
+import { AboutAs } from "./AboutAs";
 import { AboutUs } from "./AboutUs.tsx/AboutUs";
 import { Statistic } from "./statistic/Statistic";
 
@@ -42,6 +43,7 @@ const Placeholder = () => (
     <Grid item xs={false} md={9} display={{ xs: "none", sm: "block" }}>
       <CardMedia component="img" image={mainImg} alt="main-img" />
     </Grid>
+    <AboutAs/>
     <Footer />
   </Grid>
 );

@@ -5,7 +5,7 @@ import { ResponseData } from "./sprint/SprintGame";
 type StatisticWinnerWord = {
   id: string;
   wins: number;
-  date: string;
+  // date: string;
 };
 
 type WinrateEnty = {
@@ -62,7 +62,7 @@ export const updateStatistic = async (
     );
     return statWord
       ? { ...statWord, wins: statWord?.wins + 1 }
-      : { id: id, wins: 1, date: currentDate };
+      : { id: id, wins: 1 };
   });
 
   const newWinnerWords =
