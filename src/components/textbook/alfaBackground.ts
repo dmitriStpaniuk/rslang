@@ -7,7 +7,6 @@ const ColorBacground = [
   "#BF7E46",
   "#39ABB8",
   "#7E368E",
-  "#0cfa07"
 ]
 export const alfaBackground = (alfa: number, lewelDiff?: string) => {
   if (lewelDiff) return alpha(ColorBacground[+lewelDiff - 1], alfa);

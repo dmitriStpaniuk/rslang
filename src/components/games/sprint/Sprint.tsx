@@ -1,10 +1,10 @@
 import axios from "axios"
-import { __baseUrl__ } from "../../constant"
+import { axiosApiInstance, __baseUrl__ } from "../../constant"
 import { CountdownCircleTimer } from "react-countdown-circle-timer"
+import { ResponseData } from "./SprintGame"
 
-
-export const getArrayWords = async (group: string | undefined, page:string) => {
-    return await axios.get(__baseUrl__ + `words?page=${+page-1}&group=${group}`)
+export const getArrayWords = async (group: string | undefined) => {
+    return await axios.get(__baseUrl__ + `words?page=${randomPage()}&group=${group}`)
 }
 
 export const Timer = () => (
@@ -26,4 +26,16 @@ export const randomPage = () => {
 export const randomTranslate = (num: number) => {
     let x = Math.round(Math.random() * 2)
     return x > 1 ? Math.round(Math.random() * 19) : num
+}
+
+
+
+const idUser = localStorage.getItem('idUser');
+export const setResultByServer = async (card: ResponseData) => {
+    await axiosApiInstance.put(__baseUrl__ + `users/${idUser}/statistics`, {
+        "learnedWords": 0,
+        "optional": {
+            studied: false
+        }
+    })
 }

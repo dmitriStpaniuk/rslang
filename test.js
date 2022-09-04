@@ -32,5 +32,3 @@ switch (x) {
     console.log("by");
 }
 
-const qq = [{a:10},{a:5}]
-

@@ -1,17 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Grid } from "@mui/material";
 import background from "./../../assets/img/white-abstract-background.png";
 import { ArrowBack } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { ResponseData } from "../sprint/SprintGame";
-import { getArrayWords, randomPage } from "../sprint/Sprint";
+import { ResponseData } from '../sprint/SprintGame';
+import { getArrayWords } from '../sprint/Sprint';
 import { __baseUrl__ } from "../../constant";
 import { AudioChallengeModal } from "./AudioChallengeModal";
-import { AllWordsTranslate } from "./AllWordsTranslate";
-import goodSound from "./../../assets/sounds/good.mp3";
-import badSound from "./../../assets/sounds/bad.mp3";
+import { AllWordTranslate } from "./AllWordTranslate";
+import goodSound from './../../assets/sounds/good.mp3';
+import badSound from './../../assets/sounds/bad.mp3';
 import { SoundButtons } from "./SuondButtons";
 import { BigAudioButton, ShowWinnerImage } from "./ListenButtonArea";
 import { ButtonOpt, ButtonOptArrow } from "./ButtonOpt";
@@ -22,7 +21,6 @@ export const shuffle = <T,>(array: T[]) => {
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value);
 };
-const longSeries: number[] = [];
 
 export const AudioChallehgeGame = () => {
   const [words, setWords] = useState<ResponseData[]>([]);
@@ -33,22 +31,6 @@ export const AudioChallehgeGame = () => {
   const [buttonOpt, setButtonOpt] = useState(false);
   const [wordsForGame, setWordsForGame] = useState<ResponseData[]>([]);
   const [isHandleSound, setIsHandleSound] = useState([badSound, goodSound]);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const page = searchParams.get("page") || '1';
-  useEffect(() => {
-    if (!searchParams.get("page")) setSearchParams({ page: String(randomPage()) });
-  }, []);
-
-  const [correctAnswerWordsInAudio, setCorrectAnswerWordsInAudio] = useState<
-    ResponseData[]
-  >([]);
-  const [unCorrectAnswerWordsInAudio, setUnCorrectAnswerWordsInAudio] =
-    useState<ResponseData[]>([]);
-  const [series, setSeries] = useState(0);
-
   useEffect(() => {
     if (winnerWord) {
       const wordsWithoutWinner = words.filter(
@@ -62,40 +44,34 @@ export const AudioChallehgeGame = () => {
   }, [winnerWord, words]);
 
   useEffect(() => {
-    if(page)
-    getArrayWords(group, page).then((a) => setWords(a.data));
+    getArrayWords(group).then((a) => setWords(a.data));
   }, []);
 
   useEffect(() => {
     if (words) setWinnerWord(words[indexWinnerWord]);
   }, [indexWinnerWord, words]);
-
+  
   const sound = words.length
-    ? new Audio(__baseUrl__ + `${words[indexWinnerWord].audio}`)
-    : null;
-
+  ? new Audio(__baseUrl__ + `${words[indexWinnerWord].audio}`)
+  : null;
   useEffect(() => {
     sound?.play();
   }, [words, indexWinnerWord]);
 
- 
- 
-  const group = String(Number(location.pathname.split("/").at(-1)) -1);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const group = location.pathname.split("/").at(-1);
 
   return (
     <Grid
       container
       justifyContent="center"
       alignItems="center"
-      height="calc(100vh - 65px)"
+      height={"100%"}
       sx={{ background: `url(${background})`, backgroundSize: "cover" }}
     >
       {isModalCondition ? (
-        <AudioChallengeModal
-          correctAnswerWords={correctAnswerWordsInAudio}
-          unCorrectAnswerWords={unCorrectAnswerWordsInAudio}
-          longSeries={longSeries}
-        />
+        <AudioChallengeModal/>
       ) : (
         false
       )}
@@ -163,19 +139,13 @@ export const AudioChallehgeGame = () => {
             alignItems={"center"}
             p=".3rem"
           >
-            <AllWordsTranslate
+            <AllWordTranslate
               words={wordsForGame}
               setIsWinnerImage={setIsWinnerImage}
               setButtonOpt={setButtonOpt}
               winnerWord={winnerWord}
               isHandleSound={isHandleSound}
-              correctAnswerWords={correctAnswerWordsInAudio}
-              unCorrectAnswerWords={unCorrectAnswerWordsInAudio}
-              setCorrectAnswerWords={setCorrectAnswerWordsInAudio}
-              setUnCorrectAnswerWords={setUnCorrectAnswerWordsInAudio}
-              series={series}
-              setSeries={setSeries}
-              longSeries={longSeries}
+              // answerWord={answerWord}
             />
           </Grid>
           {buttonOpt ? (

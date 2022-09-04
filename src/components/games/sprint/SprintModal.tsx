@@ -1,19 +1,18 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { ResponseData } from "./SprintGame";
 import { Divider, Grid, IconButton } from "@mui/material";
-import { __baseUrl__ } from "../../constant";
+import { axiosApiInstance, __baseUrl__ } from "../../constant";
 import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-import { updateStatistic } from "../updateStatistic";
 import { useUser } from "../../UserProvider";
 
-export type PropsModal = {
-  correctAnswerWords: ResponseData[];
-  unCorrectAnswerWords: ResponseData[];
-  count?: number;
+type PropsSprintModal = {
+  correctAnswerWordsInSprint: (ResponseData | null)[];
+  unCorrectAnswerWordsInSptint: (ResponseData | null)[];
+  count: number;
   longSeries: number[];
 };
 const style = {
@@ -30,26 +29,37 @@ const style = {
 
 export const SprintModal = ({
   count,
-  correctAnswerWords,
-  unCorrectAnswerWords,
+  correctAnswerWordsInSprint,
+  unCorrectAnswerWordsInSptint,
   longSeries,
-}: PropsModal) => {
-  const [open, setOpen] = useState(true);
-  const [user] = useUser();
+}: PropsSprintModal) => {
+  const [user, setUser] = useUser();
+
+
+  
+  const getStatisticsSprint = async () => {
+    await axiosApiInstance.put(__baseUrl__ + `users/${user?.id}/statistics`);
+  };
+
+
   const longestSeriesInGame = longSeries.sort((a, b) => b - a)[0];
+  const statisticsSprintUnAutoriz = {
+    learnedWords: 0,
+    optional: {
+ 
+    },
+  };
+
+
+
+
+
+  const [open, setOpen] = React.useState(true);
   let navigate = useNavigate();
   const handleClose = () => {
     setOpen(false);
     navigate(-1);
-    updateStatistic(
-      correctAnswerWords,
-      unCorrectAnswerWords,
-      longestSeriesInGame,
-      "sprint",
-      user,
-    );
   };
-
   return (
     <div>
       <Modal
@@ -82,11 +92,11 @@ export const SprintModal = ({
             sx={{ background: "#058c92c4", borderRadius: "25%", p: "4px 6px" }}
           >
             <Typography component={"span"} fontSize={"1.3rem"}>
-              {correctAnswerWords.length}
+              {correctAnswerWordsInSprint.length}
             </Typography>
           </Grid>
           <Grid height={"40%"} overflow="auto">
-            {correctAnswerWords.map((word) => (
+            {correctAnswerWordsInSprint.map((word) => (
               <Box key={word?.id}>
                 <IconButton
                   aria-label="add an alarm"
@@ -128,11 +138,11 @@ export const SprintModal = ({
             sx={{ background: "#ed0000b0", borderRadius: "25%", p: "4px 6px" }}
           >
             <Typography component={"span"} fontSize={"1.3rem"}>
-              {unCorrectAnswerWords.length}
+              {unCorrectAnswerWordsInSptint.length}
             </Typography>
           </Grid>
           <Grid height={"40%"} overflow="auto">
-            {unCorrectAnswerWords.map((word) => (
+            {unCorrectAnswerWordsInSptint.map((word) => (
               <Box key={word?.id}>
                 <IconButton
                   aria-label="add an alarm"
