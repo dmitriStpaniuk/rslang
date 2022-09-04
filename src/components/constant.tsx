@@ -1,3 +1,4 @@
+import { type } from "@testing-library/user-event/dist/type";
 import axios from "axios";
 import audio from "./assets/img/audio.png";
 import library from "./assets/img/library.png";
@@ -144,3 +145,214 @@ axiosApiInstance.interceptors.request.use(
     Promise.reject(error);
   }
 );
+
+export const cardsAbout = [
+  {
+    name: 'Vseslav Rashinskiy',
+    image: 'https://i.ibb.co/5rvfLCp/photo-2022-08-31-19-20-40.jpg',
+    title: "Hi, my name is Vseslav, and I'm a junior frontend developer. I'm 21 years old, and I'm from Belarus, but now I'm living in Georgia.",
+    tg: 'https://t.me/Vseslav191',
+  },
+  {
+    name: 'Vseslav Rashinskiy',
+    image: 'https://i.ibb.co/5rvfLCp/photo-2022-08-31-19-20-40.jpg',
+    title: "Hi, my name is Vseslav, and I'm a junior frontend developer. I'm 21 years old, and I'm from Belarus, but now I'm living in Georgia.",
+    tg: 'https://t.me/Vseslav191',
+  },
+  {
+    name: 'Vseslav Rashinskiy',
+    image: 'https://i.ibb.co/5rvfLCp/photo-2022-08-31-19-20-40.jpg',
+    title: "Hi, my name is Vseslav, and I'm a junior frontend developer. I'm 21 years old, and I'm from Belarus, but now I'm living in Georgia.",
+    tg: 'https://t.me/Vseslav191',
+  },
+
+]
+
+export const arrayCards = [
+  {
+      day: '30.08',
+      learnWords: [
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+      ]
+  },
+  {
+      day: '31.08',
+      learnWords: [
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+      ]
+  },
+  {
+      day: '01.08',
+      learnWords: [
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: false,
+          },
+      ]
+  },
+  {
+      day: '02.08',
+      learnWords: [
+          {
+              learn: false,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+      ]
+  },
+  {
+      day: '03.08',
+      learnWords: [
+          {
+              learn: false,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+      ]
+  },
+  {
+      day: '04.08',
+      learnWords: [
+
+      ]
+  },
+  {
+      day: '05.08',
+      learnWords: [
+          {
+              learn: false,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+      ]
+  },
+  {
+      day: '06.08',
+      learnWords: [
+          {
+              learn: false,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+      ]
+  },
+  {
+      day: '07.08',
+      learnWords: [
+          {
+              learn: false,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+          {
+              learn: false,
+          },
+      ]
+  },
+  {
+      day: '08.08',
+      learnWords: [
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+          {
+              learn: true,
+          },
+      ]
+  },
+]

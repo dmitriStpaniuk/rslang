@@ -4,7 +4,7 @@ declare module '@emotion/react' {
   declare module '*.png';
   declare module '*.mp3';
   declare module '*.svg';
+  declare module '*.jpg';
 }
-declare module '*.jpg';
 declare module '*.avif';
 declare module '*.webp';
