@@ -9,12 +9,15 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  PointElement,
+  LineElement,
   BarElement,
   Title,
   Tooltip,
+  Filler,
   Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
 
 export const Statistics = () => {
   const [user] = useUser();
@@ -28,47 +31,26 @@ export const Statistics = () => {
   ChartJS.register(
     CategoryScale,
     LinearScale,
+    PointElement,
+    LineElement,
     BarElement,
     Title,
     Tooltip,
+    Filler,
     Legend
   );
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false,
-        position: 'top' as const,
-      },
-      title: {
-        display: true,
-        text: 'Learned word count',
-      },
-    },
-  };
-  const labels= dataStatistic?.optional.winrateHistory.data.map((item) => item.date);
-
-  const data = {
-    labels,
-    datasets: [
-      {
-        data: [11,14],
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-      },
-    ],
-  };
-  
-  const styles = {
-      div: {
-          width: "60%",
-      }
-  }
 
   const pathStat = dataStatistic?.optional.winrateHistory.data[dataStatistic?.optional.winrateHistory.data.length-1];
   const accAudio = pathStat?.audioCorrect;
   const accSprint = pathStat?.sprintCorrect;
   const learnedWords = dataStatistic?.learnedWords;
+  const labels= dataStatistic?.optional.winrateHistory.data.map((item) => item.date);
+  const allWords= dataStatistic?.optional.winrateHistory.data.map((item) => item.audioCorrect + item.audioIncorrect + item.sprintCorrect + item.sprintIncorrect);
+  const accuracySprintAll = dataStatistic?.optional.winrateHistory.data.map((item) => item.sprintCorrect ? Math.round((item.sprintCorrect / (item.sprintCorrect + item.sprintIncorrect)) * 100) : 0);
+  const countWordsSprint = dataStatistic?.optional.winrateHistory.data.map((item) => item.sprintCorrect + item.sprintIncorrect);
+  const accuracyAudioAll = dataStatistic?.optional.winrateHistory.data.map((item) => item.audioCorrect ? Math.round((item.audioCorrect / (item.audioCorrect + item.audioIncorrect)) * 100) : 0);
+  const countWordsAudio = dataStatistic?.optional.winrateHistory.data.map((item) => item.audioCorrect + item.audioIncorrect);
   const sumWordsInSprint = accSprint
     ? accSprint + pathStat?.sprintIncorrect
     : 0;
@@ -91,7 +73,102 @@ export const Statistics = () => {
           100
       )
     : 0;
-    console.log(dataStatistic)
+    console.log(countWordsSprint)
+
+    
+  const optionsAll = {
+    responsive: false,
+    plugins: {
+      legend: {
+        display: false,
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Words learned',
+      },
+    },
+  };
+
+  const optionsAudio = {
+    responsive: false,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Audio statistics',
+      },
+    },
+  };
+
+  const optionsSprint = {
+    responsive: false,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text: 'Sprint statistics',
+      },
+    },
+  };
+
+  const dataWords = {
+    labels,
+    datasets: [
+      {
+        fill: true,
+        data: allWords,
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+    ],
+  };
+  
+  const dataAudio = {
+    labels,
+    datasets: [
+      {
+        label: 'Accuracy',
+        data: accuracyAudioAll,
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+      {
+        label: 'Longest series',
+        data: dataStatistic?.optional.winrateHistory.data.map((item) => item.audioCorrect),
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      },
+      {
+        label: 'Words count',
+        data: countWordsAudio,
+        backgroundColor: 'rgba(22, 162, 35, 0.5)',
+      },
+    ],
+  };
+
+  const dataSprint = {
+    labels,
+    datasets: [
+      {
+        label: 'Accuracy',
+        data: accuracySprintAll,
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+      {
+        label: 'Longest series',
+        data: dataStatistic?.optional.winrateHistory.data.map((item) => item.sprintLongestSeries),
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      },
+      {
+        label: 'Words count',
+        data: countWordsSprint,
+        backgroundColor: 'rgba(22, 162, 35, 0.5)',
+      },
+    ],
+  };
+
   return (
     <Grid
       container
@@ -100,16 +177,23 @@ export const Statistics = () => {
       flexDirection="column"
       alignItems="center"
       p={5}
-      height="calc(100vh - 65px)"
       width="100%"
-      sx={{ background: `url(${background})`, backgroundSize: "cover" }}
+      sx={{ background: `url(${background})`, backgroundSize: "cover", height:{ md: "calc(100vh - 65px)"} }}
     >
+
+      <Grid container gap={2} justifyContent={"center"}>
       <Grid textAlign={"center"}>
         <Typography variant="h4">Today</Typography>
       </Grid>
-      <Grid container gap={2} justifyContent={"center"}>
+      <Grid
+        container
+        justifyContent="center"
+        gap={2}
+        alignItems="center"
+        width="100%"
+      >
         <Grid item textAlign={"center"}>
-          <Card sx={{ minWidth: 275, minHeight: 225 }}>
+          <Card sx={{ minWidth: 345, minHeight: 225 }}>
             <CardContent>
               <Grid container justifyContent={"space-around"}>
                 <Grid>
@@ -143,7 +227,7 @@ export const Statistics = () => {
         </Grid>
 
         <Grid item>
-          <Card sx={{ minWidth: 275, minHeight: 225 }}>
+          <Card sx={{ minWidth: 345, minHeight: 225 }}>
             <CardContent>
               <Grid display={"flex"} flexDirection={"column"} gap={1}>
                 <Grid display={"flex"} gap={3}>
@@ -186,7 +270,7 @@ export const Statistics = () => {
         </Grid>
 
         <Grid item>
-          <Card sx={{ minWidth: 275, minHeight: 225 }}>
+          <Card sx={{ minWidth: 345, minHeight: 225 }}>
             <CardContent>
               <Grid display={"flex"} flexDirection={"column"} gap={1}>
                 <Grid display={"flex"} gap={3}>
@@ -228,10 +312,20 @@ export const Statistics = () => {
             </CardContent>
           </Card>
         </Grid>
-          <Grid style={styles.div}>
-            <Bar options={options} data={data} updateMode='resize'/>
-          </Grid>
-      </Grid>
+        </Grid>
+
+        <Grid
+        container
+        justifyContent="center"
+        gap={2}
+        alignItems="center"
+        width="100%"
+        >
+            <Bar width="500px" height="300px" options={optionsAudio} data={dataAudio} />
+            <Bar width = "500px" height="300px" options={optionsSprint} data={dataSprint} />
+            <Line width = "500px" height="300px" options={optionsAll} data={dataWords} updateMode='resize'/>
+        </Grid>
+       </Grid>
     </Grid>
   );
 };
