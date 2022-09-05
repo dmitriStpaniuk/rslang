@@ -119,7 +119,7 @@ export const updateStatistic = async (
   const learnedWords = userWords.filter(
     (word) => word.optional.isLearned
   ).length;
-
+  
   const newHistoryEntry = existedHistoryEntry
     ? {
         ...existedHistoryEntry,
