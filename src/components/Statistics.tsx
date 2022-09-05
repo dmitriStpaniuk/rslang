@@ -53,7 +53,7 @@ export const Statistics = () => {
     labels,
     datasets: [
       {
-        data: [5],
+        data: [11,14],
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
     ],
@@ -61,11 +61,11 @@ export const Statistics = () => {
   
   const styles = {
       div: {
-          width: "50%",
+          width: "60%",
       }
   }
 
-  const pathStat = dataStatistic?.optional.winrateHistory.data[0];
+  const pathStat = dataStatistic?.optional.winrateHistory.data[dataStatistic?.optional.winrateHistory.data.length-1];
   const accAudio = pathStat?.audioCorrect;
   const accSprint = pathStat?.sprintCorrect;
   const learnedWords = dataStatistic?.learnedWords;
@@ -91,6 +91,7 @@ export const Statistics = () => {
           100
       )
     : 0;
+    console.log(dataStatistic)
   return (
     <Grid
       container
@@ -227,10 +228,10 @@ export const Statistics = () => {
             </CardContent>
           </Card>
         </Grid>
+          <Grid style={styles.div}>
+            <Bar options={options} data={data} updateMode='resize'/>
+          </Grid>
       </Grid>
-      <div style={styles.div}>
-        <Bar options={options} data={data} updateMode='resize'/>
-      </div>
     </Grid>
   );
 };

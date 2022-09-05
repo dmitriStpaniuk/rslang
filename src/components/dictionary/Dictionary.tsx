@@ -17,6 +17,7 @@ export const getUserWords = async (userId: string) => {
   const response = await axiosApiInstance.get<WordUser[]>(
     `${__baseUrl__}users/${userId}/words `
   );
+  console.log(response.data)
   return response.data;
 };
 
