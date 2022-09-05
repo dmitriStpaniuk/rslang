@@ -26,7 +26,7 @@ export const dataTeam = [
   {
     title: "lopyx191",
     img: miniBoss,
-    discription: "Моральный адепт. Моральная еженедельная поддержка.",
+    discription: "Моральный адепт. Моральная еженедельная поддержка. Долгосрочная статистика",
     src: "https://github.com/lopyx191",
   },
 ];

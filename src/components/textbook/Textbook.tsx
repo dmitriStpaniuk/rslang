@@ -1,4 +1,4 @@
-import { Button, Grid, Pagination } from "@mui/material";
+import { Button, Grid, Pagination, Typography } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
@@ -238,6 +238,7 @@ export const Textbook = () => {
           }}
         >
           Данные слова '{titlePages(lewelDiff)}' сложности
+          <Typography fontSize={10}>Выученные слова появятся в статистике после прохождения любой мини-игры</Typography>
         </Grid>
         <Grid item>
           <Stack spacing={2} sx={{ pb: 2 }}>

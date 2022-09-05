@@ -22,9 +22,8 @@ import { Line, Bar } from 'react-chartjs-2';
 export const Statistics = () => {
   const [user] = useUser();
   const [dataStatistic, setStatInfo] = useState<Stat>();
+
   useEffect(() => {
-    // const data = await getStatistic(user);
-    // setStatInfo(data);
     if (user) getStatistic(user).then(setStatInfo);
   }, [user]);
 
@@ -57,7 +56,9 @@ export const Statistics = () => {
   const longSeriesSprint = pathStat?.sprintLongestSeries
     ? pathStat?.sprintLongestSeries
     : 0;
-    const longSeriesAudio = pathStat?.audioLongestSeries? pathStat?.audioLongestSeries: 0
+  const longSeriesAudio = pathStat?.audioLongestSeries
+    ? pathStat?.audioLongestSeries
+    : 0;
   const sumWordsInAudio = accAudio ? accAudio + pathStat?.audioIncorrect : 0;
   const accuracySprint = accSprint
     ? Math.round((accSprint / sumWordsInSprint) * 100)

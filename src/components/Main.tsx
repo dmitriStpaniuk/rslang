@@ -38,7 +38,7 @@ const Placeholder = () => (
       </Grid>
     ))}
 
-    <Grid item xs={false} md={9} display={{ xs: "none", sm: "block" }}>
+    <Grid item xs={false} md={9} display={{ xs: "none", sm: "block" }} sx={{ mt:10}}>
       <CardMedia component="img" image={mainImg} alt="main-img" />
     </Grid>
     <AboutUs/>

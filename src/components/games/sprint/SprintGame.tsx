@@ -125,7 +125,7 @@ export const SprintGame = () => {
 
   setTimeout(() => {
     setModal(true);
-  }, 20000);
+  }, 60000);
   const wordAudio = words.length
     ? new Audio(__baseUrl__ + `${words[index].audio}`)
     : null;

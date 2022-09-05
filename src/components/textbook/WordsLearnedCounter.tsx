@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getStatistic, Stat } from "../games/updateStatistic";
 import { useUser } from "../UserProvider";
 import withAuth from "../WithAuth";
+
 type CardId = {
   cardId: string;
 };
@@ -29,11 +30,11 @@ export const WordsLearnedCounter = withAuth(({ cardId }: CardId) => {
         avatar={<Avatar>{label}</Avatar>}
         label="+"
       />
-      <Chip
+      {/* <Chip
         sx={{ fontSize: 10, background: "#c87b7b", color: "white" }}
         avatar={<Avatar>?</Avatar>}
         label="-"
-      />
+      /> */}
     </Stack>
   );
 });
