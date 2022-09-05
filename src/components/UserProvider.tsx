@@ -19,7 +19,6 @@ type UserContextValue = [
 const getUserById = async (id: string) => {
   const response = await axiosApiInstance.get<Omit<User, 'id'>>(__baseUrl__ + 'users/' + id)
   return response.data
-
 }
 
 const userContext = createContext<UserContextValue | null>(null);

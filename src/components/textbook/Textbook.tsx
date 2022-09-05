@@ -1,21 +1,22 @@
-import {
-  alpha,
-  CardMedia,
-  Grid,
-  IconButton,
-  Pagination,
-  Typography,
-} from "@mui/material";
+import { Button, Grid, Pagination, Typography } from "@mui/material";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { difficulty, __baseUrl__ } from "../constant";
+import { useEffect, useState } from "react";
+import { useLocation, useSearchParams } from "react-router-dom";
+import { axiosApiInstance, difficulty, __baseUrl__ } from "../constant";
 import { Stack } from "@mui/system";
-import VolumeDownIcon from "@mui/icons-material/VolumeDown";
-import StopIcon from "@mui/icons-material/Stop";
-import { AddLearnWord } from "./AddLearnWord";
+import { CardTextbook } from "../cards/CardTextbook";
+import { alfaBackground } from "./alfaBackground";
+import { User, useUser } from "../UserProvider";
+import { getUserWords, WordUser } from "../dictionary/Dictionary";
+import { SaidMenuDifficultLevel } from "./SaidMenuDifficultLevel";
+import AgricultureIcon from "@mui/icons-material/Agriculture";
+import HeadphonesIcon from "@mui/icons-material/Headphones";
+import { Link as RouterLink } from "react-router-dom";
+import { Footer } from "../Footer";
+import { getStatistic } from "../games/updateStatistic";
 
-type Word = {
+
+export type Word = {
   audio: string;
   audioExample: string;
   audioMeaning: string;
@@ -30,138 +31,189 @@ type Word = {
   transcription: string;
   word: string;
   wordTranslate: string;
+  isDifficult?: boolean;
+  isLearned?: boolean;
 };
 
-const ColorBacground = [
-  "#F7B68E",
-  "#253CA2",
-  "#C62D3E",
-  "#BF7E46",
-  "#39ABB8",
-  "#7E368E",
-];
+const difficultWordFactory = (difficulty: string) => {
+  const obj = {
+    difficulty: difficulty,
+    optional: {
+      isDifficult: true,
+    },
+  };
+  return obj;
+};
 
-const responseNonAotorization = async (
-  group: number | undefined,
-  page: number | undefined
+type DifficultWordFactory = typeof difficultWordFactory;
+
+export const learnedWordFactory = (difficulty: string) => {
+  const obj = {
+    difficulty: difficulty,
+    optional: {
+      isLearned: true,
+    },
+  };
+  return obj;
+};
+
+export type LearnedWordFactory = typeof learnedWordFactory;
+
+export const unlearnWordFactory = () => {
+  return {
+    optional: {
+      isLearned: false,
+    },
+  };
+};
+
+export type UnlearnWOrdFactory = typeof unlearnWordFactory
+
+
+export const addUserWord = async (
+  difficulty: string,
+  userId: User["id"],
+  cardId: string,
+  factory: DifficultWordFactory | LearnedWordFactory | UnlearnWOrdFactory
 ) => {
-  return await axios.get(__baseUrl__ + `words?page=${page}&group=${group}`);
+  const allUserWords = await getUserWords(userId);
+  const currentWord = allUserWords.find((word) => word.wordId === cardId);
+  const method = currentWord ? "put" : "post";
+  const result = await axiosApiInstance[method]<WordUser>(
+    `${__baseUrl__}users/${userId}/words/${cardId}`,
+    factory(difficulty)
+  );
+
+  return result.data;
+};
+
+const responseNonAotorization = async (group: number, page: number) => {
+  return await axios.get(__baseUrl__ + `words?page=${page - 1}&group=${group}`);
 };
 
 const titlePages = (numberGroup: string | undefined) => {
   if (numberGroup) return difficulty[+numberGroup - 1].title;
 };
-type DescriptionProps = {
-  card: string;
-};
-
-const Description1 = ({ card }: DescriptionProps) => {
-  const withoutTags = card.replaceAll("<b>", "").replaceAll("</b>", "");
-  const wordBold = String(card.match(/(?<=<[b]>)([\s\S]*?)(?=<\/[b]>)/g));
-  const x = wordBold ? withoutTags.split(wordBold) : "";
-  return (
-    <Grid item>
-      {x[0]} <b style={{ color: "orange" }}>{wordBold}</b> {x[1]}
-    </Grid>
-  );
-};
-
-const Description2 = ({ card }: DescriptionProps) => {
-  const withoutTags = card.replaceAll("<i>", "").replaceAll("</i>", "");
-  const wordBold = String(card.match(/(?<=<[i]>)([\s\S]*?)(?=<\/[i]>)/g));
-  const x = wordBold ? withoutTags.split(wordBold) : "";
-  return (
-    <Grid item>
-      {x[0]} <i style={{ color: "orange" }}>{wordBold}</i> {x[1]}
-    </Grid>
-  );
-};
-
-const useSound = (traks: string[]) => {
-  const [currentTrack, setCurrentTrack] = useState<HTMLAudioElement | null>(
-    null
-  );
-  const trackRef = useRef<HTMLAudioElement | null>(null);
-  const [currentTrackNumber, setCurrentTrackNumber] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  useEffect(() => {
-    trackRef.current = currentTrack;
-  }, [currentTrack]);
-
-  const handleEnded = () => {
-    setIsPlaying(false);
-    setCurrentTrackNumber((x) => x + 1);
-  };
-
-  useEffect(() => {
-    if (traks.length && currentTrackNumber <= traks.length) {
-      const track = new Audio();
-      track.src = traks[currentTrackNumber];
-      track.addEventListener("ended", handleEnded);
-      setCurrentTrack(track);
-    }
-  }, [traks, currentTrackNumber]);
-
-  useEffect(() => {
-    if (traks.length) setCurrentTrackNumber(0);
-  }, [traks]);
-
-  useEffect(() => {
-    if (currentTrack) {
-      setIsPlaying(true);
-      currentTrack.play();
-    }
-  }, [currentTrack]);
-
-  const pause = () => {
-    if (currentTrack) {
-      currentTrack?.pause();
-      setCurrentTrackNumber(-100);
-      currentTrack.removeEventListener("ended", handleEnded);
-    }
-    setCurrentTrack(null);
-    setIsPlaying(false);
-  };
-
-  return [isPlaying, pause, currentTrack?.src || ""] as [
-    boolean,
-    () => void,
-    string
-  ];
-};
 
 export const Textbook = () => {
   const [cards, setCards] = useState<Word[]>([]);
-  const [page, setPage] = useState(0);
-  const [currentPlaylist, setCurrentPlaylist] = useState<string[]>([]);
-  const [isPlaying, pause, path] = useSound(currentPlaylist);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [difficultWords, setDifficultWords] = useState<WordUser[]>([]);
+  const [learnedWords, setLearnedWords] = useState<WordUser[]>([]);
+  const [user] = useUser();
   const location = useLocation();
   const lewelDiff = location.pathname.split("/").at(-1);
+  const page = searchParams.get("page") || "1";
 
-  const isPlayingCheck = (cardPlaylist: string[]) => {
-    return cardPlaylist.includes(path) && isPlaying;
-  };
+  useEffect(() => {
+    if (user) {
+      getUserWords(user.id).then((words) => {
+        const difficultWords = words.filter(
+          (word) => word.optional.isDifficult
+        );
+        const learnedWords = words.filter((word) => word.optional.isLearned);
+        setDifficultWords(difficultWords);
+        setLearnedWords(learnedWords);
+      });
+    }
+  }, [user, page, lewelDiff]);
+
   useEffect(() => {
     if (lewelDiff)
-      responseNonAotorization(+lewelDiff - 1, page).then((e) =>
+      responseNonAotorization(+lewelDiff - 1, +page).then((e) =>
         setCards(e.data)
       );
-  }, [page]);
+  }, [page, lewelDiff]);
+
+  useEffect(() => {
+    if (difficultWords) {
+      setCards((cards) => {
+        const cardsWithDifficult = cards.map((card) => {
+          return difficultWords.find((i) => i.wordId === card.id)
+            ? { ...card, isDifficult: true, isLearned: false }
+            : { ...card, isDifficult: false };
+        });
+        return cardsWithDifficult;
+      });
+    }
+  }, [difficultWords]);
+
+  useEffect(() => {
+    if (learnedWords) {
+      setCards((cards) => {
+        const cardsWithLearned = cards.map((card) => {
+          return learnedWords.find((i) => i.wordId === card.id)
+            ? { ...card, isLearned: true, isDifficult: false }
+            : { ...card, isLearned: false };
+        });
+        return cardsWithLearned;
+      });
+    }
+  }, [learnedWords]);
+
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value - 1);
+    setSearchParams({ page: String(value) });
   };
 
-  const alfaBackground = (alfa: number) => {
-    if (lewelDiff) return alpha(ColorBacground[+lewelDiff - 1], alfa);
+  const handleAddDifficult = async (cardId: string) => {
+    if (lewelDiff && user) {
+      const newDifficultWord = await addUserWord(
+        lewelDiff,
+        user.id,
+        cardId,
+        difficultWordFactory
+      );
+      setLearnedWords((learnWords) =>
+        learnWords?.filter((card) => card.wordId !== cardId)
+      );
+      setDifficultWords((difficultWords) =>
+        difficultWords?.concat(newDifficultWord)
+      );
+    }
+  };
+
+  const isPageDifficult = cards.every(
+    (word) => word.isDifficult || word.isLearned
+  );
+
+  const learnWordsPageBackground = isPageDifficult
+    ? alfaBackground(0.3, "7")
+    : alfaBackground(0.3, lewelDiff);
+  const isGameButtonDisabled = isPageDifficult;
+
+  const handleDeleteDifficult = async (cardId: string) => {
+    if (user) {
+      await axiosApiInstance.delete(
+        __baseUrl__ + `users/${user.id}/words/${cardId}`
+      );
+      setDifficultWords((difficultWords) =>
+        difficultWords?.filter((card) => card.wordId !== cardId)
+      );
+    }
+  };
+
+  const handleLearnWord = async (cardId: string) => {
+    if (user && lewelDiff) {
+      setDifficultWords((difficultWords) =>
+        difficultWords?.filter((card) => card.wordId !== cardId)
+      );
+      const newLearnedWord = await addUserWord(
+        lewelDiff,
+        user.id,
+        cardId,
+        learnedWordFactory
+      );
+      setLearnedWords((learnedWords) => learnedWords?.concat(newLearnedWord));
+      console.log('1:', learnedWords);
+      console.log('2:', getStatistic(user));
+    }
   };
 
   return (
     <Grid
       justifyContent="center"
       container
-      sx={{ background: alfaBackground(0.3) }
-      }
+      sx={{ background: learnWordsPageBackground }}
     >
       <Grid
         container
@@ -170,13 +222,30 @@ export const Textbook = () => {
         flexWrap="nowrap"
         sx={{ maxWidth: "1900px" }}
       >
-        <Grid item fontSize={30} sx={{ p: 4 }}>
+        <SaidMenuDifficultLevel />
+        <Grid
+          item
+          fontSize={30}
+          sx={{
+            p: 4,
+            textAlign: "center",
+            fontSize: {
+              lg: "2rem",
+              md: "2rem",
+              sm: "1.3rem",
+              xs: "1rem",
+            },
+          }}
+        >
           Данные слова '{titlePages(lewelDiff)}' сложности
+          <Typography fontSize={10}>Выученные слова появятся в статистике после прохождения любой мини-игры</Typography>
         </Grid>
         <Grid item>
           <Stack spacing={2} sx={{ pb: 2 }}>
             <Pagination
+              size="small"
               count={30}
+              page={+page}
               variant="outlined"
               color="primary"
               onChange={handleChange}
@@ -184,163 +253,20 @@ export const Textbook = () => {
           </Stack>
         </Grid>
         <Grid container gap={1} justifyContent="center">
-          {cards.map((card) => (
-            <Grid
-              container
-              flexWrap="nowrap"
-              key={card.id}
-              item
-              xs={10}
-              sm={10}
-              md={11}
-              direction={{ md: "row", sm: "column", xs: "column" }}
-              sx={{
-                width: "100%",
-                borderRadius: "10px",
-                background: alfaBackground(0),
-              }}
-            >
-              <Grid position="relative" sx={{
-                width: {
-                  md: '35%',
-                  sm: '100%',
-                  xs: '100%'
-                },
-              }}>
-                <AddLearnWord />
-                <CardMedia
-                  component="img"
-                  sx={{
-                    borderRadius: "10px",
-                    // objectFit: 'fill'
-                  }}
-                  image={__baseUrl__ + card.image}
-                  alt={card.word}
-                />
-              </Grid>
-              <Grid
-                item
-                display="flex"
-                flexDirection="column"
-                justifyContent="space-between"
-                position="relative"
-                sx={{
-                  fontWeight: '200',
-                  p: 2,
-                  color: "white",
-                  border: "1px solid white",
-                  borderRadius: "10px",
-                  width: {
-                    md: '65%',
-                    sm: '100%',
-                    xs: '100%'
-                  },
-                  background: "#1976D2",
-                  lineHeight: {
-                    sm: 1.1,
-                    xs: 1.1
-                  }
-                }}
-              >
-                <Grid position="absolute" top={0} right={0}>
-                  {!isPlayingCheck([
-                    __baseUrl__ + card.audio,
-                    __baseUrl__ + card.audioExample,
-                    __baseUrl__ + card.audioMeaning,
-                  ]) ? (
-                    <IconButton
-                      onClick={() => {
-                        pause();
-                        setCurrentPlaylist([
-                          __baseUrl__ + card.audio,
-                          __baseUrl__ + card.audioExample,
-                          __baseUrl__ + card.audioMeaning,
-                        ]);
-                      }}
-                    >
-                      <VolumeDownIcon color="warning" />
-                    </IconButton>
-                  ) : (
-                    <IconButton
-                      onClick={() => {
-                        if (pause) {
-                          pause();
-                        }
-                      }}
-                    >
-                      <StopIcon color="warning" />
-                    </IconButton>
-                  )}
-                </Grid>
-                <Grid display="flex" flexDirection="column" sx={{
-                  pb: {
-                    sm: 1,
-                    xs: 1
-                  }
-                }}>
-                  <Typography
-                    color="orange"
-                    sx={{ borderLeft: "2px solid orange", pl: 1 }}
-                  >
-                    {card.word.toUpperCase()} - {card.transcription}
-                  </Typography>
-                  <Typography
-                    color="orange"
-                    sx={{ borderLeft: "2px solid orange", pl: 1 }}
-                  >
-                    {card.wordTranslate.toUpperCase()}
-                  </Typography>
-                </Grid>
-                <Grid sx={{
-
-                  fontSize: {
-                    lg: '1rem',
-                    // md: 20,
-                    // sm: 18,
-                    // xs: 11
-                  }
-                }} >
-                  <Description1 card={card.textExample} />
-                  <Typography color="whitesmoke" sx={{
-                    fontWeight: '200',
-                    pt: 1,
-                    lineHeight: 1,
-                    fontSize: {
-                      lg: '1rem',
-                      // md: 20,
-                      // sm: 18,
-                      // xs: 12
-                    }
-                  }}>
-                    {card.textExampleTranslate}
-                  </Typography>
-                </Grid>
-                <Grid sx={{
-                  fontSize: {
-                    lg: '1rem',
-                    // md: 20,
-                    // sm: 18,
-                    // xs: 11
-                  }
-                }}>
-                  <Description2 card={card.textMeaning} />
-                  <Typography sx={{
-                    fontWeight: '200',
-                    pt: 1,
-                    lineHeight: 1,
-                    fontSize: {
-                      lg: '1rem',
-                      // md: 20,
-                      // sm: 18,
-                      // xs: 11
-                    }
-                  }}>
-                    {card.textMeaningTranslate}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Grid>
-          ))}
+          {cards.map((card) => {
+            return (
+              <CardTextbook
+                key={card.word}
+                card={card}
+                lewelDiff={lewelDiff}
+                isDifficult={card.isDifficult}
+                isLearned={card.isLearned}
+                handleAddDifficult={handleAddDifficult}
+                handleDeleteDifficult={handleDeleteDifficult}
+                handleLearnWord={handleLearnWord}
+              />
+            );
+          })}
         </Grid>
         <Grid
           item
@@ -352,18 +278,40 @@ export const Textbook = () => {
         >
           <Stack spacing={2}>
             <Pagination
+              size="small"
               count={30}
+              page={+page}
               variant="outlined"
               color="primary"
               onChange={handleChange}
             />
           </Stack>
         </Grid>
-        <Grid item md={10} justifyContent="center" sx={{ pb: 2 }}>
-          <Grid item>Аудиовызов</Grid>
-          <Grid item>Спринт</Grid>
+        <Grid item md={10} justifyContent="center" sx={{ pb: 2, mt: 1 }}>
+          <Button
+            component={RouterLink}
+            to={`/sprint/level/${lewelDiff}?page=${page}`}
+            disabled={isGameButtonDisabled}
+            sx={{ mr: 1, textDecoration: "none" }}
+            variant="contained"
+            startIcon={<AgricultureIcon />}
+          >
+            Sprint
+          </Button>
+
+          <Button
+            component={RouterLink}
+            to={`/audio/level/${lewelDiff}?page=${page}`}
+            disabled={isGameButtonDisabled}
+            sx={{ textDecoration: "none" }}
+            variant="contained"
+            startIcon={<HeadphonesIcon />}
+          >
+            Audio challenge
+          </Button>
         </Grid>
+        <Footer />
       </Grid>
-    </Grid >
+    </Grid>
   );
 };
