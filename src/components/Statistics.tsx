@@ -179,7 +179,7 @@ export const Statistics = () => {
       alignItems="center"
       p={5}
       width="100%"
-      sx={{ background: `url(${background})`, backgroundSize: "cover", height:{ md: "calc(100vh - 65px)"} }}
+      sx={{ background: `url(${background})`, backgroundSize: "cover", minHeight:{ md: "calc(100vh - 65px)"} }}
     >
 
       <Grid container gap={2} justifyContent={"center"}>
