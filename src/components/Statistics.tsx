@@ -5,26 +5,30 @@ import { Card, CardContent, Grid, Typography } from "@mui/material";
 import { getStatistic, Stat } from "./games/updateStatistic";
 import { useUser } from "./UserProvider";
 import { useEffect, useState } from "react";
+
 export const Statistics = () => {
   const [user] = useUser();
   const [dataStatistic, setStatInfo] = useState<Stat>();
+
   useEffect(() => {
-    // const data = await getStatistic(user);
-    // setStatInfo(data);
     if (user) getStatistic(user).then(setStatInfo);
   }, [user]);
 
   const pathStat = dataStatistic?.optional.winrateHistory.data[0];
+
   const accAudio = pathStat?.audioCorrect;
   const accSprint = pathStat?.sprintCorrect;
   const learnedWords = dataStatistic?.learnedWords;
+
   const sumWordsInSprint = accSprint
     ? accSprint + pathStat?.sprintIncorrect
     : 0;
   const longSeriesSprint = pathStat?.sprintLongestSeries
     ? pathStat?.sprintLongestSeries
     : 0;
-    const longSeriesAudio = pathStat?.audioLongestSeries? pathStat?.audioLongestSeries: 0
+  const longSeriesAudio = pathStat?.audioLongestSeries
+    ? pathStat?.audioLongestSeries
+    : 0;
   const sumWordsInAudio = accAudio ? accAudio + pathStat?.audioIncorrect : 0;
   const accuracySprint = accSprint
     ? Math.round((accSprint / sumWordsInSprint) * 100)
