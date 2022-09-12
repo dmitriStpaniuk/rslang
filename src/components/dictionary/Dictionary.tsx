@@ -37,6 +37,7 @@ export const Dictionary = () => {
   const [wordsId, setWordsId] = useState<WordUser[]>([]);
   const [wordsFromUserId, setWordsFromUserId] = useState<Word[]>([]);
   const [emptyPage, setEmptyPage] = useState<boolean>();
+
   const handleDeleteDifficult = async (cardId: string) => {
     if (user) {
       await deleteWordFromHard(user.id, cardId);
@@ -48,7 +49,7 @@ export const Dictionary = () => {
 
   useEffect(() => {
     if (user) {
-      getUserWords(user.id).then(setWordsId);
+      getUserWords(user.id).then(e=>e.filter(card=>card.optional.isDifficult === true )).then(setWordsId);
     }
   }, [user]);
 
@@ -57,10 +58,13 @@ export const Dictionary = () => {
       .then((e) => e.reverse())
       .then(setWordsFromUserId);
   }, [wordsId]);
+
   useEffect(() => {
     wordsId.length === 0 ? setEmptyPage(true) : setEmptyPage(false);
   }, [wordsId]);
+
   const emptyPageMessage = emptyPage ? "flex" : "none";
+
   return (
     <Grid
       justifyContent="center"

@@ -6,6 +6,7 @@ type AddDifficultButtonProps = {
   hideDeleteButton: boolean;
   handleAddDifficult: (cardId: string) => void;
 };
+
 type DeleteDifficultButtonProps = {
   cardId: string;
   hideDeleteButton: boolean;
@@ -18,7 +19,9 @@ export const AddDifficultButton = withAuth(
     handleAddDifficult,
     hideDeleteButton,
   }: AddDifficultButtonProps) => {
+
     const display = hideDeleteButton ? "none" : "flex";
+
     return (
       <Button
         sx={{
