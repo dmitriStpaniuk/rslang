@@ -150,8 +150,9 @@ export const Statistics = () => {
     labels,
     datasets: [
       {
+        // type: 'line',
         fill: true,
-        data: learnedWords,
+        data: [learnedWords],
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
     ],
