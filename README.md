@@ -42,9 +42,9 @@
 
 ### Our development team:
 
-- [Dmitri Stpaniuk](#) : Team Lead, Developer
-- [Vladimir Kukolovich](#) : Developer
-- [Vseslav Rashinskiy](#) : Developer
+- [Dmitri Stpaniuk](https://github.com/dmitriStpaniuk) : Team Lead, Developer
+- [Vladimir Kukolovich](https://github.com/VladimirKukolovich) : Developer
+- [Vseslav Rashinskiy](https://github.com/lopyx191) : Developer
 
 <hr>
 
