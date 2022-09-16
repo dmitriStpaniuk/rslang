@@ -1,70 +1,75 @@
-# Getting Started with Create React App
+# RsLang
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Educational project
 
-## Available Scripts
+##### The project is an application, dedicated for learning English words including interval repetition techniques, tracking individual progress and mini-games.
 
-In the project directory, you can run:
+#### You can try it [here](https://rslang-dmitristpaniuk.netlify.app/).
 
-### `npm start`
+<hr>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Some screenshots:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+##### Welcome page
 
-### `npm test`
+[![Alt text](https://i.ibb.co/tQh3NLk/image.png)](https://ibb.co/9H6nmRC)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<hr>
 
-### `npm run build`
+##### This is the page, dedicated for learning new words
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+[![Alt text](https://i.ibb.co/0njpTJz/image.png)](https://ibb.co/jw9vfWP)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<hr>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+##### All difficult words can be found on the dictionary page
 
-### `npm run eject`
+[![Alt text](https://i.ibb.co/3YdT30K/image.png)](https://ibb.co/NntfXN9)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+<hr>
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+##### We provide a variety of mini-games
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+[![Alt text](https://i.ibb.co/bPBVSNF/image.png)](https://ibb.co/sRH0wWj)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+<hr>
 
-## Learn More
+##### We store your progress at statistics page
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+[![Alt text](https://i.ibb.co/nzkbVgB/image.png)](https://ibb.co/1R1Yvyv)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<hr>
 
-### Code Splitting
+### Our development team:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- [Dmitri Stpaniuk](https://github.com/Kefan1997) : Team Lead, Developer
+- [Vladimir Kukolovich](#) : Developer
+- [Vseslav Rashinskiy](#) : Developer
 
-### Analyzing the Bundle Size
+<hr>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### We are using:
 
-### Making a Progressive Web App
+- Emotion: 11.10.0,
+- Mui-material: 5.10.0,
+- Mui-icons-material: 5.8.4,
+- Axios: 0.27.2,
+- Qs: 6.11.0,
+- Chart.js: 3.9.1,
+- and other stuff
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+<hr>
 
-### Advanced Configuration
+#### Project setup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+##### If you want to run it yourself you should use those comands:
 
-### Deployment
+```
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+##### Compiles and minifies for production
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+npm run build
+```
