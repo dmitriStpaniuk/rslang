@@ -4,16 +4,16 @@ import { useEffect, useState } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { axiosApiInstance, difficulty, __baseUrl__ } from "../constant";
 import { Stack } from "@mui/system";
-import { CardTextbook } from "../cards/CardTextbook";
+import { CardTextbook } from '../cards/CardTextbook';
 import { alfaBackground } from "./alfaBackground";
 import { User, useUser } from "../UserProvider";
-import { getUserWords, WordUser } from "../dictionary/Dictionary";
-import { SaidMenuDifficultLevel } from "./SaidMenuDifficultLevel";
+import { getUserWords, WordUser } from '../dictionary/Dictionary';
+import { SaidMenuDifficultLevel } from './SaidMenuDifficultLevel';
 import AgricultureIcon from "@mui/icons-material/Agriculture";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
 import { Link as RouterLink } from "react-router-dom";
 import { Footer } from "../Footer";
-import { getStatistic } from "../games/updateStatistic";
+// import { getStatistic } from "../games/updateStatistic";
 
 
 export type Word = {
@@ -204,8 +204,6 @@ export const Textbook = () => {
         learnedWordFactory
       );
       setLearnedWords((learnedWords) => learnedWords?.concat(newLearnedWord));
-      console.log('1:', learnedWords);
-      console.log('2:', getStatistic(user));
     }
   };
 
