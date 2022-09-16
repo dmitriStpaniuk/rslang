@@ -83,7 +83,6 @@ export const addUserWord = async (
     `${__baseUrl__}users/${userId}/words/${cardId}`,
     factory(difficulty)
   );
-
   return result.data;
 };
 

@@ -1,4 +1,3 @@
-import { type } from "@testing-library/user-event/dist/type";
 import axios from "axios";
 import audio from "./assets/img/audio.png";
 import library from "./assets/img/library.png";
