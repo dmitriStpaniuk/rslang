@@ -50,6 +50,7 @@ export const Statistics = () => {
   const labels = dataStatistic?.optional.winrateHistory.data.map(
     (item) => item.date
   );
+  console.log(dataStatistic?.learnedWords);
   const allWords = dataStatistic?.optional.winrateHistory.data.map(
     (item) =>
       item.audioCorrect +
@@ -151,7 +152,7 @@ export const Statistics = () => {
     datasets: [
       {
         fill: true,
-        data: learnedWords,
+        data: allWords,
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
     ],
