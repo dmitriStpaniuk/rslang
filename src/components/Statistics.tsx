@@ -152,7 +152,7 @@ export const Statistics = () => {
       {
         // type: 'line',
         fill: true,
-        data: [learnedWords],
+        data: allWords,
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
     ],
