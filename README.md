@@ -42,7 +42,7 @@
 
 ### Our development team:
 
-- [Dmitri Stpaniuk](https://github.com/Kefan1997) : Team Lead, Developer
+- [Dmitri Stpaniuk](#) : Team Lead, Developer
 - [Vladimir Kukolovich](#) : Developer
 - [Vseslav Rashinskiy](#) : Developer
 
