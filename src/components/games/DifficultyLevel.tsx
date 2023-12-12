@@ -6,10 +6,9 @@ import FormControlLabel, {
 import Radio from '@mui/material/Radio';
 import { Button, FormControl, FormLabel, Grid } from '@mui/material';
 import { difficulty } from '../constant';
-import { useEffect, useState } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Footer } from '../Footer';
-import { randomPage } from './sprint/Sprint';
 
 interface StyledFormControlLabelProps extends FormControlLabelProps {
   checked: boolean;

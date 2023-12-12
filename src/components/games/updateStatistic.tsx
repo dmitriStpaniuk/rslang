@@ -1,5 +1,5 @@
 import { axiosApiInstance, __baseUrl__ } from "../constant";
-import { getUserWords, WordUser } from "../dictionary/Dictionary";
+import { getUserWords } from "../dictionary/Dictionary";
 import {
   addUserWord,
   learnedWordFactory,
@@ -41,8 +41,9 @@ export type Stat = {
 
 export const getStatistic = async (user: User | null) => {
   const response = await axiosApiInstance.get<Stat>(
-    __baseUrl__ + `users/${user?.id}/statistics`
+    `${__baseUrl__}users/${user?.id}/statistics`
   );
+  // console.log(response.data);
   return response.data;
 };
 
@@ -119,7 +120,7 @@ export const updateStatistic = async (
   const learnedWords = userWords.filter(
     (word) => word.optional.isLearned
   ).length;
-  
+
   const newHistoryEntry = existedHistoryEntry
     ? {
         ...existedHistoryEntry,

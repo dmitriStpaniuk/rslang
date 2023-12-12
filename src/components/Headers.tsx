@@ -6,13 +6,10 @@ import { useState } from 'react';
 import HomeIcon from '@mui/icons-material/Home';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
-import GroupsIcon from '@mui/icons-material/Groups';
 import { Main } from './Main';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import withAuth from './WithAuth';
-import { axiosApiInstance, __baseUrl__ } from './constant';
-import { Footer } from './Footer';
 
 type NavMenuItemProps = {
   path: string;

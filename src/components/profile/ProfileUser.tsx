@@ -1,4 +1,4 @@
-import { Avatar, Button, Grid, Paper, Typography } from "@mui/material"
+import { Avatar, Button, Grid, Paper } from "@mui/material"
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../UserProvider"
 import avatar from "../assets/img/avatar1.png"
